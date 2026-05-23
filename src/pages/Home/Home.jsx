@@ -5,10 +5,10 @@ import styles from "./Home.module.css";
 const Home = () => {
   return (
     <main>
-      <section>
-        <p>A</p>
+      <section className={styles.main}>
+        <p className={styles.textA}>A</p>
         <NaturezaText />
-        <p>Nos leva até você!</p>
+        <p className={styles.textSlogan}>Nos leva até você!</p>
         <div className={styles.containerBtn}>
           <Button label="Solicitar orçamento" variant="primary" />
           <Button label="Entrar em contato" variant="secondary" />
