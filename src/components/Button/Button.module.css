@@ -23,7 +23,7 @@
   background: #ffffff;
   border: 2px solid rgba(93, 103, 60, 0.5);
   color: #5d673c;
-  font-size: 19px;
+  font-size: 19.5px;
 }
 
 .arrowWrapper {
@@ -34,5 +34,6 @@
 
 .wppWrapper {
   height: auto;
-  width: 25px;
+  width: 26px;
+  margin-top: 3px;
 }
