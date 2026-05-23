@@ -1,0 +1,13 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.naturezaImg {
+  width: 72vw;
+  max-width: 1522px;
+  height: auto;
+  margin-bottom: 30px;
+}

@@ -10,8 +10,12 @@ const Home = () => {
         <NaturezaText />
         <p className={styles.textSlogan}>Nos leva até você!</p>
         <div className={styles.containerBtn}>
-          <Button label="Solicitar orçamento" variant="primary" />
-          <Button label="Entrar em contato" variant="secondary" />
+          <Button label="Solicitar orçamento" variant="primary" icon="arrow" />
+          <Button
+            label="Entre em contato"
+            variant="secondary"
+            icon="whatsapp"
+          />
         </div>
       </section>
     </main>
