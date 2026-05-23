@@ -12,7 +12,7 @@ const Home = () => {
         <div className={styles.containerBtn}>
           <Button label="Solicitar orçamento" variant="primary" icon="arrow" />
           <Button
-            label="Entre em contato"
+            label="Entrar em contato"
             variant="secondary"
             icon="whatsapp"
           />
