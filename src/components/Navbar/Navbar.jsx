@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import logo from "../../assets/images/Logotexto.svg";
 import burg from "../../assets/images/Burg.svg";
+import arrowDown from "../../assets/images/arrowDown.svg";
 
 const Navbar = () => {
   return (
@@ -18,6 +19,7 @@ const Navbar = () => {
           <li>
             <NavLink to="/produtos" className={styles.link}>
               Produtos
+              <img src={arrowDown} alt="" className={styles.arrowDown} />
             </NavLink>
           </li>
           <li>

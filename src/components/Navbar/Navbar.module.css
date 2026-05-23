@@ -32,6 +32,9 @@
 }
 
 .link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
   font-family: "DM Sans", sans-serif;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.8);
