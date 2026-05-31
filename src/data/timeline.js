@@ -27,6 +27,6 @@ export const cardsTimeline = [
     id: 5,
     year: 2026,
     description:
-      "Vinte anos depois, ainda somos a mesma empresa que começou no andar de cima de casa. Crescemos — mas não mudamos o que importa.",
+      "Vinte anos depois, ainda somos a mesma empresa que nasceu no andar de cima de uma casa, movida por convicção e pelo respeito à natureza. Crescemos, expandimos, modernizamos — mas nunca abrimos mão do que nos define.",
   },
 ];
