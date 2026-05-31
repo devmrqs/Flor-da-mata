@@ -1,5 +1,5 @@
 // Libraries
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // Assets
 import logo from "../../assets/images/Logotexto.svg";
@@ -10,9 +10,14 @@ import arrowDown from "../../assets/images/arrowDown.svg";
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const handleLogoClick = () => {
+    navigate("/");
+    window.scrollTo(0, 0);
+  };
   return (
     <nav className={styles.navbar}>
-      <NavLink to="/">
+      <NavLink to="/" onClick={handleLogoClick}>
         <img
           src={logo}
           alt="Logotexto da Flor da Mata"

@@ -31,6 +31,7 @@ const Timeline = () => {
       <p>Vinte anos não se resumem a datas — se contam em decisões.</p>
       <div className={styles.carouselWrapper}>
         <button
+          className={styles.btnNav}
           onClick={() =>
             setActiveIndex(
               (activeIndex - 1 + cardsTimeline.length) % cardsTimeline.length,
@@ -51,6 +52,7 @@ const Timeline = () => {
           ))}
         </div>
         <button
+          className={styles.btnNav}
           onClick={() =>
             setActiveIndex((activeIndex + 1) % cardsTimeline.length)
           }
