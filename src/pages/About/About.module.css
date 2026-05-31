@@ -1,0 +1,43 @@
+.aboutSection {
+  width: 100%;
+  min-height: 130vh;
+}
+
+.textBlock {
+  display: flex;
+  padding-top: 10rem;
+  flex-direction: column;
+  padding-bottom: 1.5rem;
+  padding-left: 212px;
+}
+
+.textBlockCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15rem;
+  padding-bottom: 5rem;
+}
+
+.textBlock h1,
+.textBlock h2 {
+  align-items: start;
+  font-size: 4rem;
+  font-family: "DM Sans", sans-serif;
+  color: rgba(0, 0, 0, 0.9);
+  font-weight: 200;
+}
+
+.textBlockCenter p {
+  display: flex;
+  text-align: center;
+  font-size: 1.8rem;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 200;
+}
+
+.textBlockCenter img {
+  height: auto;
+  width: 60px;
+  margin-top: 1rem;
+}

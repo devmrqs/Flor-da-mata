@@ -1,5 +1,6 @@
 import Button from "../../components/Button/Button";
 import NaturezaText from "../../components/NaturezaText/NaturezaText";
+import About from "../About/About";
 import styles from "./Home.module.css";
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
           />
         </div>
       </section>
+      <About />
     </main>
   );
 };
