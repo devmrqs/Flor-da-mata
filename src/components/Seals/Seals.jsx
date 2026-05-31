@@ -1,3 +1,4 @@
+// CSS
 import styles from "./Seals.module.css";
 
 const Seals = () => {

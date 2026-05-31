@@ -1,7 +1,12 @@
-import styles from "./Timeline.module.css";
+// Data
+import { cardsTimeline } from "../../data/timeline";
+
+// Assets
 import arrowLeft from "../../assets/images/arrowLeft.svg";
 import arrowRight from "../../assets/images/arrowRight.svg";
-import { cardsTimeline } from "../../data/timeline";
+
+// CSS
+import styles from "./Timeline.module.css";
 
 const Timeline = () => {
   return (

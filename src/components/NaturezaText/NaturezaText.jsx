@@ -1,5 +1,8 @@
-import styles from "./NaturezaText.module.css";
+// Assets
 import natureza from "../../assets/images/NATUREZA.webp";
+
+// CSS
+import styles from "./NaturezaText.module.css";
 
 const NaturezaText = () => {
   return (

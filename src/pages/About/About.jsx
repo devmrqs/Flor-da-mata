@@ -1,8 +1,12 @@
-import styles from "./About.module.css";
-
-import lotus from "../../assets/images/LotusFlower.svg";
+// Components
 import Timeline from "../../components/Timeline/Timeline";
 import Seals from "../../components/Seals/Seals";
+
+// Assets
+import lotus from "../../assets/images/LotusFlower.svg";
+
+// CSS
+import styles from "./About.module.css";
 
 const About = () => {
   return (

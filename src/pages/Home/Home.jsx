@@ -1,6 +1,11 @@
+// Components
 import Button from "../../components/Button/Button";
 import NaturezaText from "../../components/NaturezaText/NaturezaText";
+
+// Pages
 import About from "../About/About";
+
+// CSS
 import styles from "./Home.module.css";
 
 const Home = () => {

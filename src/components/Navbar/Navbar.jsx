@@ -1,8 +1,13 @@
+// Libraries
 import { NavLink } from "react-router-dom";
-import styles from "./Navbar.module.css";
+
+// Assets
 import logo from "../../assets/images/Logotexto.svg";
 import burg from "../../assets/images/Burg.svg";
 import arrowDown from "../../assets/images/arrowDown.svg";
+
+// CSS
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   return (

@@ -1,6 +1,9 @@
-import styles from "./Button.module.css";
+// Assets
 import arrowIcon from "../../assets/images/arrowDiagonal.svg";
 import whatsappIcon from "../../assets/images/whatsapp.svg";
+
+// CSS
+import styles from "./Button.module.css";
 
 const Button = ({ label, variant, icon }) => {
   return (
