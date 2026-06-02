@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #8c7252;
+  position: relative;
+  width: 100%;
+  height: 255px;
+  border-radius: 30px 30px 0 0;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 15px;
+  user-select: none;
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    rgba(0, 0, 0, 0.2) 0px 5px 0px inset;
+}
+
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 20px;
+  font-family: "DM Sans", sans-serif;
+  color: rgba(41, 30, 18, 0.9);
+}
+
+.textWrap h3 {
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.textWrap p {
+  font-size: 17px;
+  font-weight: 200;
+}
+
+.sealsWrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-top: 30px;
+  font-weight: 200;
+  font-size: 15px;
+}
+
+.sealContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: "DM Sans", sans-serif;
+}
+
+.circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75px;
+  width: 75px;
+  z-index: 2;
+  border-radius: 100px;
+  background-color: rgba(217, 217, 217, 0.15);
+  /* border: 2px solid rgba(102, 80, 53, 0.8); */
+  box-shadow:
+    rgba(102, 80, 53, 0.4) 0px 0px 0px 2px,
+    rgba(102, 80, 53, 0.65) 0px 4px 6px -1px,
+    rgba(102, 80, 53, 0.08) 0px 1px 0px inset;
+}
+
+.container::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: 30px 30px 0 0;
+  opacity: 0.3;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
