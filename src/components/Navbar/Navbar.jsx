@@ -27,11 +27,6 @@ const Navbar = () => {
       <div className={styles.container}>
         <ul className={styles.navLinks}>
           <li>
-            <NavLink to="/sobre" className={styles.link}>
-              Sobre
-            </NavLink>
-          </li>
-          <li>
             <NavLink to="/produtos" className={styles.link}>
               Produtos
               <img src={arrowDown} alt="" className={styles.arrowDown} />
@@ -40,6 +35,11 @@ const Navbar = () => {
           <li>
             <NavLink to="/encontre" className={styles.link}>
               Encontre-nos
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/sobre" className={styles.link}>
+              Sobre
             </NavLink>
           </li>
         </ul>
