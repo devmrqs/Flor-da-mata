@@ -44,3 +44,15 @@
   width: 26px;
   margin-top: 3px;
 }
+
+/* Variante BTN Small */
+
+.small {
+  width: 250px;
+  height: 65px;
+  font-size: 16px;
+}
+
+.small .arrowWrapper {
+  padding: 10px 13px;
+}

@@ -5,10 +5,10 @@ import whatsappIcon from "../../assets/images/whatsapp.svg";
 // CSS
 import styles from "./Button.module.css";
 
-const Button = ({ label, variant, icon }) => {
+const Button = ({ label, variant, icon, size }) => {
   return (
     <button
-      className={`${styles.btn} ${variant === "primary" ? styles.primary : styles.secondary}`}
+      className={`${styles.btn} ${variant === "primary" ? styles.primary : styles.secondary} ${size === "small" ? styles.small : ""}`}
     >
       <div className={styles.spacer} />
       {label}

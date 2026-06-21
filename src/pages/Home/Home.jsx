@@ -4,9 +4,12 @@ import NaturezaText from "../../components/NaturezaText/NaturezaText";
 
 // Pages
 import About from "../About/About";
+import Products from "../Products/Products";
 
 // CSS
 import styles from "./Home.module.css";
+
+import arrowEndding from "../../assets/images/arrowEndding.svg";
 
 const Home = () => {
   return (
@@ -23,7 +26,12 @@ const Home = () => {
             icon="whatsapp"
           />
         </div>
+        <div className={styles.enddingPage}>
+          <p>Nossos produtos</p>
+          <img src={arrowEndding} alt="Seta destinando a sessão produtos" />
+        </div>
       </section>
+      <Products />
       <About />
     </main>
   );

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 140px;
+  margin-top: 120px;
   user-select: none;
 }
 
@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: row;
   gap: 35px;
-  padding-bottom: 15rem;
+  margin-bottom: 60px;
 }
 
 .textA {
@@ -26,5 +26,25 @@
   font-weight: 300;
   font-size: 33px;
   color: rgba(0, 0, 0, 0.8);
-  margin-bottom: 150px;
+  margin-bottom: 90px;
+}
+
+.enddingPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.enddingPage p {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 300;
+  font-size: 17px;
+}
+
+.enddingPage img {
+  width: 16px;
+  height: auto;
+  margin-bottom: 40px;
 }

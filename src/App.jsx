@@ -11,6 +11,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import Products from "./pages/Products/Products";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/produtos" element={<Products isPage />} />
         <Route path="/sobre" element={<About />} />
       </Routes>
     </BrowserRouter>

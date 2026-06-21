@@ -1,0 +1,52 @@
+export const categories = [
+  {
+    id: 1,
+    title: "Chás & Ervas",
+    description: "Ervas, flores e blends para rituais de bem-estar.",
+  },
+  {
+    id: 2,
+    title: "Grãos e Cereais",
+    description: "Grãos integrais que nutrem de verdade.",
+  },
+  {
+    id: 3,
+    title: "Naturais Funcionais",
+    description: "Ingredientes que trabalham a favor do seu corpo.",
+  },
+  {
+    id: 4,
+    title: "Sementes",
+    description: "Concentradas em nutrientes, versáteis na cozinha.",
+  },
+  {
+    id: 5,
+    title: "Farinhas e Farelos",
+    description: "A base natural para receitas com mais propósito.",
+  },
+  {
+    id: 6,
+    title: "Soja & Derivados",
+    description: "Fonte de proteína natural em diversas formas.",
+  },
+  {
+    id: 7,
+    title: "Elixires, Xaropes e Óleos",
+    description: "O melhor da natureza em forma líquida e concentrada.",
+  },
+  {
+    id: 8,
+    title: "Cápsulas e Suplementos",
+    description: "Suporte natural para quem cuida da rotina.",
+  },
+  {
+    id: 9,
+    title: "Beleza e Cuidados",
+    description: "Ingredientes naturais para cuidar de fora para dentro.",
+  },
+  {
+    id: 10,
+    title: "Snacks e Açúcares",
+    description: "Sabor e consciência andando juntos.",
+  },
+];
