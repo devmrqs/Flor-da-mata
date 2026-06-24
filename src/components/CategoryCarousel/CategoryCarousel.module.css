@@ -1,0 +1,78 @@
+.carouselContainer {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.track {
+  display: flex;
+  overflow-x: auto;
+  cursor: grab;
+  gap: 20px;
+  margin: 50px 70px;
+}
+
+.card {
+  position: relative;
+  min-width: 360px;
+  height: 480px;
+  border-radius: 25px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cardImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardContent {
+  position: absolute;
+  inset: 0;
+  padding: 30px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardContent h4 {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 300;
+}
+
+.cardContent p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 20px;
+  font-weight: 100;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.card:hover .cardContent p {
+  opacity: 1;
+}

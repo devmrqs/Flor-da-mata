@@ -15,7 +15,7 @@ const Products = ({ isPage = false }) => {
           <p className={styles.label}>Conheça todos os nossos</p>
           <h2>Produtos</h2>
         </div>
-        <p className={styles.labelB}>
+        <p className={styles.labelTwo}>
           Da natureza direto para a sua prateleira — são 10 categorias, com mais
           de 100 produtos selecionados.
         </p>
@@ -45,6 +45,14 @@ const Products = ({ isPage = false }) => {
           <p>Natural</p>
         </div>
       </div>
+      <div className={styles.introCarousel}>
+        <p className={styles.label}>Nosso catálogo</p>
+        <h3>Explore por categoria</h3>
+        <p className={styles.labelTwo}>
+          Passe o mouse sobre cada categoria para conhecer mais
+        </p>
+      </div>
+      <CategoryCarousel />
     </section>
   );
 };
