@@ -46,7 +46,11 @@ const CategoryCarousel = () => {
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
                 <h4>{category.title}</h4>
-                <img src={arrow} alt="Seta para acessar o card do produto." />
+                <img
+                  src={arrow}
+                  alt="Seta para acessar o card do produto."
+                  className={styles.arrowCard}
+                />
               </div>
               <p>{category.description}</p>
             </div>
