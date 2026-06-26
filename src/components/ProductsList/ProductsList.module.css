@@ -1,0 +1,186 @@
+.productsPanel {
+  width: calc(100% - 140px);
+  height: 560px;
+  margin: 0 70px 70px;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  background: #fffefa;
+  border: 1px solid rgba(93, 103, 60, 0.16);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(39, 43, 25, 0.08);
+  cursor: default;
+  user-select: none;
+}
+
+.categoryPreview {
+  height: 100%;
+  background: #5d673c;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-sizing: border-box;
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 300px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.categoryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.previewContent {
+  color: #fffefa;
+  overflow: hidden;
+}
+
+.label {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(93, 103, 60, 0.7);
+}
+
+.categoryPreview .label {
+  color: rgba(255, 254, 250, 0.65);
+}
+
+.previewContent h3 {
+  margin: 0 0 10px;
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.previewContent p {
+  margin: 0;
+  max-width: 280px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 254, 250, 0.78);
+
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.productsContent {
+  height: 100%;
+  min-width: 0;
+  padding: 42px 48px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(130, 141, 93, 0.12),
+      transparent 34%
+    ),
+    linear-gradient(135deg, #fffefa 0%, #f7f2e9 100%);
+}
+
+.productsHeader {
+  margin-bottom: 30px;
+  flex-shrink: 0;
+}
+
+.productsHeader h4 {
+  margin: 0 0 8px;
+  font-size: 36px;
+  font-weight: 500;
+  color: #333725;
+}
+
+.productsHeader p {
+  margin: 0;
+  color: rgba(46, 48, 39, 0.68);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Essa é a "track" interna dos produtos */
+.productsScroll {
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 14px;
+}
+
+/* Essa é só a lista que cria as colunas */
+.productsGrid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(8, auto);
+  grid-auto-columns: minmax(180px, 220px);
+
+  column-gap: 34px;
+  row-gap: 14px;
+
+  width: max-content;
+  min-width: 100%;
+}
+
+.productItem {
+  padding-left: 18px;
+  position: relative;
+  color: #2e3027;
+  font-size: 17px;
+  line-height: 1.4;
+  transition: color 0.25s ease;
+  cursor: pointer;
+}
+
+.productItem::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #828d5d;
+}
+
+.productItem:hover {
+  color: #5d673c;
+}
+
+/* Scrollbar da track interna */
+.productsScroll::-webkit-scrollbar {
+  height: 3px;
+}
+
+.productsScroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 100px;
+}
+
+.productsScroll::-webkit-scrollbar-thumb {
+  background: rgba(130, 141, 93, 0.45);
+  border-radius: 100px;
+  transition: background 0.5s ease;
+}
+
+.productsScroll:hover::-webkit-scrollbar-thumb {
+  background: rgba(130, 141, 93, 0.85);
+}

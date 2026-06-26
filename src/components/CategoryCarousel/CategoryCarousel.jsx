@@ -1,10 +1,14 @@
+import { useState } from "react";
+
 // Data
 import { categories } from "../../data/categories.js";
+
+// Components
+import ProductsList from "../ProductsList/ProductsList.jsx";
 
 // Assets
 import arrow from "../../assets/images/cards-products/arrowProducts.svg";
 
-// Cards
 import chas from "../../assets/images/cards-products/chaservas.png";
 import graos from "../../assets/images/cards-products/graos.png";
 import naturais from "../../assets/images/cards-products/naturais.png";
@@ -33,31 +37,58 @@ const categoryImages = {
 };
 
 const CategoryCarousel = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  function handleSelectCategory(category) {
+    if (selectedCategory?.id === category.id) {
+      setSelectedCategory(null);
+      return;
+    }
+    setSelectedCategory(category);
+  }
+
   return (
-    <div className={styles.carouselContainer}>
-      <div className={styles.track}>
-        {categories.map((category) => (
-          <div key={category.id} className={styles.card}>
-            <img
-              src={categoryImages[category.id]}
-              alt={category.title}
-              className={styles.cardImage}
-            />
-            <div className={styles.cardContent}>
-              <div className={styles.cardHeader}>
-                <h4>{category.title}</h4>
-                <img
-                  src={arrow}
-                  alt="Seta para acessar o card do produto."
-                  className={styles.arrowCard}
-                />
+    <>
+      <div className={styles.carouselContainer}>
+        <div className={styles.track}>
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              className={`${styles.card} ${
+                selectedCategory?.id === category.id ? styles.activeCard : ""
+              }`}
+              onClick={() => handleSelectCategory(category)}
+              type="button"
+            >
+              <img
+                src={categoryImages[category.id]}
+                alt={category.title}
+                className={styles.cardImage}
+              />
+
+              <div className={styles.cardContent}>
+                <div className={styles.cardHeader}>
+                  <h4>{category.title}</h4>
+
+                  <img src={arrow} alt="" className={styles.arrowCard} />
+                </div>
+
+                <p>{category.description}</p>
               </div>
-              <p>{category.description}</p>
-            </div>
-          </div>
-        ))}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+
+      {selectedCategory && (
+        <div className={styles.productsListWrapper}>
+          <ProductsList
+            category={selectedCategory}
+            categoryImage={categoryImages[selectedCategory.id]}
+          />
+        </div>
+      )}
+    </>
   );
 };
 
