@@ -44,51 +44,59 @@ const CategoryCarousel = () => {
       setSelectedCategory(null);
       return;
     }
+
     setSelectedCategory(category);
   }
 
   return (
-    <>
-      <div className={styles.carouselContainer}>
-        <div className={styles.track}>
-          {categories.map((category) => (
-            <button
+    <div className={styles.carouselContainer}>
+      <div className={styles.track}>
+        {categories.map((category) => {
+          const isActive = selectedCategory?.id === category.id;
+
+          return (
+            <div
               key={category.id}
-              className={`${styles.card} ${
-                selectedCategory?.id === category.id ? styles.activeCard : ""
+              className={`${styles.cardWrapper} ${
+                isActive ? styles.expandedCard : ""
               }`}
-              onClick={() => handleSelectCategory(category)}
-              type="button"
             >
-              <img
-                src={categoryImages[category.id]}
-                alt={category.title}
-                className={styles.cardImage}
-              />
+              <button
+                className={`${styles.card} ${
+                  isActive ? styles.activeCard : ""
+                }`}
+                onClick={() => handleSelectCategory(category)}
+                type="button"
+              >
+                <img
+                  src={categoryImages[category.id]}
+                  alt={category.title}
+                  className={styles.cardImage}
+                />
 
-              <div className={styles.cardContent}>
-                <div className={styles.cardHeader}>
-                  <h4>{category.title}</h4>
+                <div className={styles.cardContent}>
+                  <div className={styles.cardHeader}>
+                    <h4>{category.title}</h4>
 
-                  <img src={arrow} alt="" className={styles.arrowCard} />
+                    <img src={arrow} alt="" className={styles.arrowCard} />
+                  </div>
+
+                  <p>{category.description}</p>
                 </div>
+              </button>
 
-                <p>{category.description}</p>
-              </div>
-            </button>
-          ))}
-        </div>
+              {isActive && (
+                <ProductsList
+                  category={category}
+                  categoryImage={categoryImages[category.id]}
+                  variant="insideCard"
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
-
-      {selectedCategory && (
-        <div className={styles.productsListWrapper}>
-          <ProductsList
-            category={selectedCategory}
-            categoryImage={categoryImages[selectedCategory.id]}
-          />
-        </div>
-      )}
-    </>
+    </div>
   );
 };
 

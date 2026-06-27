@@ -17,13 +17,31 @@
   cursor: grabbing;
 }
 
+.cardWrapper {
+  width: 350px;
+  height: 480px;
+  flex-shrink: 0;
+  display: flex;
+  border-radius: 20px;
+  overflow: visible;
+  background: transparent;
+  transition: width 0.4s ease;
+}
+
+.expandedCard {
+  width: 980px;
+  background: transparent;
+  box-shadow: none;
+}
+
 .card {
   position: relative;
-  min-width: 350px;
+  width: 350px;
   height: 480px;
   border-radius: 20px;
   overflow: hidden;
   flex-shrink: 0;
+  z-index: 2;
 
   border: none;
   padding: 0;
@@ -34,6 +52,11 @@
   text-align: left;
   cursor: pointer;
   appearance: none;
+}
+
+.expandedCard .card {
+  border-radius: 20px 0 0 20px;
+  box-shadow: 8px 0 22px rgba(39, 43, 25, 0.08);
 }
 
 .card:focus {
@@ -111,11 +134,6 @@
 .card:hover .cardContent .arrowCard,
 .activeCard .cardContent .arrowCard {
   opacity: 1;
-}
-
-.productsListWrapper {
-  width: 100%;
-  scroll-margin-top: 40px;
 }
 
 .track::-webkit-scrollbar {

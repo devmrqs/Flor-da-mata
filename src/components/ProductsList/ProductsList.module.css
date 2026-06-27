@@ -90,7 +90,7 @@
       rgba(130, 141, 93, 0.12),
       transparent 34%
     ),
-    linear-gradient(135deg, #fffefa 0%, #f7f2e9 100%);
+    linear-gradient(145deg, #f7f6f2 20%, #fcf9f5 100%);
 }
 
 .productsHeader {
@@ -112,17 +112,22 @@
   line-height: 1.5;
 }
 
-/* Essa é a "track" interna dos produtos */
+/* Track interna dos produtos */
 .productsScroll {
   width: 100%;
   min-width: 0;
   flex: 1;
   overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: 14px;
+  padding-bottom: 18px;
+  cursor: grab;
 }
 
-/* Essa é só a lista que cria as colunas */
+.productsScroll:active {
+  cursor: grabbing;
+}
+
+/* Lista que cria as colunas */
 .productsGrid {
   list-style: none;
   padding: 0;
@@ -130,7 +135,7 @@
 
   display: grid;
   grid-auto-flow: column;
-  grid-template-rows: repeat(8, auto);
+  grid-template-rows: repeat(6, auto);
   grid-auto-columns: minmax(180px, 220px);
 
   column-gap: 34px;
@@ -167,7 +172,7 @@
 
 /* Scrollbar da track interna */
 .productsScroll::-webkit-scrollbar {
-  height: 3px;
+  height: 6px;
 }
 
 .productsScroll::-webkit-scrollbar-track {
@@ -183,4 +188,46 @@
 
 .productsScroll:hover::-webkit-scrollbar-thumb {
   background: rgba(130, 141, 93, 0.85);
+}
+
+/* Versão usada dentro do card expandido */
+.insideCard {
+  width: 630px;
+  height: 480px;
+  margin: 0;
+  display: block;
+
+  border-radius: 0 20px 20px 0;
+  border: none;
+  box-shadow: 10px 10px 24px rgba(39, 43, 25, 0.08);
+  background: #fffefa;
+
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.insideCard .categoryPreview {
+  display: none;
+}
+
+.insideCard .productsContent {
+  height: 100%;
+  padding: 34px 38px;
+}
+
+.insideCard .productsHeader {
+  margin-bottom: 26px;
+}
+
+.insideCard .productsHeader h4 {
+  font-size: 34px;
+}
+
+.insideCard .productsHeader p {
+  max-width: 460px;
+}
+
+.insideCard .productsScroll {
+  flex: 1;
 }

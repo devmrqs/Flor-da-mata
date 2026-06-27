@@ -8,7 +8,7 @@ import styles from "./Button.module.css";
 const Button = ({ label, variant, icon, size }) => {
   return (
     <button
-      className={`${styles.btn} ${variant === "primary" ? styles.primary : styles.secondary} ${size === "small" ? styles.small : ""}`}
+      className={`${styles.btn} ${variant === "primary" ? styles.primary : styles.secondary} ${size === "small" ? styles.small : ""} ${size === "v-small" ? styles.vsmall : ""}`}
     >
       <div className={styles.spacer} />
       {label}
