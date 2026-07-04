@@ -39,34 +39,44 @@ const categoryImages = {
 };
 
 const CategoryCarousel = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const { ref, onMouseDown, hasDragged } = useDragScroll(categories.length);
+  const [selectedKey, setSelectedKey] = useState(null); // guarda a key única, não o id
+  const { ref, onMouseDown, hasDragged, setLocked } = useDragScroll(
+    categories.length,
+  );
+
   const loopedCategories = [...categories, ...categories, ...categories];
 
-  function handleSelectCategory(category) {
-    if (selectedCategory?.id === category.id) {
-      setSelectedCategory(null);
+  function handleSelectCategory(category, key) {
+    if (selectedKey === key) {
+      setSelectedKey(null);
+      setLocked(false);
       return;
     }
-    setSelectedCategory(category);
+    setSelectedKey(key);
+    setLocked(true);
   }
 
   return (
     <div className={styles.carouselContainer}>
       <div className={styles.track} ref={ref} onMouseDown={onMouseDown}>
         {loopedCategories.map((category, index) => {
-          const isActive = selectedCategory?.id === category.id;
+          const key = `${category.id}-${index}`;
+          const isActive = selectedKey === key; // agora só UM card bate essa condição
 
           return (
             <div
-              key={`${category.id}-${index}`}
-              className={`${styles.cardWrapper} ${isActive ? styles.expandedCard : ""}`}
+              key={key}
+              className={`${styles.cardWrapper} ${
+                isActive ? styles.expandedCard : ""
+              }`}
             >
               <button
-                className={`${styles.card} ${isActive ? styles.activeCard : ""}`}
+                className={`${styles.card} ${
+                  isActive ? styles.activeCard : ""
+                }`}
                 onClick={() => {
                   if (hasDragged.current) return;
-                  handleSelectCategory(category);
+                  handleSelectCategory(category, key);
                 }}
                 type="button"
               >

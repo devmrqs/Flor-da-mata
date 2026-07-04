@@ -1,5 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 
+const AUTO_SCROLL_SPEED = 60; // pixels por segundo — ajuste pra mais rápido/devagar
+
 export function useDragScroll(itemCount) {
   const ref = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -7,57 +9,87 @@ export function useDragScroll(itemCount) {
   const scrollLeft = useRef(0);
   const hasDragged = useRef(false);
 
-  // Posiciona o scroll no bloco do meio assim que o carousel monta
+  const isLocked = useRef(false);
+  const isInteracting = useRef(false);
+  const resumeTimeout = useRef(null);
+  const rafId = useRef(null);
+  const lastTimestamp = useRef(null);
+
+  // Posiciona o scroll no bloco do meio ao montar
   useEffect(() => {
     const el = ref.current;
     if (!el || !itemCount) return;
-
-    // largura de um "bloco" (a lista original, sem duplicação)
     const blockWidth = el.scrollWidth / 3;
-    el.scrollLeft = blockWidth; // começa no início do bloco do meio
+    el.scrollLeft = blockWidth;
   }, [itemCount]);
 
-  // Função que checa se chegou perto demais de uma ponta, e reposiciona
   const checkLoop = () => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || isLocked.current) return;
 
     const blockWidth = el.scrollWidth / 3;
-    const cardWidth = blockWidth / itemCount; // largura média de um card
-    const threshold = cardWidth * 3; // "últimos/primeiros 3 cards"
+    const cardWidth = blockWidth / itemCount;
+    const threshold = cardWidth * 3;
 
-    // Chegou perto do fim (bloco 3) -> volta pro bloco do meio
     if (el.scrollLeft > blockWidth * 2 - threshold) {
       el.scrollLeft -= blockWidth;
     }
-
-    // Chegou perto do início (bloco 1) -> avança pro bloco do meio
     if (el.scrollLeft < blockWidth + threshold) {
       el.scrollLeft += blockWidth;
     }
   };
 
-  // Scroll via wheel
+  const markInteraction = () => {
+    isInteracting.current = true;
+    if (resumeTimeout.current) clearTimeout(resumeTimeout.current);
+    resumeTimeout.current = setTimeout(() => {
+      isInteracting.current = false;
+    }, 50);
+  };
+
+  // Loop de auto-scroll via requestAnimationFrame
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !itemCount) return;
+
+    const step = (timestamp) => {
+      if (lastTimestamp.current === null) lastTimestamp.current = timestamp;
+      const delta = (timestamp - lastTimestamp.current) / 1000;
+      lastTimestamp.current = timestamp;
+
+      if (!isLocked.current && !isInteracting.current) {
+        el.scrollLeft += AUTO_SCROLL_SPEED * delta;
+        checkLoop();
+      }
+
+      rafId.current = requestAnimationFrame(step);
+    };
+
+    rafId.current = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId.current);
+  }, [itemCount]);
+
+  // Bloqueia o wheel — o carousel só se move via auto-scroll ou drag
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    const handleWheel = (e) => {
+    const blockWheel = (e) => {
       e.preventDefault();
-      el.scrollLeft += e.deltaY;
-      checkLoop();
     };
 
-    el.addEventListener("wheel", handleWheel, { passive: false });
-    return () => el.removeEventListener("wheel", handleWheel);
-  }, [itemCount]);
+    el.addEventListener("wheel", blockWheel, { passive: false });
+    return () => el.removeEventListener("wheel", blockWheel);
+  }, []);
 
   // Drag via mouse
   useEffect(() => {
     if (!isDragging) return;
 
     const handleMouseMove = (e) => {
+      if (isLocked.current) return;
       hasDragged.current = true;
+      markInteraction();
       const x = e.pageX - ref.current.offsetLeft;
       const walk = x - startX.current;
       ref.current.scrollLeft = scrollLeft.current - walk;
@@ -68,7 +100,6 @@ export function useDragScroll(itemCount) {
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
-
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
@@ -76,11 +107,17 @@ export function useDragScroll(itemCount) {
   }, [isDragging]);
 
   const onMouseDown = (e) => {
+    if (isLocked.current) return;
     setIsDragging(true);
     hasDragged.current = false;
+    markInteraction();
     startX.current = e.pageX - ref.current.offsetLeft;
     scrollLeft.current = ref.current.scrollLeft;
   };
 
-  return { ref, onMouseDown, hasDragged };
+  const setLocked = (value) => {
+    isLocked.current = value;
+  };
+
+  return { ref, onMouseDown, hasDragged, setLocked };
 }

@@ -16,10 +16,11 @@
   align-items: center;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  overflow-anchor: none;
 }
 
 .track::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge novo */
+  display: none;
 }
 
 .track:active {
