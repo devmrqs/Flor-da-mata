@@ -14,6 +14,12 @@
   margin: 50px 70px 40px;
   padding-bottom: 20px;
   align-items: center;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge novo */
 }
 
 .track:active {
@@ -141,24 +147,4 @@
 .activeCard .cardContent .arrowCard {
   opacity: 1;
   transform: rotate(-180deg);
-}
-
-/* ── Scrollbar ── */
-.track::-webkit-scrollbar {
-  height: 6px;
-}
-
-.track::-webkit-scrollbar-track {
-  background: transparent;
-  margin: 0 300px;
-  border-radius: 100px;
-}
-
-.track::-webkit-scrollbar-thumb {
-  background: rgba(130, 141, 93, 0.45);
-  border-radius: 100px;
-}
-
-.track:hover::-webkit-scrollbar-thumb {
-  background: rgba(130, 141, 93, 0.85);
 }

@@ -7,6 +7,7 @@ export function useDragScroll() {
   const scrollLeft = useRef(0);
   const hasDragged = useRef(false);
 
+  // Scroll via wheel (mantido igual)
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -23,6 +24,30 @@ export function useDragScroll() {
     };
   }, []);
 
+  // Drag via mouse — listeners no window, só enquanto isDragging === true
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMouseMove = (e) => {
+      hasDragged.current = true;
+      const x = e.pageX - ref.current.offsetLeft;
+      const walk = x - startX.current;
+      ref.current.scrollLeft = scrollLeft.current - walk;
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging]);
+
   const onMouseDown = (e) => {
     setIsDragging(true);
     hasDragged.current = false;
@@ -30,28 +55,9 @@ export function useDragScroll() {
     scrollLeft.current = ref.current.scrollLeft;
   };
 
-  const onMouseMove = (e) => {
-    if (!isDragging) return;
-    hasDragged.current = true;
-    const x = e.pageX - ref.current.offsetLeft;
-    const walk = x - startX.current;
-    ref.current.scrollLeft = scrollLeft.current - walk;
-  };
-
-  const onMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const onMouseLeave = () => {
-    setIsDragging(false);
-  };
-
   return {
     ref,
     onMouseDown,
-    onMouseMove,
-    onMouseUp,
-    onMouseLeave,
     hasDragged,
   };
 }

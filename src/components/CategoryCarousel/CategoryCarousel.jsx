@@ -40,8 +40,7 @@ const categoryImages = {
 
 const CategoryCarousel = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const { ref, onMouseDown, onMouseMove, onMouseUp, onMouseLeave, hasDragged } =
-    useDragScroll();
+  const { ref, onMouseDown, hasDragged } = useDragScroll();
 
   function handleSelectCategory(category) {
     if (selectedCategory?.id === category.id) {
@@ -53,14 +52,7 @@ const CategoryCarousel = () => {
 
   return (
     <div className={styles.carouselContainer}>
-      <div
-        className={styles.track}
-        ref={ref}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseLeave}
-      >
+      <div className={styles.track} ref={ref} onMouseDown={onMouseDown}>
         {categories.map((category) => {
           const isActive = selectedCategory?.id === category.id;
 
