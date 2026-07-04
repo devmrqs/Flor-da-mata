@@ -40,7 +40,8 @@ const categoryImages = {
 
 const CategoryCarousel = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const { ref, onMouseDown, hasDragged } = useDragScroll();
+  const { ref, onMouseDown, hasDragged } = useDragScroll(categories.length);
+  const loopedCategories = [...categories, ...categories, ...categories];
 
   function handleSelectCategory(category) {
     if (selectedCategory?.id === category.id) {
@@ -53,12 +54,12 @@ const CategoryCarousel = () => {
   return (
     <div className={styles.carouselContainer}>
       <div className={styles.track} ref={ref} onMouseDown={onMouseDown}>
-        {categories.map((category) => {
+        {loopedCategories.map((category, index) => {
           const isActive = selectedCategory?.id === category.id;
 
           return (
             <div
-              key={category.id}
+              key={`${category.id}-${index}`}
               className={`${styles.cardWrapper} ${isActive ? styles.expandedCard : ""}`}
             >
               <button
