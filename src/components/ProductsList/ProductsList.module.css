@@ -1,3 +1,4 @@
+/* ── Panel padrão (fora do card) ── */
 .productsPanel {
   width: calc(100% - 140px);
   height: 560px;
@@ -13,6 +14,7 @@
   user-select: none;
 }
 
+/* ── Preview da categoria (coluna esquerda) ── */
 .categoryPreview {
   height: 100%;
   background: #5d673c;
@@ -43,19 +45,6 @@
   overflow: hidden;
 }
 
-.label {
-  display: inline-block;
-  margin-bottom: 8px;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(93, 103, 60, 0.7);
-}
-
-.categoryPreview .label {
-  color: rgba(255, 254, 250, 0.65);
-}
-
 .previewContent h3 {
   margin: 0 0 10px;
   font-size: 34px;
@@ -69,7 +58,6 @@
   font-size: 16px;
   line-height: 1.5;
   color: rgba(255, 254, 250, 0.78);
-
   display: -webkit-box;
   line-clamp: 4;
   -webkit-line-clamp: 4;
@@ -77,6 +65,21 @@
   overflow: hidden;
 }
 
+/* ── Labels ── */
+.label {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(93, 103, 60, 0.7);
+}
+
+.categoryPreview .label {
+  color: rgba(255, 254, 250, 0.65);
+}
+
+/* ── Conteúdo de produtos (coluna direita) ── */
 .productsContent {
   height: 100%;
   min-width: 0;
@@ -113,7 +116,7 @@
   line-height: 1.5;
 }
 
-/* Track interna dos produtos */
+/* ── Scroll dos produtos ── */
 .productsScroll {
   width: 100%;
   min-width: 0;
@@ -128,20 +131,17 @@
   cursor: grabbing;
 }
 
-/* Lista que cria as colunas */
+/* ── Grid de produtos ── */
 .productsGrid {
   list-style: none;
   padding: 0;
   margin: 0;
-
   display: grid;
   grid-auto-flow: column;
   grid-template-rows: repeat(6, auto);
   grid-auto-columns: minmax(180px, 220px);
-
   column-gap: 34px;
-  row-gap: 14px;
-
+  row-gap: 20px;
   width: max-content;
   min-width: 100%;
 }
@@ -150,7 +150,7 @@
   padding-left: 18px;
   position: relative;
   color: #2e3027;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.4;
   transition: color 0.25s ease;
   cursor: pointer;
@@ -171,7 +171,7 @@
   color: #5d673c;
 }
 
-/* Scrollbar da track interna */
+/* ── Scrollbar interna ── */
 .productsScroll::-webkit-scrollbar {
   height: 6px;
 }
@@ -184,25 +184,24 @@
 .productsScroll::-webkit-scrollbar-thumb {
   background: rgba(130, 141, 93, 0.45);
   border-radius: 100px;
-  transition: background 0.5s ease;
 }
 
 .productsScroll:hover::-webkit-scrollbar-thumb {
   background: rgba(130, 141, 93, 0.85);
 }
 
-/* Versão usada dentro do card expandido */
+/* ── Variante insideCard (dentro do carrossel) ── */
 .insideCard {
   width: 630px;
   height: 480px;
   margin: 0;
+  margin-left: -30px;
   display: block;
-
+  box-sizing: border-box;
   border-radius: 0 20px 20px 0;
   border: none;
-  box-shadow: 10px 10px 24px rgba(39, 43, 25, 0.08);
+  box-shadow: -8px 0 20px rgba(39, 43, 25, 0.15);
   background: #fffefa;
-
   overflow: hidden;
   position: relative;
   z-index: 1;
@@ -214,7 +213,7 @@
 
 .insideCard .productsContent {
   height: 100%;
-  padding: 34px 38px;
+  padding: 34px 38px 34px 68px;
 }
 
 .insideCard .productsHeader {

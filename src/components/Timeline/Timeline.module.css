@@ -47,7 +47,7 @@
   padding: 30px 40px;
   border-radius: 25px;
   font-family: "DM Sans", sans-serif;
-  background-color: rgba(131, 142, 96, 0.9);
+  background-color: rgb(98, 124, 53, 0.8);
   box-shadow:
     rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
@@ -63,7 +63,7 @@
 .cardActive {
   width: 380px;
   height: 430px;
-  background-color: rgb(131, 142, 96);
+  background-color: rgb(97, 117, 61);
 }
 
 /* Tipografia base */
@@ -100,4 +100,9 @@
   cursor: pointer;
   padding: 0;
   user-select: none;
+  transition: transform 0.3s ease;
+}
+
+.btnNav:hover {
+  transform: scale(1.15);
 }

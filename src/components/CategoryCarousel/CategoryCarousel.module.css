@@ -1,9 +1,11 @@
+/* ── Container ── */
 .carouselContainer {
   width: 100%;
   overflow: hidden;
   user-select: none;
 }
 
+/* ── Track ── */
 .track {
   display: flex;
   overflow-x: auto;
@@ -11,38 +13,36 @@
   gap: 20px;
   margin: 50px 70px 40px;
   padding-bottom: 20px;
+  align-items: center;
 }
 
 .track:active {
   cursor: grabbing;
 }
 
+/* ── Card Wrapper ── */
 .cardWrapper {
-  width: 350px;
-  height: 480px;
-  flex-shrink: 0;
+  position: relative;
   display: flex;
-  border-radius: 20px;
-  overflow: visible;
-  background: transparent;
+  flex-shrink: 0;
+  height: 480px;
+  width: 350px;
   transition: width 0.4s ease;
 }
 
 .expandedCard {
   width: 980px;
-  background: transparent;
-  box-shadow: none;
 }
 
+/* ── Card ── */
 .card {
   position: relative;
   width: 350px;
   height: 480px;
-  border-radius: 20px;
-  overflow: hidden;
   flex-shrink: 0;
   z-index: 2;
-
+  border-radius: 20px;
+  overflow: hidden;
   border: none;
   padding: 0;
   margin: 0;
@@ -54,11 +54,6 @@
   appearance: none;
 }
 
-.expandedCard .card {
-  border-radius: 20px 0 0 20px;
-  box-shadow: 8px 0 22px rgba(39, 43, 25, 0.08);
-}
-
 .card:focus {
   outline: none;
 }
@@ -68,6 +63,7 @@
   outline-offset: 4px;
 }
 
+/* ── Imagem ── */
 .cardImage {
   position: absolute;
   inset: 0;
@@ -76,6 +72,23 @@
   object-fit: cover;
 }
 
+/* ── Overlay escuro ── */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+}
+
+.card:hover::after,
+.activeCard::after {
+  opacity: 1;
+}
+
+/* ── Conteúdo ── */
 .cardContent {
   position: absolute;
   inset: 0;
@@ -98,6 +111,7 @@
   font-weight: 300;
 }
 
+/* ── Descrição ── */
 .cardContent p {
   color: rgba(255, 255, 255, 0.9);
   font-size: 20px;
@@ -106,36 +120,30 @@
   transition: opacity 0.5s ease;
 }
 
-.cardContent .arrowCard {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: 0;
-}
-
-.card:hover::after,
-.activeCard::after {
-  opacity: 1;
-}
-
 .card:hover .cardContent p,
 .activeCard .cardContent p {
   opacity: 1;
 }
 
-.card:hover .cardContent .arrowCard,
-.activeCard .cardContent .arrowCard {
+/* ── Arrow ── */
+.cardContent .arrowCard {
+  opacity: 0;
+  transform: rotate(0deg);
+  transition:
+    opacity 0.5s ease,
+    transform 0.4s ease;
+}
+
+.card:hover .cardContent .arrowCard {
   opacity: 1;
 }
 
+.activeCard .cardContent .arrowCard {
+  opacity: 1;
+  transform: rotate(-180deg);
+}
+
+/* ── Scrollbar ── */
 .track::-webkit-scrollbar {
   height: 6px;
 }
@@ -149,7 +157,6 @@
 .track::-webkit-scrollbar-thumb {
   background: rgba(130, 141, 93, 0.45);
   border-radius: 100px;
-  transition: background 0.5s ease;
 }
 
 .track:hover::-webkit-scrollbar-thumb {

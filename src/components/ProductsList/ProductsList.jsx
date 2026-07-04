@@ -1,6 +1,10 @@
-import styles from "./ProductsList.module.css";
 import { useState } from "react";
+
+// Components
 import ProductModal from "../ProductModal/ProductModal";
+
+// CSS
+import styles from "./ProductsList.module.css";
 
 const ProductsList = ({ category, categoryImage, variant }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -20,7 +24,6 @@ const ProductsList = ({ category, categoryImage, variant }) => {
               className={styles.categoryImage}
             />
           </div>
-
           <div className={styles.previewContent}>
             <span className={styles.label}>Categoria</span>
             <h3>{category.title}</h3>

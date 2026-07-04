@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+// Hooks
+import { useDragScroll } from "../../hooks/useDragScroll.js";
+
 // Data
 import { categories } from "../../data/categories.js";
 
@@ -8,7 +11,6 @@ import ProductsList from "../ProductsList/ProductsList.jsx";
 
 // Assets
 import arrow from "../../assets/images/cards-products/arrowProducts.svg";
-
 import chas from "../../assets/images/cards-products/chaservas.png";
 import graos from "../../assets/images/cards-products/graos.png";
 import naturais from "../../assets/images/cards-products/naturais.png";
@@ -38,34 +40,41 @@ const categoryImages = {
 
 const CategoryCarousel = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const { ref, onMouseDown, onMouseMove, onMouseUp, onMouseLeave, hasDragged } =
+    useDragScroll();
 
   function handleSelectCategory(category) {
     if (selectedCategory?.id === category.id) {
       setSelectedCategory(null);
       return;
     }
-
     setSelectedCategory(category);
   }
 
   return (
     <div className={styles.carouselContainer}>
-      <div className={styles.track}>
+      <div
+        className={styles.track}
+        ref={ref}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
+      >
         {categories.map((category) => {
           const isActive = selectedCategory?.id === category.id;
 
           return (
             <div
               key={category.id}
-              className={`${styles.cardWrapper} ${
-                isActive ? styles.expandedCard : ""
-              }`}
+              className={`${styles.cardWrapper} ${isActive ? styles.expandedCard : ""}`}
             >
               <button
-                className={`${styles.card} ${
-                  isActive ? styles.activeCard : ""
-                }`}
-                onClick={() => handleSelectCategory(category)}
+                className={`${styles.card} ${isActive ? styles.activeCard : ""}`}
+                onClick={() => {
+                  if (hasDragged.current) return;
+                  handleSelectCategory(category);
+                }}
                 type="button"
               >
                 <img
@@ -73,14 +82,11 @@ const CategoryCarousel = () => {
                   alt={category.title}
                   className={styles.cardImage}
                 />
-
                 <div className={styles.cardContent}>
                   <div className={styles.cardHeader}>
                     <h4>{category.title}</h4>
-
                     <img src={arrow} alt="" className={styles.arrowCard} />
                   </div>
-
                   <p>{category.description}</p>
                 </div>
               </button>
