@@ -13,24 +13,20 @@ const About = () => {
     <section className={styles.aboutSection}>
       <div className={styles.textBlock}>
         <h1>
-          Há duas décadas levando
-          <br />
-          produtos naturais até a sua casa
+          Há duas décadas, acreditamos que a natureza pode transformar não só o
+          que se vende, mas quem vende
         </h1>
       </div>
       <div className={styles.textBlock}>
         <h2>
-          Uma história construída com
-          <br />
-          propósito, cuidado e respeito à natureza
+          Desde 2006, a Flor da Mata conecta produtores e lojistas por todo o
+          Brasil, distribuindo produtos naturais selecionados
         </h2>
       </div>
       <div className={styles.textBlockCenter}>
         <p>
-          Desde 2006, a Flor da Mata conecta produtores, qualidade e tradição
-          <br />
-          para abastecer nossos parceiros pelo Brasil com produtos naturais
-          selecionados{" "}
+          Mais do que fornecedores, buscamos parceiros que compartilham da mesma
+          crença, saúde e natureza como caminho de transformação
         </p>
         <img src={lotus} alt="Flor de Lotus" />
       </div>
