@@ -1,0 +1,44 @@
+.ctaSection {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(6rem, 12vw, 10rem) 1.5rem;
+  background: #616b41;
+  box-sizing: border-box;
+  font-family: "DM Sans", sans-serif;
+  gap: 10px;
+  user-select: none;
+}
+
+.ctaContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  max-width: 70ch;
+}
+
+.ctaContent h2 {
+  font-size: clamp(3rem, 5vw, 4rem);
+  font-weight: 400;
+  color: #fffefa;
+  line-height: 1.15;
+  letter-spacing: 1.5px;
+}
+
+.ctaContent p {
+  font-family: "DM Sans", sans-serif;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-weight: 200;
+  color: rgba(255, 254, 250, 0.85);
+  max-width: 30ch;
+  margin-bottom: 40px;
+}
+
+.ctaLink {
+  text-decoration: none;
+  margin-top: 0.5rem;
+}

@@ -1,7 +1,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  background-color: #8c7252;
   position: relative;
   width: 100%;
   height: 255px;
@@ -10,10 +9,6 @@
   align-items: center;
   margin-top: 15px;
   user-select: none;
-  box-shadow:
-    rgba(0, 0, 0, 0.4) 0px 2px 4px,
-    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-    rgba(0, 0, 0, 0.2) 0px 5px 0px inset;
 }
 
 .textWrap {
@@ -29,11 +24,13 @@
 .textWrap h3 {
   font-size: 30px;
   font-weight: 300;
+  color: rgba(0, 0, 0, 0.9);
 }
 
 .textWrap p {
   font-size: 17px;
   font-weight: 200;
+  color: rgba(0, 0, 0, 0.9);
 }
 
 .sealsWrap {
@@ -41,7 +38,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 30px;
   margin-top: 30px;
   font-weight: 200;
   font-size: 15px;
@@ -53,7 +50,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.9);
   font-family: "DM Sans", sans-serif;
 }
 
@@ -65,7 +62,7 @@
   width: 75px;
   z-index: 2;
   border-radius: 100px;
-  background-color: rgba(217, 217, 217, 0.15);
+  background-color: rgba(102, 80, 53, 0.9);
   /* border: 2px solid rgba(102, 80, 53, 0.8); */
   box-shadow:
     rgba(102, 80, 53, 0.4) 0px 0px 0px 2px,

@@ -1,6 +1,7 @@
 // Components
 import Timeline from "../../components/Timeline/Timeline";
 import Seals from "../../components/Seals/Seals";
+import CtaPartnership from "../../components/CtaPartnership/CtaPartnership";
 
 // Assets
 import lotus from "../../assets/images/LotusFlower.svg";
@@ -30,8 +31,9 @@ const About = () => {
         </p>
         <img src={lotus} alt="Flor de Lotus" />
       </div>
-      <Timeline />
-      <Seals />
+      {/* <Timeline />
+      <Seals /> */}
+      <CtaPartnership />
     </section>
   );
 };

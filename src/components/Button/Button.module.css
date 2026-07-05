@@ -18,7 +18,7 @@
 
 .primary {
   background: #5d673c;
-  border: 2px solid #5d673c;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   color: #ffffff;
 }
 

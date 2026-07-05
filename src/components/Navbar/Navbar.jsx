@@ -33,13 +33,13 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/encontre" className={styles.link}>
-              Encontre-nos
+            <NavLink to="/sobre" className={styles.link}>
+              Sobre
             </NavLink>
           </li>
           <li>
-            <NavLink to="/sobre" className={styles.link}>
-              Sobre
+            <NavLink to="/seja-parceiro" className={styles.link}>
+              Seja Parceiro
             </NavLink>
           </li>
         </ul>
