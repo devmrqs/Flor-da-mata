@@ -5,12 +5,12 @@ import styles from "./ProductModal.module.css";
 
 const ProductModal = ({ product, categorySlug, onClose }) => {
   const [activeImage, setActiveImage] = useState(0);
-  const [selectedWeight, setSelectedWeight] = useState(null);
+  const [selectedWeight, setSelectedWeight] = useState(
+    product?.weights?.[0] ?? null,
+  );
 
   useEffect(() => {
     if (!product) return;
-    setActiveImage(0);
-    setSelectedWeight(product.weights?.[0] ?? null);
 
     function handleEscKey(event) {
       if (event.key === "Escape") onClose();

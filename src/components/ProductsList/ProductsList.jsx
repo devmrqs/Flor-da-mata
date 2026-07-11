@@ -55,6 +55,7 @@ const ProductsList = ({ category, categoryImage, variant }) => {
       </div>
 
       <ProductModal
+        key={selectedProduct?.id ?? "closed"}
         product={selectedProduct}
         categorySlug={category.slug}
         onClose={() => setSelectedProduct(null)}
