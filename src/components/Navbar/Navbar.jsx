@@ -4,7 +4,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 // Assets
 import logo from "../../assets/images/Logotexto.svg";
 import burg from "../../assets/images/Burg.svg";
-import arrowDown from "../../assets/images/arrowDown.svg";
 
 // CSS
 import styles from "./Navbar.module.css";
@@ -29,7 +28,6 @@ const Navbar = () => {
           <li>
             <NavLink to="/produtos" className={styles.link}>
               Produtos
-              <img src={arrowDown} alt="" className={styles.arrowDown} />
             </NavLink>
           </li>
           <li>

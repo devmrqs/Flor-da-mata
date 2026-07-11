@@ -1,10 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Button/Button.jsx";
+import { getProductImages } from "../../utils/productImages.js";
 import styles from "./ProductModal.module.css";
 
-const ProductModal = ({ product, onClose }) => {
+const ProductModal = ({ product, categorySlug, onClose }) => {
+  const [activeImage, setActiveImage] = useState(0);
+  const [selectedWeight, setSelectedWeight] = useState(null);
+
   useEffect(() => {
     if (!product) return;
+    setActiveImage(0);
+    setSelectedWeight(product.weights?.[0] ?? null);
 
     function handleEscKey(event) {
       if (event.key === "Escape") onClose();
@@ -15,6 +21,8 @@ const ProductModal = ({ product, onClose }) => {
   }, [product, onClose]);
 
   if (!product) return null;
+
+  const images = getProductImages(categorySlug, product.slug);
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -28,14 +36,41 @@ const ProductModal = ({ product, onClose }) => {
           ×
         </button>
 
-        <div className={styles.imageArea}>
-          <div className={styles.imageBox}>
-            <span>Imagem do produto</span>
+        <div className={styles.gallery}>
+          <div className={styles.mainImage}>
+            {images[activeImage] ? (
+              <img
+                src={images[activeImage]}
+                alt={product.name}
+                className={styles.mainImageImg}
+              />
+            ) : (
+              <span>Imagem do produto</span>
+            )}
           </div>
+
+          {images.length > 1 && (
+            <div className={styles.thumbList}>
+              {images.map((imgSrc, index) => (
+                <button
+                  key={imgSrc}
+                  type="button"
+                  className={`${styles.thumb} ${
+                    activeImage === index ? styles.thumbActive : ""
+                  }`}
+                  onClick={() => setActiveImage(index)}
+                  aria-label={`Ver imagem ${index + 1}`}
+                >
+                  <img src={imgSrc} alt="" className={styles.thumbImg} />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className={styles.info}>
           <div className={styles.infoHeader}>
+            <span className={styles.label}>Flor da Mata</span>
             <h2>{product.name || product}</h2>
             <p className={styles.shortDesc}>
               {product.shortDescription ||
@@ -49,14 +84,17 @@ const ProductModal = ({ product, onClose }) => {
           </p>
 
           {product.weights?.length > 0 && (
-            <div className={styles.weights}>
+            <div className={styles.weightsBlock}>
               <span className={styles.label}>Gramagem</span>
               <div className={styles.weightsList}>
                 {product.weights.map((weight) => (
                   <button
                     key={weight}
-                    className={styles.weightBtn}
                     type="button"
+                    className={`${styles.weightCard} ${
+                      selectedWeight === weight ? styles.weightCardActive : ""
+                    }`}
+                    onClick={() => setSelectedWeight(weight)}
                   >
                     {weight}
                   </button>
@@ -69,19 +107,19 @@ const ProductModal = ({ product, onClose }) => {
             <div className={styles.details}>
               {product.details.origem && (
                 <div className={styles.detailItem}>
-                  <span>Origem:</span>
+                  <span>Origem</span>
                   <strong>{product.details.origem}</strong>
                 </div>
               )}
               {product.details.tipo && (
                 <div className={styles.detailItem}>
-                  <span>Tipo:</span>
+                  <span>Tipo</span>
                   <strong>{product.details.tipo}</strong>
                 </div>
               )}
               {product.details.armazenamento && (
                 <div className={styles.detailItem}>
-                  <span>Armazenamento:</span>
+                  <span>Armazenamento</span>
                   <strong>{product.details.armazenamento}</strong>
                 </div>
               )}

@@ -1,6 +1,7 @@
 export const chasErvasProducts = [
   {
     id: 1,
+    slug: "cha-de-alcachofra",
     name: "Alcachofra",
     shortDescription:
       "O chá de alcachofra é uma bebida medicinal feita a partir das folhas e talo da planta Cynara Scolymus.",

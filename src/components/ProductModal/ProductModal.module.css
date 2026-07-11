@@ -15,13 +15,13 @@
 /* ── Modal ── */
 .modal {
   position: relative;
-  width: min(1400px, 90vw);
-  height: min(700px, 90vh);
+  width: min(1300px, 90vw);
+  max-height: 88vh;
   display: grid;
-  grid-template-columns: 380px 1fr;
+  grid-template-columns: 460px 1fr;
   background: #fffefa;
   border-radius: 28px;
-  overflow: hidden;
+  clip-path: inset(0 round 28px);
   box-shadow: 0 32px 100px rgba(0, 0, 0, 0.22);
 }
 
@@ -38,7 +38,7 @@
   justify-content: center;
   border: 1px solid rgba(93, 103, 60, 0.2);
   border-radius: 50%;
-  background: rgba(255, 254, 250, 0.8);
+  background: rgba(255, 254, 250, 0.85);
   color: #333725;
   font-size: 24px;
   line-height: 1;
@@ -53,29 +53,76 @@
   transform: rotate(90deg);
 }
 
-/* ── Área da imagem ── */
-.imageArea {
-  background: #5d673c;
-  padding: 24px;
+/* ── Galeria ── */
+.gallery {
+  background: #fffefa;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-right: 1px solid rgba(93, 103, 60, 0.1);
 }
 
-.imageBox {
-  width: 100%;
-  height: 100%;
-  border-radius: 16px;
+.mainImage {
+  flex: 1;
+  border-radius: 20px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 254, 250, 0.08);
-  color: rgba(255, 254, 250, 0.5);
+  background: #f2f1eb;
+  border: 1px solid rgba(93, 103, 60, 0.12);
+  color: rgba(46, 48, 39, 0.4);
   font-size: 14px;
   letter-spacing: 0.04em;
+  min-height: 340px;
+}
+
+.mainImageImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbList {
+  display: flex;
+  gap: 12px;
+}
+
+.thumb {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  padding: 0;
+  border-radius: 12px;
+  border: 1.5px solid rgba(93, 103, 60, 0.15);
+  background: #f2f1eb;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+  opacity: 0.7;
+}
+
+.thumb:hover {
+  opacity: 1;
+}
+
+.thumbActive {
+  border-color: #b5713f;
+  opacity: 1;
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ── Informações ── */
 .info {
-  padding: 48px 52px 40px;
+  padding: 44px 52px 40px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -85,26 +132,30 @@
 .infoHeader {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(93, 103, 60, 0.12);
 }
 
+.infoHeader .label {
+  color: #b5713f;
+}
+
 .info h2 {
   margin: 0;
-  font-size: 56px;
+  font-size: 48px;
   font-weight: 500;
-  color: #5d673c;
-  line-height: 1;
+  color: rgba(0, 0, 0, 0.9);
+  line-height: 1.1;
 }
 
 .shortDesc {
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 300;
   color: #333725;
   line-height: 1.5;
-  max-width: 520px;
+  max-width: 480px;
 }
 
 .desc {
@@ -113,51 +164,56 @@
   font-weight: 300;
   color: rgba(46, 48, 39, 0.65);
   line-height: 1.7;
-  max-width: 560px;
+  max-width: 520px;
 }
 
 /* ── Label ── */
 .label {
   display: block;
-  margin-bottom: 10px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(93, 103, 60, 0.6);
 }
 
 /* ── Gramagens ── */
-.weights {
+.weightsBlock {
   display: flex;
   flex-direction: column;
-  margin-bottom: 25px;
+  gap: 10px;
 }
 
 .weightsList {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
 }
 
-.weightBtn {
-  height: 38px;
-  padding: 0 16px;
-  border: 1px solid rgba(93, 103, 60, 0.25);
-  border-radius: 999px;
+.weightCard {
+  min-width: 84px;
+  padding: 14px 18px;
+  border: 1.5px solid rgba(93, 103, 60, 0.2);
+  border-radius: 14px;
   background: transparent;
-  color: #5d673c;
-  font-size: 14px;
+  color: #333725;
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
   cursor: pointer;
   transition:
+    border-color 0.2s ease,
     background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
+    color 0.2s ease;
 }
 
-.weightBtn:hover {
-  background: #5d673c;
+.weightCard:hover {
   border-color: #5d673c;
+}
+
+.weightCardActive {
+  border-color: #5d673c;
+  background: #5d673c;
   color: #fffefa;
 }
 
@@ -174,9 +230,9 @@
 
 .detailItem {
   display: flex;
-  gap: 30px;
+  justify-content: space-between;
   align-items: center;
-  padding: 15px 16px;
+  padding: 14px 18px;
   background: rgba(93, 103, 60, 0.04);
 }
 

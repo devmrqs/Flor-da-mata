@@ -12,6 +12,7 @@ import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Products from "./pages/Products/Products";
+import Partnership from "./pages/Partner/Partnership";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/produtos" element={<Products isPage />} />
         <Route path="/sobre" element={<About />} />
+        <Route path="/seja-parceiro" element={<Partnership />} />
       </Routes>
     </BrowserRouter>
   );
