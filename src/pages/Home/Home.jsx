@@ -10,6 +10,7 @@ import Products from "../Products/Products";
 import styles from "./Home.module.css";
 
 import arrowEndding from "../../assets/images/arrowEndding.svg";
+import Partnership from "../Partner/Partnership";
 
 const Home = () => {
   return (

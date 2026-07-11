@@ -1,0 +1,220 @@
+.partnership {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fffefa;
+  font-family: "DM Sans", sans-serif;
+}
+
+.partnershipPage {
+  margin-top: -105px;
+}
+
+/* ── Hero ── */
+.hero {
+  width: 1740px;
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  padding: 120px 100px 100px;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.heroText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.heroText .label {
+  font-size: 28px;
+  font-weight: 300;
+  color: #5d673c;
+}
+
+.heroText h1 {
+  font-size: 88px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+  line-height: 1.05;
+}
+
+.heroSubtext {
+  font-size: 20px;
+  font-weight: 300;
+  max-width: 480px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.heroImagePlaceholder {
+  flex: 1;
+  height: 480px;
+  background-color: #d9d9d9;
+  border-radius: 40px;
+}
+
+/* ── Motivos ── */
+.reasons {
+  width: 1740px;
+  padding: 100px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  user-select: none;
+}
+
+.sectionLabel {
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #b5713f;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.reasonRow {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.reasonRow.reverse {
+  flex-direction: row-reverse;
+}
+
+.reasonNumber {
+  font-size: 140px;
+  font-weight: 500;
+  color: rgba(181, 113, 63, 0.18);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.reasonText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.reasonText h3 {
+  font-size: 42px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.reasonText p {
+  font-size: 19px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.65);
+  max-width: 420px;
+}
+
+.reasonImagePlaceholder {
+  flex: 1;
+  height: 280px;
+  background-color: #d9d9d9;
+  border-radius: 32px;
+}
+
+/* ── Como funciona + Formulário ── */
+.applyBlock {
+  width: 1740px;
+  background-color: #5d673c;
+  border-radius: 55px;
+  display: flex;
+  gap: 100px;
+  padding: 100px;
+  box-sizing: border-box;
+  margin: 165px 0 100px;
+  user-select: none;
+}
+
+.applyIntro {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.applyIntro .sectionLabel {
+  color: #d9a878;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.applyIntro h2 {
+  font-size: 48px;
+  font-weight: 500;
+  color: #fffefa;
+  line-height: 1.15;
+}
+
+.applyText {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255, 254, 250, 0.8);
+  max-width: 420px;
+}
+
+.form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+.form input {
+  font-size: 1rem;
+  font-weight: 300;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(255, 254, 250, 0.3);
+  border-radius: 10px;
+  background: rgba(255, 254, 250, 0.06);
+  color: #fffefa;
+}
+
+.form input::placeholder {
+  color: rgba(255, 254, 250, 0.5);
+}
+
+.form input:focus {
+  outline: none;
+  border-color: #d9a878;
+}
+
+.form button {
+  margin-top: 8px;
+  align-self: flex-start;
+}
+
+/* ── Contato ── */
+.contactBlock {
+  max-width: 500px;
+  margin: 0 auto 70px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  user-select: none;
+}
+
+.contactBlock p {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 1.6;
+}
+
+.contactBlock a {
+  color: #5d673c;
+  text-decoration: underline;
+}
