@@ -1,5 +1,8 @@
 // Libraries
+import { useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 // Assets
 import logo from "../../assets/images/Logotexto.svg";
@@ -10,12 +13,30 @@ import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const navRef = useRef(null);
+
   const handleLogoClick = () => {
     navigate("/");
     window.scrollTo(0, 0);
   };
+
+  useGSAP(
+    () => {
+      gsap.from(`.${styles.link}`, {
+        opacity: 0,
+        x: 30,
+        duration: 0.3,
+        stagger: 0.1,
+        delay: 0.1,
+        ease: "power2.out",
+        clearProps: "transform",
+      });
+    },
+    { scope: navRef },
+  );
+
   return (
-    <nav className={styles.navbar}>
+    <nav className={styles.navbar} ref={navRef}>
       <NavLink to="/" onClick={handleLogoClick}>
         <img
           src={logo}
