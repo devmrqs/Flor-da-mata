@@ -8,5 +8,14 @@
 
 body {
   background: #fffefa;
+}
+
+#smooth-wrapper {
+  overflow: hidden;
+}
+
+#smooth-content {
+  overflow: visible;
+  width: 100%;
   padding-top: 125px;
 }

@@ -1,7 +1,7 @@
 .btn {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between; /* era center — isso resolve o "pulo pro centro" */
   align-items: center;
   width: 270px;
   height: 75px;
@@ -10,10 +10,16 @@
   gap: 20px;
   border-radius: 80px;
   user-select: none;
+  overflow: hidden; /* evita qualquer vazamento visual durante a transição */
   box-shadow:
     rgba(0, 0, 0, 0.3) 0px 2px 4px 0px,
     rgba(0, 0, 0, 0.2) 0px 7px 4px -3px,
     inset rgba(0, 0, 0, 0.1) 0px -3px 0px 0px;
+}
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .primary {
@@ -26,7 +32,6 @@
   background: #ffffff;
   border: 2px solid rgba(93, 103, 60, 0.5);
   color: #5d673c;
-  font-size: 19.5px;
 }
 
 .arrowWrapper {
@@ -45,14 +50,35 @@
   margin-top: 3px;
 }
 
+.wppIconWrapper {
+  background: #5d673c;
+  padding: 15px 15px;
+  border-radius: 300px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.wppIcon {
+  height: auto;
+  width: 26px;
+  filter: brightness(0) invert(1);
+}
+
 /* Variante BTN Small */
 
 .small {
   width: 250px;
-  height: 65px;
+  height: 70px;
   font-size: 16px;
 }
 
 .small .arrowWrapper {
-  padding: 10px 13px;
+  padding: 14px 18px;
 }

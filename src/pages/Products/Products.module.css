@@ -3,6 +3,9 @@
   flex-direction: column;
   align-items: center;
   font-family: "DM Sans", sans-serif;
+  position: relative;
+  z-index: 10;
+  background-color: #fffefa;
 }
 
 .productsPage {
@@ -10,7 +13,7 @@
 }
 
 .heroProducts {
-  background-color: #d9d9d9;
+  background-color: #5d673c;
   width: 1740px;
   height: 650px;
   border-radius: 55px;
