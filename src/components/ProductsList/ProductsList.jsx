@@ -6,12 +6,13 @@ import ProductModal from "../ProductModal/ProductModal";
 // CSS
 import styles from "./ProductsList.module.css";
 
-const ProductsList = ({ category, categoryImage, variant }) => {
+const ProductsList = ({ category, categoryImage, variant, panelRef }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <>
       <div
+        ref={panelRef}
         className={`${styles.productsPanel} ${
           variant === "insideCard" ? styles.insideCard : ""
         }`}
