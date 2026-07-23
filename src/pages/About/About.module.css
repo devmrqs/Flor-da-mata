@@ -22,17 +22,21 @@
 
 .textBlock h1,
 .textBlock h2 {
+  margin-top: 10rem;
+}
+
+.textBlock h1,
+.textBlock h2 {
   align-items: start;
   font-size: clamp(2.8rem, 5vw, 3.5rem);
   font-family: "DM Sans", sans-serif;
   color: rgba(0, 0, 0, 0.9);
   font-weight: 200;
   max-width: 40ch;
-  margin-bottom: 9rem;
+  margin-bottom: 10rem;
 }
 
 .textBlockCenter p {
-  display: flex;
   text-align: center;
   font-size: 1.8rem;
   font-family: "DM Sans", sans-serif;
