@@ -59,6 +59,7 @@ const ProductsList = ({ category, categoryImage, variant, panelRef }) => {
         key={selectedProduct?.id ?? "closed"}
         product={selectedProduct}
         categorySlug={category.slug}
+        categoryTitle={category.title}
         onClose={() => setSelectedProduct(null)}
       />
     </>

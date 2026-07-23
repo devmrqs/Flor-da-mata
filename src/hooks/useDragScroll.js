@@ -1,4 +1,5 @@
-import { useRef, useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useRef, useState, useEffect, useCallback } from "react";
 
 const AUTO_SCROLL_SPEED = 60; // pixels por segundo — ajuste pra mais rápido/devagar
 
@@ -23,7 +24,7 @@ export function useDragScroll(itemCount) {
     el.scrollLeft = blockWidth;
   }, [itemCount]);
 
-  const checkLoop = () => {
+  const checkLoop = useCallback(() => {
     const el = ref.current;
     if (!el || isLocked.current) return;
 
@@ -37,7 +38,7 @@ export function useDragScroll(itemCount) {
     if (el.scrollLeft < blockWidth + threshold) {
       el.scrollLeft += blockWidth;
     }
-  };
+  });
 
   const markInteraction = () => {
     isInteracting.current = true;
@@ -67,7 +68,7 @@ export function useDragScroll(itemCount) {
 
     rafId.current = requestAnimationFrame(step);
     return () => cancelAnimationFrame(rafId.current);
-  }, [itemCount]);
+  }, [checkLoop, itemCount]);
 
   // Bloqueia o wheel — o carousel só se move via auto-scroll ou drag
   useEffect(() => {
@@ -104,7 +105,7 @@ export function useDragScroll(itemCount) {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging]);
+  }, [checkLoop, isDragging]);
 
   const onMouseDown = (e) => {
     if (isLocked.current) return;

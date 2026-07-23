@@ -1,35 +1,110 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import Button from "../Button/Button.jsx";
 import { getProductImages } from "../../utils/productImages.js";
 import styles from "./ProductModal.module.css";
 
-const ProductModal = ({ product, categorySlug, onClose }) => {
+const ProductModal = ({ product, categorySlug, categoryTitle, onClose }) => {
   const [activeImage, setActiveImage] = useState(0);
   const [selectedWeight, setSelectedWeight] = useState(
     product?.weights?.[0] ?? null,
   );
+  const overlayRef = useRef(null);
+  const modalRef = useRef(null);
+  const isClosingRef = useRef(false);
+
+  // Entrada: overlay some, modal "salta" pro centro com leve overshoot de
+  // escala, e o conteúdo de texto entra em stagger logo em seguida.
+  useGSAP(
+    () => {
+      if (!product) return;
+
+      gsap.set(overlayRef.current, { opacity: 0 });
+      gsap.set(modalRef.current, { scale: 0.82, opacity: 0 });
+
+      gsap
+        .timeline()
+        .to(overlayRef.current, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.out",
+        })
+        .to(
+          modalRef.current,
+          { scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.6)" },
+          "-=0.2",
+        )
+        .from(
+          `.${styles.categoryBadge}, .${styles.infoHeader} > *, .${styles.desc}, .${styles.weightsBlock}, .${styles.details}, .${styles.cta}`,
+          {
+            opacity: 0,
+            y: 14,
+            duration: 0.4,
+            stagger: 0.06,
+            ease: "power2.out",
+          },
+          "-=0.25",
+        );
+    },
+    { scope: overlayRef },
+  );
+
+  function playExitAnimation(onComplete) {
+    gsap
+      .timeline({ onComplete })
+      .to(modalRef.current, {
+        scale: 0.85,
+        duration: 0.4,
+        ease: "back.in(1.7)",
+      })
+      .to(
+        [modalRef.current, overlayRef.current],
+        { opacity: 0, duration: 0.25, ease: "power2.in" },
+        "-=0.3",
+      );
+  }
+
+  function handleClose() {
+    if (isClosingRef.current) return;
+    isClosingRef.current = true;
+    playExitAnimation(onClose);
+  }
 
   useEffect(() => {
     if (!product) return;
 
     function handleEscKey(event) {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") handleClose();
     }
 
     document.addEventListener("keydown", handleEscKey);
-    return () => document.removeEventListener("keydown", handleEscKey);
-  }, [product, onClose]);
+    // O site usa ScrollSmoother (não scroll nativo) — travar overflow no body
+    // não teria efeito, então pausamos o smoother enquanto o modal está aberto.
+    ScrollSmoother.get()?.paused(true);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscKey);
+      ScrollSmoother.get()?.paused(false);
+    };
+  }, [product, handleClose]);
 
   if (!product) return null;
 
   const images = getProductImages(categorySlug, product.slug);
 
-  return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+  return createPortal(
+    <div className={styles.overlay} onClick={handleClose} ref={overlayRef}>
+      <div
+        className={styles.modal}
+        onClick={(e) => e.stopPropagation()}
+        ref={modalRef}
+      >
         <button
           className={styles.closeButton}
-          onClick={onClose}
+          onClick={handleClose}
           type="button"
           aria-label="Fechar modal"
         >
@@ -46,6 +121,10 @@ const ProductModal = ({ product, categorySlug, onClose }) => {
               />
             ) : (
               <span>Imagem do produto</span>
+            )}
+
+            {categoryTitle && (
+              <span className={styles.categoryBadge}>{categoryTitle}</span>
             )}
           </div>
 
@@ -136,7 +215,8 @@ const ProductModal = ({ product, categorySlug, onClose }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   padding: 32px;
-  background: rgba(20, 22, 16, 0.6);
+  background: rgba(20, 22, 16, 0.75);
   cursor: default;
 }
 
@@ -21,7 +21,10 @@
   background: #fffefa;
   border-radius: 28px;
   clip-path: inset(0 round 28px);
+  font-family: "DM Sans", sans-serif;
+
   box-shadow: 0 32px 100px rgba(0, 0, 0, 0.22);
+  user-select: none;
 }
 
 /* ── Fechar ── */
@@ -53,24 +56,22 @@
 }
 
 /* ── Galeria ── */
+/* A imagem principal sangra até a borda do modal (sem padding/borda própria) —
+   o clip-path do .modal já arredonda o canto externo, então não precisa de
+   border-radius aqui. As thumbnails ficam numa faixa própria, sem sangrar. */
 .gallery {
-  background: #fffefa;
-  padding: 32px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  border-right: 1px solid rgba(93, 103, 60, 0.1);
 }
 
 .mainImage {
+  position: relative;
   flex: 1;
-  border-radius: 20px;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f2f1eb;
-  border: 1px solid rgba(93, 103, 60, 0.12);
   color: rgba(46, 48, 39, 0.4);
   font-size: 14px;
   letter-spacing: 0.04em;
@@ -83,14 +84,34 @@
   object-fit: cover;
 }
 
+/* ── Selo de categoria (sobreposto na imagem, ecoa o card do carrossel) ── */
+.categoryBadge {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  padding: 8px 18px;
+  border-radius: 100px;
+  background: rgba(20, 22, 16, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fffefa;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .thumbList {
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  padding: 18px 24px;
+  background: #fffefa;
+  border-top: 1px solid rgba(93, 103, 60, 0.1);
 }
 
 .thumb {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   flex-shrink: 0;
   padding: 0;
   border-radius: 12px;
@@ -142,7 +163,7 @@
 
 .info h2 {
   margin: 0;
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 500;
   color: rgba(0, 0, 0, 0.9);
   line-height: 1.1;
