@@ -62,9 +62,9 @@ const Navbar = () => {
             </NavLink>
           </li>
         </ul>
-        <button className={styles.hamburger}>
+        {/* <button className={styles.hamburger}>
           <img src={burg} alt="Botão do menu" />
-        </button>
+        </button> */}
       </div>
     </nav>
   );

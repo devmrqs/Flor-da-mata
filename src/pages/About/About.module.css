@@ -1,52 +1,51 @@
 .aboutSection {
   width: 100%;
-  min-height: 200vh;
 }
 
-.textBlock {
+/* ── Pin: os 3 blocos ficam empilhados na mesma posição, um por vez ── */
+.introPin {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
-  padding-top: 10rem;
-  flex-direction: column;
-  padding-bottom: 1.5rem;
-  padding-left: clamp(1.5rem, 10vw, 13.25rem);
+  align-items: center;
+  justify-content: center;
 }
 
-.textBlockCenter {
+.introBlock {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 15rem;
-  padding-bottom: 5rem;
-  padding-inline: 1.5rem;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1.5rem;
 }
 
-.textBlock h1,
-.textBlock h2 {
-  margin-top: 10rem;
-}
-
-.textBlock h1,
-.textBlock h2 {
-  align-items: start;
+.introBlock h1,
+.introBlock h2 {
   font-size: clamp(2.8rem, 5vw, 3.5rem);
   font-family: "DM Sans", sans-serif;
   color: rgba(0, 0, 0, 0.9);
   font-weight: 200;
-  max-width: 40ch;
-  margin-bottom: 10rem;
+  /* "ch" é relativo ao font-size do próprio elemento — nesse tamanho de
+     fonte, 40ch passava da largura do container e não quebrava a linha.
+     Valor fixo em rem evita isso mas ainda deixa o bloco quase tão largo
+     quanto o container, preservando a leitura em ~2 linhas de antes. */
+  max-width: 80rem;
 }
 
-.textBlockCenter p {
-  text-align: center;
+.introBlock p {
   font-size: 1.8rem;
   font-family: "DM Sans", sans-serif;
   font-weight: 200;
   max-width: 55ch;
 }
 
-.textBlockCenter img {
+.introBlock img {
   height: auto;
   width: 60px;
-  margin-top: 1rem;
+  margin-top: 2rem;
   user-select: none;
 }

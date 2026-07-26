@@ -1,64 +1,96 @@
 // Libraries
-import { useState } from "react";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Data
 import { cardsTimeline } from "../../data/timeline";
 
-// Assets
-import arrowLeft from "../../assets/images/arrowLeft.svg";
-import arrowRight from "../../assets/images/arrowRight.svg";
-
 // CSS
 import styles from "./Timeline.module.css";
 
-const Timeline = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+gsap.registerPlugin(ScrollTrigger);
 
-  const getVisibleCards = () => {
-    const total = cardsTimeline.length;
-    const prev = (activeIndex - 1 + total) % total;
-    const next = (activeIndex + 1) % total;
-    return [
-      cardsTimeline[prev],
-      cardsTimeline[activeIndex],
-      cardsTimeline[next],
-    ];
-  };
+const Timeline = () => {
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const pinRef = useRef(null);
+  const cardRefs = useRef([]);
+
+  useGSAP(
+    () => {
+      const cards = cardRefs.current.filter(Boolean);
+      if (!cards.length) return;
+
+      // Cabeçalho e cards entram na MESMA timeline presa — o título some
+      // junto com os cards no lugar do próprio "pulinho" de escala do
+      // ProductModal, um de cada vez, conforme o scroll avança (e sai na
+      // ordem inversa se você subir de novo).
+      gsap.set(headerRef.current.children, { opacity: 0, y: 30 });
+      gsap.set(cards, { opacity: 0, scale: 0.8 });
+
+      // pinSpacing precisa ser explícito (o padrão implícito não estava
+      // reservando o espaço extra de scroll aqui, possivelmente por causa
+      // do ScrollSmoother) — sem isso, o pin só guardava a altura natural
+      // do wrapper, ignorando a distância pedida em "end".
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: pinRef.current,
+            start: "top top",
+            end: "+=" + (cards.length * 400 + 300),
+            pin: true,
+            pinSpacing: true,
+            scrub: 1,
+          },
+        })
+        .to(headerRef.current.children, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power3.out",
+        })
+        .to(cards, {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          stagger: 1.2,
+          ease: "back.out(1.7)",
+        });
+    },
+    { scope: sectionRef },
+  );
 
   return (
-    <section className={styles.timelineSection}>
-      <h2>Nossa trajetória</h2>
-      <p>Vinte anos não se resumem a datas — se contam em decisões.</p>
-      <div className={styles.carouselWrapper}>
-        <button
-          className={styles.btnNav}
-          onClick={() =>
-            setActiveIndex(
-              (activeIndex - 1 + cardsTimeline.length) % cardsTimeline.length,
-            )
-          }
-        >
-          <img src={arrowLeft} alt="Botão para navegar para a esquerda" />
-        </button>
-        <div className={styles.cardsContainer}>
-          {getVisibleCards().map((card, index) => (
+    <section className={styles.timelineSection} ref={sectionRef}>
+      <div className={styles.pinWrapper} ref={pinRef}>
+        <div className={styles.header} ref={headerRef}>
+          <span className={styles.kicker}>Nossa história</span>
+          <h2>Nossa trajetória</h2>
+          <p>Vinte anos não se resumem a datas — se contam em decisões.</p>
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.rail} />
+
+          {cardsTimeline.map((card, index) => (
             <div
               key={card.id}
-              className={index === 1 ? styles.cardActive : styles.card}
+              className={styles.card}
+              ref={(el) => {
+                cardRefs.current[index] = el;
+              }}
             >
+              <div className={styles.imagePlaceholder} />
+              <span className={styles.dot} />
               <h3>{card.year}</h3>
+              <strong>{card.title}</strong>
               <p>{card.description}</p>
             </div>
           ))}
         </div>
-        <button
-          className={styles.btnNav}
-          onClick={() =>
-            setActiveIndex((activeIndex + 1) % cardsTimeline.length)
-          }
-        >
-          <img src={arrowRight} alt="Botão para navegar para a direita" />
-        </button>
       </div>
     </section>
   );
