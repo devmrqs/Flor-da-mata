@@ -7,6 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 // Components
 import Button from "../../components/Button/Button";
 import CategoryCarousel from "../../components/CategoryCarousel/CategoryCarousel";
+import Seals from "../../components/Seals/Seals.jsx";
+import CtaPartnership from "../../components/CtaPartnership/CtaPartnership.jsx";
 
 // CSS
 import styles from "./Products.module.css";
@@ -143,6 +145,8 @@ const Products = ({ isPage = false }) => {
         </p>
       </div>
       <CategoryCarousel />
+      <Seals />
+      {isPage && <CtaPartnership />}
     </section>
   );
 };

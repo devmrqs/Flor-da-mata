@@ -1,76 +1,198 @@
 .container {
   display: flex;
   flex-direction: column;
-  position: relative;
+  gap: 1.5rem;
   width: 100%;
-  height: 255px;
-  border-radius: 30px 30px 0 0;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 15px;
+  padding: 0 4vw;
+  margin: 2rem 0;
+  font-family: "DM Sans", sans-serif;
   user-select: none;
 }
 
-.textWrap {
+/* ── Cartão principal: texto institucional + selos ── */
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  background: #f8f6f0;
+  border: 1px solid rgba(93, 103, 60, 0.12);
+  border-radius: 2rem;
+  padding: clamp(3em, 4vw, 3.5rem);
+}
+
+.intro {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  max-width: 32rem;
+}
+
+.kicker {
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding-top: 20px;
-  font-family: "DM Sans", sans-serif;
-  color: rgba(41, 30, 18, 0.9);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b5713f;
 }
 
-.textWrap h3 {
-  font-size: 30px;
+.kicker img {
+  width: 14px;
+  height: 14px;
+}
+
+.intro h3 {
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.intro p {
+  font-size: 0.95rem;
   font-weight: 300;
-  color: rgba(0, 0, 0, 0.9);
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.6);
 }
 
-.textWrap p {
-  font-size: 17px;
-  font-weight: 200;
-  color: rgba(0, 0, 0, 0.9);
-}
-
+/* ── Selos ── */
 .sealsWrap {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: 30px;
-  margin-top: 30px;
-  font-weight: 200;
-  font-size: 15px;
+  gap: 1rem;
 }
 
-.sealContainer {
+.sealCard {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 10px;
-  color: rgba(0, 0, 0, 0.9);
-  font-family: "DM Sans", sans-serif;
+  gap: 0.9rem;
+  width: 8.5rem;
+  padding: 2.5rem 0.75rem 2rem;
+  background: #fffefa;
+  border: 1px solid rgba(93, 103, 60, 0.1);
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 16px rgba(93, 103, 60, 0.06);
+  text-align: center;
+  transition: transform 0.35s ease;
 }
 
-.circle {
+.sealCard:hover {
+  transform: translateY(-4px);
+}
+
+.badgeRing {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 75px;
-  width: 75px;
-  z-index: 2;
-  border-radius: 100px;
-  background-color: rgba(102, 80, 53, 0.9);
-  /* border: 2px solid rgba(102, 80, 53, 0.8); */
-  box-shadow:
-    rgba(102, 80, 53, 0.4) 0px 0px 0px 2px,
-    rgba(102, 80, 53, 0.65) 0px 4px 6px -1px,
-    rgba(102, 80, 53, 0.08) 0px 1px 0px inset;
-  transition: transform 0.4s ease;
+  justify-content: center;
+  width: 4.75rem;
+  height: 4.75rem;
+  border: 1.5px dashed rgba(93, 103, 60, 0.35);
+  border-radius: 50%;
 }
 
-.circle:hover {
-  transform: scale(1.09);
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 50%;
+  background: #5d673c;
+}
+
+.badge img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.sealCard[data-tone="1"] .badge {
+  background: #8e9475;
+}
+
+.sealCard[data-tone="2"] .badge {
+  background: #b5713f;
+}
+
+.sealCard[data-tone="3"] .badge {
+  background: #464d2d;
+}
+
+.sealCard[data-tone="4"] .badge {
+  background: #8b5a34;
+}
+
+.sealCard p {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.footerLeaf {
+  width: 12px;
+  height: 12px;
+  opacity: 0.4;
+}
+
+/* ── Barra final: propósito + tagline ── */
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  background: #ecead9;
+  border-radius: 2rem;
+  padding: 1.5rem 2.5rem;
+}
+
+.bannerText {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex: 1;
+  min-width: 16rem;
+}
+
+.bannerIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: #5d673c;
+}
+
+.bannerIcon img {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.bannerText p {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.75);
+  max-width: 28rem;
+}
+
+.divider {
+  width: 1px;
+  height: 2.5rem;
+  background: rgba(93, 103, 60, 0.25);
+}
+
+.tagline {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: #5d673c;
+  letter-spacing: 0.02em;
 }

@@ -7,7 +7,6 @@ import { SplitText } from "gsap/SplitText";
 
 // Components
 import Timeline from "../../components/Timeline/Timeline";
-import Seals from "../../components/Seals/Seals";
 import CtaPartnership from "../../components/CtaPartnership/CtaPartnership";
 
 // Assets
@@ -107,8 +106,8 @@ const About = () => {
         </div>
         <div className={styles.introBlock}>
           <h2 ref={h2Ref}>
-            Desde 2006, a Flor da Mata conecta produtores e lojistas por todo
-            o Brasil, distribuindo produtos naturais selecionados
+            Desde 2006, a Flor da Mata conecta produtores e lojistas por todo o
+            Brasil, distribuindo produtos naturais selecionados
           </h2>
         </div>
         <div className={styles.introBlock}>
@@ -121,7 +120,6 @@ const About = () => {
       </div>
 
       <Timeline />
-      {/* <Seals /> */}
       <CtaPartnership />
     </section>
   );
