@@ -11,7 +11,7 @@ import Button from "../Button/Button";
 import styles from "./CtaPartnership.module.css";
 
 const CtaPartnership = () => {
-  const transitionTo = useSvgTransition();
+  const { transitionTo } = useSvgTransition();
 
   function handleClick(e) {
     e.preventDefault();

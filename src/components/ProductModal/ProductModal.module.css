@@ -231,12 +231,6 @@
   border-color: #5d673c;
 }
 
-.weightCardActive {
-  border-color: #5d673c;
-  background: #5d673c;
-  color: #fffefa;
-}
-
 /* ── Detalhes ── */
 .details {
   display: flex;

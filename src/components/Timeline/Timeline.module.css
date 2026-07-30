@@ -4,6 +4,7 @@
   align-items: center;
   font-family: "DM Sans", sans-serif;
   padding-bottom: clamp(1.5rem, 4vw, 3rem);
+  user-select: none;
 }
 
 .header {

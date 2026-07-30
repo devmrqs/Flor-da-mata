@@ -1,4 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+/* DM Sans/Inter carregadas via <link> no index.html (não @import) — um
+   @import dentro de um CSS que o Vite injeta via JS só é descoberto depois
+   que o próprio JS roda, então o React já podia montar e o SplitText (About)
+   já podia medir o texto ANTES da fonte sequer ser conhecida pelo browser,
+   causando reflow (FOUT) com os chars já posicionados. Um <link> no <head>
+   é render-blocking e garante que a fonte já está registrada antes do app
+   montar. */
 
 * {
   margin: 0;
@@ -7,7 +13,7 @@
 }
 
 body {
-  background: #fffefa;
+  background: #fffcf8;
 }
 
 #smooth-wrapper {

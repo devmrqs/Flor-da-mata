@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.7rem;
-  background: #f8f6f0;
+  background: #f8f6f08f;
   border: 1px solid rgba(93, 103, 60, 0.12);
   border-radius: 2rem;
   padding: clamp(3em, 4vw, 3.5rem);

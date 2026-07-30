@@ -82,6 +82,19 @@ export const SvgTransitionProvider = ({ children }) => {
   const navigate = useNavigate();
   const svgRef = useRef(null);
   const isAnimating = useRef(false);
+  const pendingRevealRef = useRef(null);
+
+  // A página de destino usa isso pra saber se chegou via transição (e nesse
+  // caso só revelar sua própria entrada quando o "playOut" terminar) ou via
+  // navegação direta (URL/refresh), quando não há SVG nenhum rodando.
+  const onReveal = useCallback((callback) => {
+    pendingRevealRef.current = callback;
+    return () => {
+      if (pendingRevealRef.current === callback) {
+        pendingRevealRef.current = null;
+      }
+    };
+  }, []);
 
   const transitionTo = useCallback(
     (path) => {
@@ -95,6 +108,8 @@ export const SvgTransitionProvider = ({ children }) => {
         requestAnimationFrame(() => {
           svgRef.current.playOut(() => {
             isAnimating.current = false;
+            pendingRevealRef.current?.();
+            pendingRevealRef.current = null;
           });
         });
       });
@@ -103,7 +118,9 @@ export const SvgTransitionProvider = ({ children }) => {
   );
 
   return (
-    <SvgTransitionContext.Provider value={transitionTo}>
+    <SvgTransitionContext.Provider
+      value={{ transitionTo, onReveal, isTransitioning: isAnimating }}
+    >
       {children}
       <SvgTransition ref={svgRef} />
     </SvgTransitionContext.Provider>
