@@ -9,21 +9,14 @@ import { useDragScroll } from "../../hooks/useDragScroll.js";
 // Data
 import { categories } from "../../data/categories.js";
 
+// Utils
+import { getCategoryImage } from "../../utils/categoryImages.js";
+
 // Components
 import ProductsList from "../ProductsList/ProductsList.jsx";
 
 // Assets
 import arrow from "../../assets/images/cards-products/arrowProducts.svg";
-import chas from "../../assets/images/cards-products/chaservas.png";
-import graos from "../../assets/images/cards-products/graos.png";
-import naturais from "../../assets/images/cards-products/naturais.png";
-import sementes from "../../assets/images/cards-products/sementes.png";
-import farinhas from "../../assets/images/cards-products/farinhas.png";
-import soja from "../../assets/images/cards-products/soja.png";
-import elixis from "../../assets/images/cards-products/elixis.png";
-import capsulas from "../../assets/images/cards-products/capsulas.png";
-import beleza from "../../assets/images/cards-products/beleza.png";
-import snacks from "../../assets/images/cards-products/snacks.png";
 
 // CSS
 import styles from "./CategoryCarousel.module.css";
@@ -36,23 +29,7 @@ const BASE_WIDTH = 350;
 const EASE_EXPAND = "power4.inOut";
 const EASE_COLLAPSE = "power3.inOut";
 
-const categoryImages = {
-  1: chas,
-  2: graos,
-  3: naturais,
-  4: sementes,
-  5: farinhas,
-  6: soja,
-  7: elixis,
-  8: capsulas,
-  9: beleza,
-  10: snacks,
-};
-
 const CategoryCarousel = () => {
-  // expandedKey: qual card está "aberto" (controla interação/estilo do botão)
-  // mountedKey: qual card ainda precisa do ProductsList no DOM — fica um passo
-  // atrás do expandedKey ao fechar, pra dar tempo da animação de saída rodar
   const [expandedKey, setExpandedKey] = useState(null);
   const [mountedKey, setMountedKey] = useState(null);
   const containerRef = useRef(null);
@@ -66,12 +43,6 @@ const CategoryCarousel = () => {
 
   useGSAP(
     () => {
-      // A lista é triplicada pro loop infinito (ver useDragScroll), e o
-      // scroll já nasce posicionado no bloco do meio — então só a 2ª cópia
-      // está visível de cara. Selecionar ".cardWrapper" sem filtro pegava
-      // as 3 cópias (30 elementos) no mesmo stagger: os 10 da 1ª cópia
-      // (fora da tela) "furavam a fila" antes dos visíveis, que só
-      // começavam a aparecer depois de ~0.8s de atraso acumulado à toa.
       gsap.from(`.${styles.cardWrapper}[data-loop-copy="1"]`, {
         scrollTrigger: {
           trigger: containerRef.current,
@@ -210,7 +181,7 @@ const CategoryCarousel = () => {
                 type="button"
               >
                 <img
-                  src={categoryImages[category.id]}
+                  src={getCategoryImage(category.slug)}
                   alt={category.title}
                   className={styles.cardImage}
                 />
@@ -226,7 +197,7 @@ const CategoryCarousel = () => {
               {isMounted && (
                 <ProductsList
                   category={category}
-                  categoryImage={categoryImages[category.id]}
+                  categoryImage={getCategoryImage(category.slug)}
                   variant="insideCard"
                   panelRef={registerPanelRef(key)}
                 />
