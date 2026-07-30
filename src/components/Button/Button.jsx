@@ -15,7 +15,7 @@ const DURATION_SOFT = 0.4;
 const EASE_MAIN = "power4.inOut";
 const EASE_SOFT = "power3.out";
 
-const Button = ({ label, variant, icon, size }) => {
+const Button = ({ label, variant, icon, size, onClick }) => {
   const btnRef = useRef(null);
   const arrowWrapperRef = useRef(null);
   const textRef = useRef(null);
@@ -123,6 +123,7 @@ const Button = ({ label, variant, icon, size }) => {
       }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={onClick}
       type="button"
     >
       <div ref={spacerRef} className={styles.spacer} />

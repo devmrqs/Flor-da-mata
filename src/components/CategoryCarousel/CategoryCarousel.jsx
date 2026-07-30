@@ -66,7 +66,13 @@ const CategoryCarousel = () => {
 
   useGSAP(
     () => {
-      gsap.from(`.${styles.cardWrapper}`, {
+      // A lista é triplicada pro loop infinito (ver useDragScroll), e o
+      // scroll já nasce posicionado no bloco do meio — então só a 2ª cópia
+      // está visível de cara. Selecionar ".cardWrapper" sem filtro pegava
+      // as 3 cópias (30 elementos) no mesmo stagger: os 10 da 1ª cópia
+      // (fora da tela) "furavam a fila" antes dos visíveis, que só
+      // começavam a aparecer depois de ~0.8s de atraso acumulado à toa.
+      gsap.from(`.${styles.cardWrapper}[data-loop-copy="1"]`, {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top 85%",
@@ -74,8 +80,8 @@ const CategoryCarousel = () => {
         },
         opacity: 0,
         y: 40,
-        duration: 0.6,
-        stagger: 0.08,
+        duration: 0.4,
+        stagger: 0.06,
         ease: "power3.out",
         clearProps: "transform",
       });
@@ -190,6 +196,7 @@ const CategoryCarousel = () => {
             <div
               key={key}
               className={styles.cardWrapper}
+              data-loop-copy={Math.floor(index / categories.length)}
               ref={registerWrapperRef(key)}
             >
               <button

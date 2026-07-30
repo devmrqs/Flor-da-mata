@@ -11,6 +11,7 @@ import styles from "./App.module.css";
 
 // Components
 import Navbar from "./components/Navbar/Navbar";
+import { SvgTransitionProvider } from "./components/SVG/SvgTransition";
 
 // Pages:
 import Home from "./pages/Home/Home";
@@ -53,20 +54,22 @@ function App() {
 
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <div className={styles.containerHeader}>
-        <Navbar />
-      </div>
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/produtos" element={<Products isPage />} />
-            <Route path="/sobre" element={<About />} />
-            <Route path="/seja-parceiro" element={<Partnership />} />
-          </Routes>
+      <SvgTransitionProvider>
+        <ScrollToTop />
+        <div className={styles.containerHeader}>
+          <Navbar />
         </div>
-      </div>
+        <div id="smooth-wrapper">
+          <div id="smooth-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/produtos" element={<Products isPage />} />
+              <Route path="/sobre" element={<About />} />
+              <Route path="/seja-parceiro" element={<Partnership />} />
+            </Routes>
+          </div>
+        </div>
+      </SvgTransitionProvider>
     </BrowserRouter>
   );
 }
