@@ -1,4 +1,15 @@
-import { chasErvasProducts } from "./products/chasErvas";
+// Cada arquivo em ./products/{slug}.js é registrado automaticamente pelo
+// nome — pra cadastrar os produtos de uma categoria nova, só criar o
+// arquivo (default export = array de produtos), sem precisar editar nada
+// aqui.
+const productModules = import.meta.glob("./products/*.js", {
+  eager: true,
+  import: "default",
+});
+
+function productsFor(slug) {
+  return productModules[`./products/${slug}.js`] ?? [];
+}
 
 export const categories = [
   {
@@ -6,7 +17,6 @@ export const categories = [
     slug: "chas-e-ervas",
     title: "Chás & Ervas",
     description: "Ervas, flores e blends para rituais de bem-estar.",
-    products: chasErvasProducts,
   },
   {
     id: 2,
@@ -62,4 +72,4 @@ export const categories = [
     title: "Snacks e Açúcares",
     description: "Sabor e consciência andando juntos.",
   },
-];
+].map((category) => ({ ...category, products: productsFor(category.slug) }));
