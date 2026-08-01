@@ -7,7 +7,10 @@ import ProductModal from "../ProductModal/ProductModal";
 import styles from "./ProductsList.module.css";
 
 const ProductsList = ({ category, categoryImage, variant, panelRef }) => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  // Índice no array, não o produto em si — a navegação (setinhas) dentro
+  // do modal precisa de uma posição confiável, e o slug não é garantido
+  // único (dois produtos com o mesmo slug quebrariam uma busca por slug).
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   return (
     <>
@@ -41,11 +44,11 @@ const ProductsList = ({ category, categoryImage, variant, panelRef }) => {
 
           <div className={styles.productsScroll}>
             <ul className={styles.productsGrid}>
-              {category.products?.map((product) => (
+              {category.products?.map((product, index) => (
                 <li
-                  key={product.id}
+                  key={product.slug + index}
                   className={styles.productItem}
-                  onClick={() => setSelectedProduct(product)}
+                  onClick={() => setSelectedIndex(index)}
                 >
                   {product.name}
                 </li>
@@ -55,12 +58,16 @@ const ProductsList = ({ category, categoryImage, variant, panelRef }) => {
         </div>
       </div>
 
+      {/* key não é o índice do produto — trocar de produto (setinhas)
+          precisa manter o modal montado pra animar o slide entre eles.
+          Só remonta de fato ao abrir/fechar (entrada/saída em zoom). */}
       <ProductModal
-        key={selectedProduct?.id ?? "closed"}
-        product={selectedProduct}
+        key={selectedIndex !== null ? "open" : "closed"}
+        products={category.products}
+        initialIndex={selectedIndex}
         categorySlug={category.slug}
         categoryTitle={category.title}
-        onClose={() => setSelectedProduct(null)}
+        onClose={() => setSelectedIndex(null)}
       />
     </>
   );

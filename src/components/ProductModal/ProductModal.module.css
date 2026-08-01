@@ -16,15 +16,22 @@
   position: relative;
   width: min(1300px, 90vw);
   max-height: 88vh;
-  display: grid;
-  grid-template-columns: 460px 1fr;
   background: #fffefa;
   border-radius: 28px;
-  clip-path: inset(0 round 28px);
+  clip-path: inset(0 round 28px); /* também corta o .content durante o slide */
   font-family: "DM Sans", sans-serif;
 
   box-shadow: 0 32px 100px rgba(0, 0, 0, 0.22);
   user-select: none;
+}
+
+/* O grid que era do .modal mora aqui agora — é ESTE elemento que desliza
+   pra esquerda/direita ao navegar entre produtos (ver ProductModal.jsx,
+   goTo()), enquanto .modal (fechar, setinhas) fica parado. */
+.content {
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  max-height: 88vh;
 }
 
 /* ── Fechar ── */
@@ -269,4 +276,37 @@
 .cta {
   margin-top: auto;
   padding-top: 8px;
+}
+
+/* ── Navegação entre produtos: embaixo do CTA, cada seta num canto ── */
+.navRow {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+
+.navButton {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.navButton img {
+  width: 100%;
+  height: 100%;
+}
+
+.navButton:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: default;
 }

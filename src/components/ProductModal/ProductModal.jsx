@@ -1,27 +1,57 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+// Libraries
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+
+// Components
 import Button from "../Button/Button.jsx";
+
+// Data
 import { getProductImages } from "../../utils/productImages.js";
+
+// Assets
+import arrowLeft from "../../assets/images/arrowLeft.svg";
+import arrowRight from "../../assets/images/arrowRight.svg";
+
+// CSS
 import styles from "./ProductModal.module.css";
 
-const ProductModal = ({ product, categorySlug, categoryTitle, onClose }) => {
+const ProductModal = ({
+  products,
+  initialIndex,
+  categorySlug,
+  categoryTitle,
+  onClose,
+}) => {
+  const isOpen = initialIndex !== null && initialIndex !== undefined;
+
+  // Índice é a fonte da verdade da navegação (não o produto/slug — dois
+  // produtos podem ter o mesmo slug por engano, e um findIndex por slug
+  // ficaria travado no primeiro que encontrasse). Só muda de verdade ao
+  // abrir/fechar o modal (key no ProductsList); navegar entre produtos da
+  // mesma categoria (setinhas) troca esse estado por dentro, sem desmontar.
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const currentProduct = products?.[currentIndex];
+
   const [activeImage, setActiveImage] = useState(0);
   const [selectedWeight, setSelectedWeight] = useState(
-    product?.weights?.[0] ?? null,
+    currentProduct?.weights?.[0] ?? null,
   );
   const overlayRef = useRef(null);
   const modalRef = useRef(null);
   const isClosingRef = useRef(false);
+  const isNavigatingRef = useRef(false);
 
   // Entrada: overlay some, modal "salta" pro centro com leve overshoot de
-  // escala, e o conteúdo de texto entra em stagger logo em seguida.
+  // escala, e o conteúdo de texto entra em stagger logo em seguida. Só
+  // roda na abertura de verdade (mount) — navegar entre produtos usa a
+  // transição de slide abaixo, não essa.
   useGSAP(
     () => {
-      if (!product) return;
+      if (!isOpen) return;
 
       gsap.set(overlayRef.current, { opacity: 0 });
       gsap.set(modalRef.current, { scale: 0.82, opacity: 0 });
@@ -74,8 +104,47 @@ const ProductModal = ({ product, categorySlug, categoryTitle, onClose }) => {
     playExitAnimation(onClose);
   }
 
+  const hasPrev = currentIndex > 0;
+  const hasNext = currentIndex < (products?.length ?? 0) - 1;
+
+  // direction: -1 = anterior, 1 = próximo. Não é o conteúdo escorregando
+  // dentro de uma caixa fixa — é o CARD INTEIRO (modalRef: caixa branca,
+  // sombra, cantos arredondados) que sai deslizando pro lado, e depois um
+  // "novo card" surge (mesmo pop de escala da animação de abertura), no
+  // lugar de simplesmente trocar o conteúdo de dentro do mesmo modal.
+  // O sinal é invertido de propósito: clicar na seta da ESQUERDA
+  // (anterior, direction=-1) manda o card pra DIREITA, e vice-versa.
+  function goTo(direction) {
+    if (isNavigatingRef.current) return;
+    const nextIndex = currentIndex + direction;
+    if (nextIndex < 0 || nextIndex >= (products?.length ?? 0)) return;
+
+    isNavigatingRef.current = true;
+    gsap.to(modalRef.current, {
+      x: direction * -500,
+      opacity: 0,
+      duration: 0.4,
+      ease: "power2.in",
+      onComplete: () => {
+        setCurrentIndex(nextIndex);
+        setActiveImage(0);
+        setSelectedWeight(products[nextIndex].weights?.[0] ?? null);
+        gsap.set(modalRef.current, { x: 0, scale: 0.85, opacity: 0 });
+        gsap.to(modalRef.current, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          ease: "back.out(1.6)",
+          onComplete: () => {
+            isNavigatingRef.current = false;
+          },
+        });
+      },
+    });
+  }
+
   useEffect(() => {
-    if (!product) return;
+    if (!isOpen) return;
 
     function handleEscKey(event) {
       if (event.key === "Escape") handleClose();
@@ -90,11 +159,11 @@ const ProductModal = ({ product, categorySlug, categoryTitle, onClose }) => {
       document.removeEventListener("keydown", handleEscKey);
       ScrollSmoother.get()?.paused(false);
     };
-  }, [product, handleClose]);
+  }, [isOpen, handleClose]);
 
-  if (!product) return null;
+  if (!isOpen || !currentProduct) return null;
 
-  const images = getProductImages(categorySlug, product.slug);
+  const images = getProductImages(categorySlug, currentProduct.slug);
 
   return createPortal(
     <div className={styles.overlay} onClick={handleClose} ref={overlayRef}>
@@ -112,107 +181,136 @@ const ProductModal = ({ product, categorySlug, categoryTitle, onClose }) => {
           ×
         </button>
 
-        <div className={styles.gallery}>
-          <div className={styles.mainImage}>
-            {images[activeImage] ? (
-              <img
-                src={images[activeImage]}
-                alt={product.name}
-                className={styles.mainImageImg}
-              />
-            ) : (
-              <span>Imagem do produto</span>
-            )}
+        <div className={styles.content}>
+          <div className={styles.gallery}>
+            <div className={styles.mainImage}>
+              {images[activeImage] ? (
+                <img
+                  src={images[activeImage]}
+                  alt={currentProduct.name}
+                  className={styles.mainImageImg}
+                />
+              ) : (
+                <span>Imagem do produto</span>
+              )}
 
-            {categoryTitle && (
-              <span className={styles.categoryBadge}>{categoryTitle}</span>
-            )}
-          </div>
-
-          {images.length > 1 && (
-            <div className={styles.thumbList}>
-              {images.map((imgSrc, index) => (
-                <button
-                  key={imgSrc}
-                  type="button"
-                  className={`${styles.thumb} ${
-                    activeImage === index ? styles.thumbActive : ""
-                  }`}
-                  onClick={() => setActiveImage(index)}
-                  aria-label={`Ver imagem ${index + 1}`}
-                >
-                  <img src={imgSrc} alt="" className={styles.thumbImg} />
-                </button>
-              ))}
+              {categoryTitle && (
+                <span className={styles.categoryBadge}>{categoryTitle}</span>
+              )}
             </div>
-          )}
-        </div>
 
-        <div className={styles.info}>
-          <div className={styles.infoHeader}>
-            <span className={styles.label}>Flor da Mata</span>
-            <h2>{product.name || product}</h2>
-            <p className={styles.shortDesc}>
-              {product.shortDescription ||
-                "Produto selecionado da linha Flor da Mata."}
-            </p>
-          </div>
-
-          <p className={styles.desc}>
-            {product.description ||
-              "Em breve, este produto terá uma descrição completa com informações, características e opções disponíveis."}
-          </p>
-
-          {product.weights?.length > 0 && (
-            <div className={styles.weightsBlock}>
-              <span className={styles.label}>Gramagem</span>
-              <div className={styles.weightsList}>
-                {product.weights.map((weight) => (
+            {images.length > 1 && (
+              <div className={styles.thumbList}>
+                {images.map((imgSrc, index) => (
                   <button
-                    key={weight}
+                    key={imgSrc}
                     type="button"
-                    className={`${styles.weightCard} ${
-                      selectedWeight === weight ? styles.weightCardActive : ""
+                    className={`${styles.thumb} ${
+                      activeImage === index ? styles.thumbActive : ""
                     }`}
-                    onClick={() => setSelectedWeight(weight)}
+                    onClick={() => setActiveImage(index)}
+                    aria-label={`Ver imagem ${index + 1}`}
                   >
-                    {weight}
+                    <img src={imgSrc} alt="" className={styles.thumbImg} />
                   </button>
                 ))}
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          {product.details && (
-            <div className={styles.details}>
-              {product.details.origem && (
-                <div className={styles.detailItem}>
-                  <span>Origem</span>
-                  <strong>{product.details.origem}</strong>
-                </div>
-              )}
-              {product.details.tipo && (
-                <div className={styles.detailItem}>
-                  <span>Tipo</span>
-                  <strong>{product.details.tipo}</strong>
-                </div>
-              )}
-              {product.details.armazenamento && (
-                <div className={styles.detailItem}>
-                  <span>Armazenamento</span>
-                  <strong>{product.details.armazenamento}</strong>
-                </div>
-              )}
+          <div className={styles.info}>
+            <div className={styles.infoHeader}>
+              <span className={styles.label}>Flor da Mata</span>
+              <h2>{currentProduct.name || currentProduct}</h2>
+              <p className={styles.shortDesc}>
+                {currentProduct.shortDescription ||
+                  "Produto selecionado da linha Flor da Mata."}
+              </p>
             </div>
-          )}
 
-          <div className={styles.cta}>
-            <Button
-              label="Solicitar orçamento"
-              variant="primary"
-              icon="arrow"
-              size="small"
-            />
+            <p className={styles.desc}>
+              {currentProduct.description ||
+                "Em breve, este produto terá uma descrição completa com informações, características e opções disponíveis."}
+            </p>
+
+            {currentProduct.weights?.length > 0 && (
+              <div className={styles.weightsBlock}>
+                <span className={styles.label}>Gramagem</span>
+                <div className={styles.weightsList}>
+                  {currentProduct.weights.map((weight) => (
+                    <button
+                      key={weight}
+                      type="button"
+                      className={`${styles.weightCard} ${
+                        selectedWeight === weight
+                          ? styles.weightCardActive
+                          : ""
+                      }`}
+                      onClick={() => setSelectedWeight(weight)}
+                    >
+                      {weight}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {currentProduct.details && (
+              <div className={styles.details}>
+                {currentProduct.details.origem && (
+                  <div className={styles.detailItem}>
+                    <span>Origem</span>
+                    <strong>{currentProduct.details.origem}</strong>
+                  </div>
+                )}
+                {currentProduct.details.tipo && (
+                  <div className={styles.detailItem}>
+                    <span>Tipo</span>
+                    <strong>{currentProduct.details.tipo}</strong>
+                  </div>
+                )}
+                {currentProduct.details.armazenamento && (
+                  <div className={styles.detailItem}>
+                    <span>Armazenamento</span>
+                    <strong>{currentProduct.details.armazenamento}</strong>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className={styles.cta}>
+              <Button
+                label="Solicitar orçamento"
+                variant="primary"
+                icon="arrow"
+                size="small"
+              />
+            </div>
+
+            {/* Setinhas ficam AQUI (embaixo do CTA, cada uma num canto da
+                parte branca) — não na lateral do modal, sobre a imagem. */}
+            {products?.length > 1 && (
+              <div className={styles.navRow}>
+                <button
+                  className={styles.navButton}
+                  onClick={() => goTo(-1)}
+                  disabled={!hasPrev}
+                  type="button"
+                  aria-label="Produto anterior"
+                >
+                  <img src={arrowLeft} alt="" />
+                </button>
+                <button
+                  className={styles.navButton}
+                  onClick={() => goTo(1)}
+                  disabled={!hasNext}
+                  type="button"
+                  aria-label="Próximo produto"
+                >
+                  <img src={arrowRight} alt="" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
