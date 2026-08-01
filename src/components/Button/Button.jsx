@@ -15,48 +15,11 @@ const DURATION_SOFT = 0.4;
 const EASE_MAIN = "power4.inOut";
 const EASE_SOFT = "power3.out";
 
-// Cor/tamanho de cada variante e tamanho ficam nos tokens do Button.module.css
-// — aqui só mapeia os nomes de prop pra classe CSS. Pra adicionar uma
-// variante/tamanho novo: cria o bloco de tokens no CSS e adiciona uma
-// entrada aqui.
-const VARIANTS = {
-  primary: styles.primary,
-  secondary: styles.secondary,
-};
-
-const SIZES = {
-  default: "",
-  small: styles.small,
-  "v-small": styles.vsmall,
-};
-
-// Cada ícone sabe sua própria imagem, o espaçamento do círculo ao redor
-// (tamanhos nativos bem diferentes: seta 13px, whatsapp 21px) e se precisa
-// de estilo próprio (o whatsapp precisa de largura fixa + inverter pra
-// branco, já que fica em cima de um círculo escuro). Pra adicionar um
-// ícone novo, só cria uma entrada aqui.
-const ICONS = {
-  arrow: { src: arrowIcon, wrapperClass: styles.iconArrow, imgClass: "" },
-  whatsapp: {
-    src: whatsappIcon,
-    wrapperClass: styles.iconWpp,
-    imgClass: styles.wppIcon,
-  },
-};
-
-const Button = ({
-  label,
-  variant = "primary",
-  size = "default",
-  icon = "arrow",
-  onClick,
-}) => {
+const Button = ({ label, variant, icon, size, onClick }) => {
   const btnRef = useRef(null);
   const arrowWrapperRef = useRef(null);
   const textRef = useRef(null);
   const spacerRef = useRef(null);
-
-  const iconConfig = ICONS[icon] ?? ICONS.arrow;
 
   function getAnimatedElements() {
     return [
@@ -113,7 +76,7 @@ const Button = ({
       ease: EASE_MAIN,
     });
 
-    // Texto reaparece com leve deslocamento (dá sensação de "assentar")
+    // Texto reaparece com leve leve deslocamento (dá sensação de "assentar")
     gsap.fromTo(
       textRef.current,
       { width: 0, opacity: 0, x: 12 },
@@ -150,14 +113,14 @@ const Button = ({
     playLeaveAnimation();
   }
 
-  const btnClassName = [styles.btn, VARIANTS[variant], SIZES[size]]
-    .filter(Boolean)
-    .join(" ");
-
   return (
     <button
       ref={btnRef}
-      className={btnClassName}
+      className={`${styles.btn} ${
+        variant === "primary" ? styles.primary : styles.secondary
+      } ${size === "small" ? styles.small : ""} ${
+        size === "v-small" ? styles.vsmall : ""
+      }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
@@ -171,9 +134,15 @@ const Button = ({
 
       <div
         ref={arrowWrapperRef}
-        className={`${styles.iconWrapper} ${iconConfig.wrapperClass}`}
+        className={
+          variant === "primary" ? styles.arrowWrapper : styles.wppIconWrapper
+        }
       >
-        <img src={iconConfig.src} alt="" className={iconConfig.imgClass} />
+        <img
+          src={icon === "arrow" ? arrowIcon : whatsappIcon}
+          alt=""
+          className={icon === "arrow" ? "" : styles.wppIcon}
+        />
       </div>
     </button>
   );

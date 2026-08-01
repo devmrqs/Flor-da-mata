@@ -1,28 +1,16 @@
 .btn {
-  /* ── Tokens de tamanho: mudam junto quando uma variante de .size aplica
-     um override abaixo. Edita os valores aqui (ou nos overrides) pra
-     ajustar dimensões sem precisar caçar propriedade por propriedade. ── */
-  --btn-width: 270px;
-  --btn-height: 75px;
-  --btn-font-size: 18px;
-  --btn-padding: 25px 10px;
-  --btn-gap: 20px;
-
   display: flex;
   flex-direction: row;
-  justify-content: space-between; /* evita o "pulo pro centro" quando o texto colapsa */
+  justify-content: space-between; /* era center — isso resolve o "pulo pro centro" */
   align-items: center;
-  width: var(--btn-width);
-  height: var(--btn-height);
-  font-size: var(--btn-font-size);
-  padding: var(--btn-padding);
-  gap: var(--btn-gap);
+  width: 270px;
+  height: 75px;
+  font-size: 18px;
+  padding: 25px 10px;
+  gap: 20px;
   border-radius: 80px;
-  border: 2px solid var(--btn-border-color);
-  background: var(--btn-bg);
-  color: var(--btn-text);
   user-select: none;
-  overflow: hidden; /* evita vazamento visual durante a transição */
+  overflow: hidden; /* evita qualquer vazamento visual durante a transição */
   box-shadow:
     rgba(0, 0, 0, 0.3) 0px 2px 4px 0px,
     rgba(0, 0, 0, 0.2) 0px 7px 4px -3px,
@@ -34,74 +22,63 @@
   overflow: hidden;
 }
 
-/* ── Variantes de cor: só define os tokens de cor, o resto (tamanho,
-   formato, animação) vem de .btn e dos tamanhos abaixo. Pra criar uma
-   variante nova, copia um bloco desses e troca as cores. ── */
 .primary {
-  --btn-bg: #5d673c;
-  --btn-border-color: rgba(255, 255, 255, 0.3);
-  --btn-text: #ffffff;
-  --icon-bg: #ffffff;
+  background: #5d673c;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
 }
 
 .secondary {
-  --btn-bg: #ffffff;
-  --btn-border-color: rgba(93, 103, 60, 0.5);
-  --btn-text: #5d673c;
-  --icon-bg: #5d673c;
+  background: #ffffff;
+  border: 2px solid rgba(93, 103, 60, 0.5);
+  color: #5d673c;
 }
 
-/* ── Círculo do ícone: a cor vem do --icon-bg da variante (acima), mas o
-   tamanho/padding do círculo é do ÍCONE (abaixo) — a seta e o whatsapp
-   têm tamanhos nativos bem diferentes (13px x 21px), então cada um precisa
-   do seu próprio espaçamento pra o círculo ficar equilibrado. ── */
-.iconWrapper {
-  flex-shrink: 0;
+.arrowWrapper {
+  background: #ffffff;
+  padding: 15px 19px;
   border-radius: 300px;
-  background: var(--icon-bg);
   box-shadow:
     rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
-.iconArrow {
-  padding: 15px 19px;
+.wppWrapper {
+  height: auto;
+  width: 26px;
+  margin-top: 3px;
 }
 
-.iconWpp {
+.wppIconWrapper {
+  background: #5d673c;
+  padding: 15px 15px;
+  border-radius: 300px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px 15px;
+
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .wppIcon {
-  width: 26px;
   height: auto;
+  width: 26px;
   filter: brightness(0) invert(1);
 }
 
-/* ── Tamanhos: cada um só sobrescreve os tokens que muda. Pra criar um
-   tamanho novo, copia um bloco desses. ── */
+/* Variante BTN Small */
+
 .small {
-  --btn-width: 250px;
-  --btn-height: 70px;
-  --btn-font-size: 16px;
+  width: 250px;
+  height: 70px;
+  font-size: 16px;
 }
 
-.small .iconArrow {
+.small .arrowWrapper {
   padding: 14px 18px;
-}
-
-.vsmall {
-  --btn-width: 220px;
-  --btn-height: 60px;
-  --btn-font-size: 15px;
-  --btn-gap: 14px;
-  --btn-padding: 18px 8px;
-}
-
-.vsmall .iconArrow {
-  padding: 12px 16px;
 }
