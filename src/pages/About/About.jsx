@@ -11,22 +11,52 @@ import CtaPartnership from "../../components/CtaPartnership/CtaPartnership";
 
 // Assets
 import lotus from "../../assets/images/LotusFlower.svg";
+import arrowEndding from "../../assets/images/arrowEndding.svg";
 
 // CSS
 import styles from "./About.module.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-const About = () => {
+const About = ({ isPage = false }) => {
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
   const h1Ref = useRef(null);
   const h2Ref = useRef(null);
   const paragraphRef = useRef(null);
   const imgRef = useRef(null);
+  const pageHeroRef = useRef(null);
+  const pageHeroArrowRef = useRef(null);
 
   useGSAP(
     (_context, contextSafe) => {
+      // Só na rota solo (/sobre) a página abre com esse bloco como primeira
+      // coisa na tela — sem ele, ficava em branco até o usuário rolar o
+      // bastante pra entrar no pin do texto (que só revela com scroll).
+      // Embutido na Home isso não é problema (tem Hero+Products antes), por
+      // isso só roda quando isPage. Toca na hora, sem esperar scroll nem a
+      // fonte carregar — é um parágrafo simples, não tem SplitText aqui
+      // então não sofre do bug de reflow que o resto do componente tem.
+      if (isPage) {
+        gsap.from(pageHeroRef.current.children, {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          stagger: 0.12,
+          delay: 0.2,
+          ease: "power3.out",
+        });
+
+        gsap.to(pageHeroArrowRef.current, {
+          y: 6,
+          duration: 0.6,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: 1,
+        });
+      }
+
       // O h1/h2/p usam DM Sans (Google Fonts, display:swap — ver global.css).
       // Se o SplitText mede/quebra as linhas ANTES da fonte terminar de
       // carregar, o texto reflui pra quebras diferentes quando ela troca
@@ -145,6 +175,16 @@ const About = () => {
 
   return (
     <section className={styles.aboutSection} ref={sectionRef}>
+      {isPage && (
+        <div className={styles.pageHero} ref={pageHeroRef}>
+          <p className={styles.pageHeroLabel}>Sobre nós</p>
+          <p className={styles.pageHeroText}>
+            Role para conhecer a jornada da Flor da Mata
+          </p>
+          <img ref={pageHeroArrowRef} src={arrowEndding} alt="" />
+        </div>
+      )}
+
       <div className={styles.introPin} ref={pinRef}>
         <div className={styles.introBlock}>
           <h1 ref={h1Ref}>
