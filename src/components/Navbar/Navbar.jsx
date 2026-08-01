@@ -1,5 +1,5 @@
 // Libraries
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -14,11 +14,17 @@ import styles from "./Navbar.module.css";
 const Navbar = () => {
   const navigate = useNavigate();
   const navRef = useRef(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogoClick = () => {
     navigate("/");
     window.scrollTo(0, 0);
+    setIsMenuOpen(false);
   };
+
+  function closeMenu() {
+    setIsMenuOpen(false);
+  }
 
   useGSAP(
     () => {
@@ -45,26 +51,38 @@ const Navbar = () => {
         />
       </NavLink>
       <div className={styles.container}>
-        <ul className={styles.navLinks}>
+        <ul
+          className={`${styles.navLinks} ${isMenuOpen ? styles.navLinksOpen : ""}`}
+        >
           <li>
-            <NavLink to="/produtos" className={styles.link}>
+            <NavLink to="/produtos" className={styles.link} onClick={closeMenu}>
               Produtos
             </NavLink>
           </li>
           <li>
-            <NavLink to="/sobre" className={styles.link}>
+            <NavLink to="/sobre" className={styles.link} onClick={closeMenu}>
               Sobre
             </NavLink>
           </li>
           <li>
-            <NavLink to="/seja-parceiro" className={styles.link}>
+            <NavLink
+              to="/seja-parceiro"
+              className={styles.link}
+              onClick={closeMenu}
+            >
               Seja Parceiro
             </NavLink>
           </li>
         </ul>
-        {/* <button className={styles.hamburger}>
-          <img src={burg} alt="Botão do menu" />
-        </button> */}
+        <button
+          className={styles.hamburger}
+          onClick={() => setIsMenuOpen((open) => !open)}
+          aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={isMenuOpen}
+          type="button"
+        >
+          <img src={burg} alt="" />
+        </button>
       </div>
     </nav>
   );

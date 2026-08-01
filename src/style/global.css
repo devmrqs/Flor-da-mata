@@ -20,8 +20,23 @@ body {
   overflow: hidden;
 }
 
+/* padding-top compensa o navbar fixo (App.module.css .containerHeader +
+   Navbar.module.css .navbar) — soma "top" do container com a altura do
+   navbar em cada breakpoint. Os três valores têm que mudar juntos. */
 #smooth-content {
   overflow: visible;
   width: 100%;
-  padding-top: 125px;
+  padding-top: 5.25rem; /* 16px (top) + 68px (navbar 4.25rem) */
+}
+
+@media (min-width: 48rem) {
+  #smooth-content {
+    padding-top: 6.25rem; /* 24px + 76px (navbar 4.75rem) */
+  }
+}
+
+@media (min-width: 64rem) {
+  #smooth-content {
+    padding-top: 7.8125rem; /* 40px + 85px (navbar 5.3125rem) = 125px original */
+  }
 }

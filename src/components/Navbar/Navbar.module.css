@@ -1,64 +1,163 @@
+/* ── Breakpoints do projeto (mobile-first): base = mobile (sem media
+   query), tablet a partir de 48rem (768px), desktop a partir de 64rem
+   (1024px). Mesma convenção usada em App.module.css e global.css pro
+   offset do header — os três precisam mudar juntos. ── */
+
 .navbar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: relative; /* ancora o dropdown do menu mobile */
   background-color: #fffefa;
-  height: 85px;
-  padding: 0 70px 0 70px;
+  height: 4.25rem;
+  padding: 0 1.25rem;
   border: 0.2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 20px;
-  max-width: 1580px;
-  width: min(1580px, calc(100% - 450px));
+  border-radius: 1.25rem;
+  width: calc(100% - 2rem);
+  max-width: 98.75rem; /* 1580px — mesmo teto do desenho original */
   user-select: none;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
 
 .logo {
-  width: 110px;
-  height: 55px;
+  width: 5.5rem;
+  height: auto;
 }
 
 .container {
   display: flex;
   align-items: center;
-  gap: 60px;
 }
 
+/* Fechado no mobile: vira um dropdown ancorado embaixo do navbar,
+   aberto via .navLinksOpen (classe extra, controlada pelo estado do
+   hamburger em Navbar.jsx). */
 .navLinks {
-  display: flex;
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  right: 0;
+  left: 0;
+  flex-direction: column;
+  gap: 0.25rem;
   list-style: none;
-  gap: 60px;
+  background: #fffefa;
+  border: 0.2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 1.25rem;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 4px 12px;
+  padding: 0.5rem;
+}
+
+.navLinksOpen {
+  display: flex;
+}
+
+.navLinks li {
+  width: 100%;
 }
 
 .link {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 0.9375rem;
+  width: 100%;
   font-family: "DM Sans", sans-serif;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.8);
-  font-size: 21px;
+  font-size: 1.0625rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
   position: relative;
   transition:
     color 0.3s ease,
+    background-color 0.3s ease,
     transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
   transform-origin: center;
 }
 
 .hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
   margin: 0;
-  width: 50px;
-  height: 50px;
+  width: 2.25rem;
+  height: 2.25rem;
   opacity: 90%;
   filter: drop-shadow(1.5px 1.5px 0 rgba(0, 0, 0, 0.3));
 }
 
+.hamburger img {
+  width: 100%;
+  height: auto;
+}
+
 .link:hover {
   color: #b5713f;
+  background-color: rgba(181, 113, 63, 0.08);
   transform: scale(1.02);
+}
+
+/* ── Tablet: 48rem (768px) ── */
+@media (min-width: 48rem) {
+  .navbar {
+    height: 4.75rem;
+    padding: 0 2rem;
+  }
+
+  .logo {
+    width: 6rem;
+  }
+}
+
+/* ── Desktop: 64rem (1024px) — links voltam a ficar na régua horizontal,
+   hamburger some. ── */
+@media (min-width: 64rem) {
+  .navbar {
+    height: 5.3125rem; /* 85px */
+    padding: 0 4.375rem; /* 70px */
+  }
+
+  .logo {
+    width: 6.875rem; /* 110px */
+    height: 3.4375rem; /* 55px */
+  }
+
+  .container {
+    gap: 3.75rem;
+  }
+
+  .navLinks {
+    display: flex;
+    position: static;
+    flex-direction: row;
+    gap: 3.75rem;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .navLinks li {
+    width: auto;
+  }
+
+  .link {
+    width: auto;
+    font-size: 1.3125rem; /* 21px */
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .link:hover {
+    background-color: transparent;
+  }
+
+  .hamburger {
+    display: none;
+  }
 }
