@@ -5,9 +5,24 @@
   text-align: center;
 }
 
-.naturezaImg {
+.naturezaSvg {
+  display: block;
   width: 72vw;
   max-width: 1522px;
   height: auto;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+}
+
+.naturezaText {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  font-size: 225px;
+  transform: scaleY(1.05);
+}
+
+.naturezaGrainLayer {
+  mix-blend-mode: overlay;
+  opacity: 0.55;
+  pointer-events: none;
 }

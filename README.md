@@ -10,6 +10,5 @@
 [![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=black)](https://gsap.com)
 [![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://figma.com)
  
-[Ver site](#) · [Ver no Figma](#) · [Processo de design](#-o-processo)
  
 </div>

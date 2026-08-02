@@ -6,6 +6,7 @@
   position: relative;
   z-index: 10;
   background-color: #fffcf8;
+  user-select: none;
 }
 
 .productsPage {
