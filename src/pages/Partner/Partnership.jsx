@@ -15,9 +15,7 @@ import styles from "./Partnership.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Textos sempre entram de baixo pra cima (padrão usado em Seals/CategoryCarousel);
-// as imagens (placeholders) entram da direita pra esquerda, independente do
-// lado em que o bloco fica na tela (rows alternadas via .reverse).
+// texto entra de baixo, imagem entra da direita
 const textIn = { opacity: 0, y: 24, duration: 0.5, ease: "power3.out" };
 const imageIn = { opacity: 0, x: 100, duration: 0.7, ease: "power3.out" };
 
@@ -48,13 +46,7 @@ const Partnership = ({ isPage = false }) => {
         revealOnScroll(heroImageTargets, imageIn, `.${styles.hero}`);
       }
 
-      // Se chegou aqui pela transição do SVG (CTA do About/Products), o
-      // "playOut" ainda tá rodando por cima. Precisa esconder o hero JÁ (senão
-      // ele fica visível por baixo do SVG encolhendo) e só animar pra dentro
-      // quando o "playOut" terminar — por isso usa set+to aqui, não from()
-      // (from() capturaria o valor já escondido como destino e não animaria
-      // nada). Chegando direto (URL/refresh), não há SVG rodando: revela na
-      // hora, do jeito padrão (from + ScrollTrigger).
+      // chegando via transição do SVG, esconde o hero até o playOut terminar
       let unsubscribe;
       if (isTransitioning.current) {
         gsap.set(heroTextTargets, { opacity: 0, y: 24 });

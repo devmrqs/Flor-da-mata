@@ -23,17 +23,10 @@ const Timeline = () => {
       const cards = cardRefs.current.filter(Boolean);
       if (!cards.length) return;
 
-      // Cabeçalho e cards entram na MESMA timeline presa — o título some
-      // junto com os cards no lugar do próprio "pulinho" de escala do
-      // ProductModal, um de cada vez, conforme o scroll avança (e sai na
-      // ordem inversa se você subir de novo).
       gsap.set(headerRef.current.children, { opacity: 0, y: 30 });
       gsap.set(cards, { opacity: 0, scale: 0.8 });
 
-      // pinSpacing precisa ser explícito (o padrão implícito não estava
-      // reservando o espaço extra de scroll aqui, possivelmente por causa
-      // do ScrollSmoother) — sem isso, o pin só guardava a altura natural
-      // do wrapper, ignorando a distância pedida em "end".
+      // pinSpacing explícito, senão o pin ignora o "end" pedido
       gsap
         .timeline({
           scrollTrigger: {

@@ -1,11 +1,9 @@
-/* ── Container ── */
 .carouselContainer {
   width: 100%;
   overflow: hidden;
   user-select: none;
 }
 
-/* ── Track ── */
 .track {
   display: flex;
   overflow-x: auto;
@@ -27,7 +25,6 @@
   cursor: grabbing;
 }
 
-/* ── Card Wrapper ── */
 .cardWrapper {
   position: relative;
   display: flex;
@@ -36,7 +33,6 @@
   width: 350px;
 }
 
-/* ── Card ── */
 .card {
   position: relative;
   width: 350px;
@@ -65,7 +61,6 @@
   outline-offset: 4px;
 }
 
-/* ── Imagem ── */
 .cardImage {
   position: absolute;
   inset: 0;
@@ -74,7 +69,6 @@
   object-fit: cover;
 }
 
-/* ── Overlay escuro ── */
 .card::after {
   content: "";
   position: absolute;
@@ -90,7 +84,6 @@
   opacity: 1;
 }
 
-/* ── Conteúdo ── */
 .cardContent {
   position: absolute;
   inset: 0;
@@ -113,7 +106,6 @@
   font-weight: 300;
 }
 
-/* ── Descrição ── */
 .cardContent p {
   color: rgba(255, 255, 255, 0.9);
   font-size: 20px;
@@ -127,7 +119,6 @@
   opacity: 1;
 }
 
-/* ── Arrow ── */
 .cardContent .arrowCard {
   opacity: 0;
   transform: rotate(0deg);

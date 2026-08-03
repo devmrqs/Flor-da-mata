@@ -10,7 +10,6 @@
   margin-top: -105px;
 }
 
-/* ── Hero ── */
 .hero {
   width: 1740px;
   display: flex;
@@ -56,7 +55,6 @@
   border-radius: 40px;
 }
 
-/* ── Motivos ── */
 .reasons {
   width: 1740px;
   padding: 100px;
@@ -123,7 +121,6 @@
   border-radius: 32px;
 }
 
-/* ── Como funciona + Formulário ── */
 .applyBlock {
   width: 1740px;
   background-color: #5d673c;
@@ -196,7 +193,6 @@
   align-self: flex-start;
 }
 
-/* ── Contato ── */
 .contactBlock {
   max-width: 500px;
   margin: 0 auto 70px;

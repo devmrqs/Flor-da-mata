@@ -1,7 +1,4 @@
-// Cada arquivo em ./products/{slug}.js é registrado automaticamente pelo
-// nome — pra cadastrar os produtos de uma categoria nova, só criar o
-// arquivo (default export = array de produtos), sem precisar editar nada
-// aqui.
+// registra ./products/{slug}.js automaticamente pelo nome do arquivo
 const productModules = import.meta.glob("./products/*.js", {
   eager: true,
   import: "default",

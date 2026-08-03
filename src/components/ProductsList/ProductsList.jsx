@@ -7,9 +7,7 @@ import ProductModal from "../ProductModal/ProductModal";
 import styles from "./ProductsList.module.css";
 
 const ProductsList = ({ category, categoryImage, variant, panelRef }) => {
-  // Índice no array, não o produto em si — a navegação (setinhas) dentro
-  // do modal precisa de uma posição confiável, e o slug não é garantido
-  // único (dois produtos com o mesmo slug quebrariam uma busca por slug).
+  // Índice no array, não o produto em si — slug não é garantido único
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   return (
@@ -58,9 +56,7 @@ const ProductsList = ({ category, categoryImage, variant, panelRef }) => {
         </div>
       </div>
 
-      {/* key não é o índice do produto — trocar de produto (setinhas)
-          precisa manter o modal montado pra animar o slide entre eles.
-          Só remonta de fato ao abrir/fechar (entrada/saída em zoom). */}
+      {/* key só muda ao abrir/fechar — mantém o modal montado ao navegar */}
       <ProductModal
         key={selectedIndex !== null ? "open" : "closed"}
         products={category.products}

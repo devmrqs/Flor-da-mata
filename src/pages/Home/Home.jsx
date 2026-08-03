@@ -71,8 +71,7 @@ const Home = () => {
         delay: 1.5,
       });
 
-      // O pin só é criado DEPOIS que a entrada termina completamente,
-      // evitando a briga de opacidade entre os dois sistemas de animação
+      // pin só é criado depois da entrada terminar, evita brigar de opacidade
       tl.eventCallback("onComplete", () => {
         const pinTl = gsap.timeline({
           scrollTrigger: {

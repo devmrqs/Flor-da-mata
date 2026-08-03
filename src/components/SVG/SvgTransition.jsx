@@ -13,11 +13,7 @@ import styles from "./SvgTransition.module.css";
 
 gsap.registerPlugin(DrawSVGPlugin);
 
-// Quem clica no botão não sabe (nem precisa saber) que isso é um SVG sendo
-// desenhado — só chama `ref.current.playIn(onComplete)` / `playOut(onComplete)`.
-// Precisa viver fora das rotas (ver SvgTransitionProvider) pra sobreviver à
-// troca de página: o "playOut" (a saída) tem que acontecer com o site de
-// destino já carregado por baixo, não antes de navegar.
+// expõe playIn(onComplete)/playOut(onComplete) via ref
 const SvgTransition = forwardRef((_props, ref) => {
   const pathRef = useRef(null);
 
@@ -29,7 +25,7 @@ const SvgTransition = forwardRef((_props, ref) => {
   );
 
   useImperativeHandle(ref, () => ({
-    // desenha e engrossa — cobre a página atual antes de trocar de rota
+    // cobre a página atual antes de trocar de rota
     playIn(onComplete) {
       gsap.to(pathRef.current, {
         drawSVG: "100%",
@@ -39,7 +35,7 @@ const SvgTransition = forwardRef((_props, ref) => {
         onComplete,
       });
     },
-    // desdesenha e afina — roda com a página nova já carregada por baixo
+    // roda com a página nova já carregada por baixo
     playOut(onComplete) {
       gsap.to(pathRef.current, {
         drawSVG: "0%",
@@ -75,18 +71,14 @@ const SvgTransition = forwardRef((_props, ref) => {
 
 SvgTransition.displayName = "SvgTransition";
 
-// Precisa envolver as rotas (não ficar dentro de uma página) pra sobreviver
-// à troca de rota: o "playIn" cobre a página atual, o navigate troca o
-// conteúdo por baixo, e só então o "playOut" revela a página nova.
+// envolve as rotas pra sobreviver à troca de página
 export const SvgTransitionProvider = ({ children }) => {
   const navigate = useNavigate();
   const svgRef = useRef(null);
   const isAnimating = useRef(false);
   const pendingRevealRef = useRef(null);
 
-  // A página de destino usa isso pra saber se chegou via transição (e nesse
-  // caso só revelar sua própria entrada quando o "playOut" terminar) ou via
-  // navegação direta (URL/refresh), quando não há SVG nenhum rodando.
+  // página de destino usa isso pra saber se chegou via transição
   const onReveal = useCallback((callback) => {
     pendingRevealRef.current = callback;
     return () => {
@@ -103,8 +95,7 @@ export const SvgTransitionProvider = ({ children }) => {
 
       svgRef.current.playIn(() => {
         navigate(path);
-        // espera o próximo frame pra garantir que a página nova já foi
-        // montada/pintada por baixo antes de começar a revelar ela.
+        // espera a página nova montar/pintar por baixo antes de revelar
         requestAnimationFrame(() => {
           svgRef.current.playOut(() => {
             isAnimating.current = false;

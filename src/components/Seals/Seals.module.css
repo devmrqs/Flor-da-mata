@@ -9,7 +9,6 @@
   user-select: none;
 }
 
-/* ── Cartão principal: texto institucional + selos ── */
 .card {
   display: flex;
   flex-wrap: wrap;
@@ -59,7 +58,6 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
-/* ── Selos ── */
 .sealsWrap {
   display: flex;
   flex-wrap: wrap;
@@ -140,7 +138,6 @@
   opacity: 0.4;
 }
 
-/* ── Barra final: propósito + tagline ── */
 .banner {
   display: flex;
   flex-wrap: wrap;

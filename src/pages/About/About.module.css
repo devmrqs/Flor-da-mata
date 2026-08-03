@@ -2,8 +2,6 @@
   width: 100%;
 }
 
-/* ── Hero simples, só na rota solo (/sobre) — avisa que dá pra rolar pra
-   ver a história, evita a página parecer em branco no load. ── */
 .pageHero {
   display: flex;
   flex-direction: column;
@@ -36,7 +34,6 @@
   margin-top: 1.5rem;
 }
 
-/* ── Pin: os 3 blocos ficam empilhados na mesma posição, um por vez ── */
 .introPin {
   position: relative;
   width: 100%;
@@ -64,10 +61,7 @@
   font-family: "DM Sans", sans-serif;
   color: rgba(0, 0, 0, 0.9);
   font-weight: 200;
-  /* "ch" é relativo ao font-size do próprio elemento — nesse tamanho de
-     fonte, 40ch passava da largura do container e não quebrava a linha.
-     Valor fixo em rem evita isso mas ainda deixa o bloco quase tão largo
-     quanto o container, preservando a leitura em ~2 linhas de antes. */
+
   max-width: 80rem;
 }
 

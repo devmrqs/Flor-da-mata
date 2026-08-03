@@ -30,13 +30,7 @@ const About = ({ isPage = false }) => {
 
   useGSAP(
     (_context, contextSafe) => {
-      // Só na rota solo (/sobre) a página abre com esse bloco como primeira
-      // coisa na tela — sem ele, ficava em branco até o usuário rolar o
-      // bastante pra entrar no pin do texto (que só revela com scroll).
-      // Embutido na Home isso não é problema (tem Hero+Products antes), por
-      // isso só roda quando isPage. Toca na hora, sem esperar scroll nem a
-      // fonte carregar — é um parágrafo simples, não tem SplitText aqui
-      // então não sofre do bug de reflow que o resto do componente tem.
+      // só na rota solo (/sobre) — evita tela em branco antes do scroll
       if (isPage) {
         gsap.from(pageHeroRef.current.children, {
           opacity: 0,
@@ -57,34 +51,11 @@ const About = ({ isPage = false }) => {
         });
       }
 
-      // O h1/h2/p usam DM Sans (Google Fonts, display:swap — ver global.css).
-      // Se o SplitText mede/quebra as linhas ANTES da fonte terminar de
-      // carregar, o texto reflui pra quebras diferentes quando ela troca
-      // (FOUT) e os offsets de y já aplicados por char ficam presos na
-      // posição antiga — o texto aparece "picotado". "document.fonts.ready"
-      // sozinho não é suficiente aqui: ele só espera fontes que o navegador
-      // JÁ começou a carregar, e nesse ponto (logo no mount) o DM Sans ainda
-      // pode nem ter sido solicitado. "document.fonts.load(...)" força esse
-      // carregamento — usa peso 400 (não 200, o peso real do texto) porque
-      // o Chromium não casa document.fonts.load() com um peso arbitrário
-      // contra uma fonte variável (DM Sans é servida com weight "100 1000",
-      // uma faixa); 400 corresponde ao mesmo arquivo variável, então ainda
-      // aguarda o download real. contextSafe garante que os tweens criados
-      // aqui dentro (fora do corpo síncrono do useGSAP) ainda sejam
-      // revertidos certinho quando o componente desmontar.
-      //
-      // "cancelled" evita rodar o setup() duas vezes: em dev, o StrictMode
-      // monta -> limpa -> monta de novo antes da Promise de fonte resolver,
-      // e sem essa guarda as DUAS montagens acabam chamando setup() (a
-      // limpeza da primeira já rodou antes dela sequer ter criado algo pra
-      // reverter), gerando dois SplitText/duas timelines brigando pelos
-      // mesmos chars.
+      // espera a fonte carregar de verdade antes do SplitText medir (evita FOUT/reflow)
+      // cancelled evita rodar o setup duas vezes (StrictMode monta/limpa/monta)
       let cancelled = false;
       const setup = contextSafe(() => {
-        // Os 3 blocos ficam empilhados na mesma posição (centro da tela) — só
-        // um aparece por vez, texto revelado por caractere (SplitText), depois
-        // some pra dar lugar ao próximo. Tudo preso (pin) num scroll bem mais
-        // curto do que os ~200vh de blocos separados que tinha antes.
+        // 3 blocos empilhados no centro, revelados um por vez (char a char) e presos via pin
         const split1 = SplitText.create(h1Ref.current, {
           type: "chars, words",
         });
@@ -108,14 +79,7 @@ const About = ({ isPage = false }) => {
           duration: 0.65,
           ease: "power3.out",
         };
-        // Como a timeline inteira é presa ao scroll (scrub), a duração real
-        // de cada trecho é o quanto de scroll o usuário faz naquele pedaço —
-        // não segundos de verdade. Com charsOut do mesmo tamanho do charsIn,
-        // um scroll rápido normal cobria a fatia inteira da saída em poucos
-        // px, então ela sempre parecia "sumir" de vez, não importa a easing.
-        // Deixando a saída bem mais longa (duration/stagger maiores) que a
-        // entrada, ela passa a ocupar uma fatia bem maior do scroll total —
-        // mesmo scrollando rápido, dá tempo de ver o texto se dissolvendo.
+        // saída mais longa que a entrada, senão some rápido demais no scrub
         const charsOut = {
           opacity: 0,
           y: -20,
@@ -124,10 +88,7 @@ const About = ({ isPage = false }) => {
           ease: "sine.inOut",
         };
 
-        // pinSpacing precisa ser explícito nesse projeto — sem isso o pin só
-        // reserva a altura natural do wrapper, ignorando o "end" pedido.
-        // "end" aumentado de 2800 pra 3400 pra abrir espaço extra pro charsIn
-        // mais pesado, sem espremer a saída e a pausa de leitura entre blocos.
+        // pinSpacing explícito, senão o pin ignora o "end" pedido
         gsap
           .timeline({
             scrollTrigger: {

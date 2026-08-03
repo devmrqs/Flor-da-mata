@@ -1,21 +1,16 @@
-/* ── Breakpoints do projeto (mobile-first): base = mobile (sem media
-   query), tablet a partir de 48rem (768px), desktop a partir de 64rem
-   (1024px). Mesma convenção usada em App.module.css e global.css pro
-   offset do header — os três precisam mudar juntos. ── */
-
 .navbar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  position: relative; /* ancora o dropdown do menu mobile */
+  position: relative;
   background-color: #fffefa;
   height: 4.25rem;
   padding: 0 1.25rem;
   border: 0.2px solid rgba(0, 0, 0, 0.2);
   border-radius: 1.25rem;
   width: calc(100% - 2rem);
-  max-width: 98.75rem; /* 1580px — mesmo teto do desenho original */
+  max-width: 98.75rem;
   user-select: none;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
@@ -30,9 +25,6 @@
   align-items: center;
 }
 
-/* Fechado no mobile: vira um dropdown ancorado embaixo do navbar,
-   aberto via .navLinksOpen (classe extra, controlada pelo estado do
-   hamburger em Navbar.jsx). */
 .navLinks {
   display: none;
   position: absolute;
@@ -102,7 +94,6 @@
   transform: scale(1.02);
 }
 
-/* ── Tablet: 48rem (768px) ── */
 @media (min-width: 48rem) {
   .navbar {
     height: 4.75rem;
@@ -114,17 +105,15 @@
   }
 }
 
-/* ── Desktop: 64rem (1024px) — links voltam a ficar na régua horizontal,
-   hamburger some. ── */
 @media (min-width: 64rem) {
   .navbar {
-    height: 5.3125rem; /* 85px */
-    padding: 0 4.375rem; /* 70px */
+    height: 5.3125rem;
+    padding: 0 4.375rem;
   }
 
   .logo {
-    width: 6.875rem; /* 110px */
-    height: 3.4375rem; /* 55px */
+    width: 6.875rem;
+    height: 3.4375rem;
   }
 
   .container {
@@ -148,7 +137,7 @@
 
   .link {
     width: auto;
-    font-size: 1.3125rem; /* 21px */
+    font-size: 1.3125rem;
     padding: 0;
     border-radius: 0;
   }

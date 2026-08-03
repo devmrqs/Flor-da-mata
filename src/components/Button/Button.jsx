@@ -33,7 +33,6 @@ const Button = ({ label, variant, icon, size, onClick }) => {
   function playEnterAnimation() {
     gsap.killTweensOf(getAnimatedElements());
 
-    // Texto e spacer colapsam
     gsap.to([textRef.current, spacerRef.current], {
       width: 0,
       opacity: 0,
@@ -42,14 +41,13 @@ const Button = ({ label, variant, icon, size, onClick }) => {
       ease: EASE_SOFT,
     });
 
-    // Gap do botão fecha junto
     gsap.to(btnRef.current, {
       gap: 0,
       duration: DURATION_MAIN,
       ease: EASE_MAIN,
     });
 
-    // Círculo da seta cresce, preenchendo o espaço liberado
+    // seta cresce pra preencher o espaço liberado pelo texto
     gsap.to(arrowWrapperRef.current, {
       flexGrow: 1,
       duration: DURATION_MAIN,
@@ -60,7 +58,6 @@ const Button = ({ label, variant, icon, size, onClick }) => {
   function playLeaveAnimation() {
     gsap.killTweensOf(getAnimatedElements());
 
-    // Círculo da seta encolhe de volta
     gsap.to(arrowWrapperRef.current, {
       flexGrow: 0,
       duration: DURATION_MAIN,
@@ -69,14 +66,13 @@ const Button = ({ label, variant, icon, size, onClick }) => {
         gsap.set(arrowWrapperRef.current, { clearProps: "flexGrow" }),
     });
 
-    // Gap do botão reabre
     gsap.to(btnRef.current, {
       gap: 20,
       duration: DURATION_MAIN,
       ease: EASE_MAIN,
     });
 
-    // Texto reaparece com leve leve deslocamento (dá sensação de "assentar")
+    // pequeno deslocamento no texto dá sensação de "assentar"
     gsap.fromTo(
       textRef.current,
       { width: 0, opacity: 0, x: 12 },
@@ -92,7 +88,6 @@ const Button = ({ label, variant, icon, size, onClick }) => {
       },
     );
 
-    // Spacer reaparece
     gsap.to(spacerRef.current, {
       width: "",
       opacity: 1,

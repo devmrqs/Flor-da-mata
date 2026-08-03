@@ -38,10 +38,6 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
-/* ── Pin: a seção prende a tela até todos os cards aparecerem ── */
-/* O pin gruda o topo do wrapper em y=0 da viewport — como a Navbar é fixa
-   (40px a 125px, acima em z-index) por cima de tudo, o cabeçalho precisa
-   de um respiro equivalente a essa altura pra não nascer atrás dela. */
 .pinWrapper {
   position: relative;
   width: 100%;
@@ -54,9 +50,6 @@
   gap: clamp(2rem, 5vw, 3.5rem);
 }
 
-/* Cabeçalho e trilha de cards formam um único bloco centralizado na tela;
-   o gap acima (não um offset fixo) é o que mantém a timeline logo abaixo
-   do texto de abertura, de forma proporcional ao viewport. */
 .row {
   position: relative;
   width: 100%;
@@ -69,7 +62,6 @@
   padding: 0 4vw;
 }
 
-/* ── Trilha estática conectando os cards ── */
 .rail {
   position: absolute;
   top: 244px;
@@ -81,7 +73,6 @@
   user-select: none;
 }
 
-/* ── Card ── */
 .card {
   position: relative;
   z-index: 1;

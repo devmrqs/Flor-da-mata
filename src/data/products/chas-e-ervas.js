@@ -1,6 +1,4 @@
-// slug é o identificador único do produto (usado como key e pra achar as
-// imagens em src/assets/images/products/{categoria}/{slug}-N.jpg) — não
-// precisa de um "id" numérico separado.
+// slug identifica o produto e localiza suas imagens (products/{categoria}/{slug}-N.jpg)
 export default [
   {
     slug: "cha-de-alcachofra",

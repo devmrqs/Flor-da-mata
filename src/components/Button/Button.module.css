@@ -1,7 +1,7 @@
 .btn {
   display: flex;
   flex-direction: row;
-  justify-content: space-between; /* era center — isso resolve o "pulo pro centro" */
+  justify-content: space-between;
   align-items: center;
   width: 270px;
   height: 75px;
@@ -10,7 +10,7 @@
   gap: 20px;
   border-radius: 80px;
   user-select: none;
-  overflow: hidden; /* evita qualquer vazamento visual durante a transição */
+  overflow: hidden;
   box-shadow:
     rgba(0, 0, 0, 0.3) 0px 2px 4px 0px,
     rgba(0, 0, 0, 0.2) 0px 7px 4px -3px,
@@ -70,8 +70,6 @@
   width: 26px;
   filter: brightness(0) invert(1);
 }
-
-/* Variante BTN Small */
 
 .small {
   width: 250px;

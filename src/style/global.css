@@ -1,10 +1,4 @@
-/* DM Sans/Inter carregadas via <link> no index.html (não @import) — um
-   @import dentro de um CSS que o Vite injeta via JS só é descoberto depois
-   que o próprio JS roda, então o React já podia montar e o SplitText (About)
-   já podia medir o texto ANTES da fonte sequer ser conhecida pelo browser,
-   causando reflow (FOUT) com os chars já posicionados. Um <link> no <head>
-   é render-blocking e garante que a fonte já está registrada antes do app
-   montar. */
+/* Fontes carregadas via <link> no index.html, não @import (evita FOUT) */
 
 * {
   margin: 0;
@@ -20,23 +14,21 @@ body {
   overflow: hidden;
 }
 
-/* padding-top compensa o navbar fixo (App.module.css .containerHeader +
-   Navbar.module.css .navbar) — soma "top" do container com a altura do
-   navbar em cada breakpoint. Os três valores têm que mudar juntos. */
+/* padding-top compensa a navbar fixa, some breakpoint por breakpoint */
 #smooth-content {
   overflow: visible;
   width: 100%;
-  padding-top: 5.25rem; /* 16px (top) + 68px (navbar 4.25rem) */
+  padding-top: 5.25rem;
 }
 
 @media (min-width: 48rem) {
   #smooth-content {
-    padding-top: 6.25rem; /* 24px + 76px (navbar 4.75rem) */
+    padding-top: 6.25rem;
   }
 }
 
 @media (min-width: 64rem) {
   #smooth-content {
-    padding-top: 7.8125rem; /* 40px + 85px (navbar 5.3125rem) = 125px original */
+    padding-top: 7.8125rem;
   }
 }

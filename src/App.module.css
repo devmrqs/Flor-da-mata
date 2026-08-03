@@ -1,6 +1,3 @@
-/* Breakpoints: ver comentário no topo de Navbar.module.css. O "top" daqui
-   soma com a altura do navbar pra formar o padding-top de #smooth-content
-   (global.css) — os dois precisam mudar juntos por breakpoint. */
 .containerHeader {
   position: fixed;
   top: 1rem;
@@ -19,6 +16,6 @@
 
 @media (min-width: 64rem) {
   .containerHeader {
-    top: 2.5rem; /* 40px — valor original */
+    top: 2.5rem;
   }
 }

@@ -35,10 +35,7 @@ function App() {
 
     ScrollTrigger.refresh();
 
-    // Com páginas cheias de imagem (Products, CategoryCarousel), o refresh
-    // acima roda antes delas terminarem de carregar — qualquer ScrollTrigger
-    // mais abaixo na página calcula start/end com a altura ainda incompleta.
-    // Refaz o cálculo assim que a janela (com todas as imagens) carregar.
+    // refaz o cálculo de start/end quando as imagens terminarem de carregar
     const refreshOnLoad = () => ScrollTrigger.refresh();
     if (document.readyState === "complete") {
       refreshOnLoad();

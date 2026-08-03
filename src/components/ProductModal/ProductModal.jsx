@@ -28,11 +28,7 @@ const ProductModal = ({
 }) => {
   const isOpen = initialIndex !== null && initialIndex !== undefined;
 
-  // Índice é a fonte da verdade da navegação (não o produto/slug — dois
-  // produtos podem ter o mesmo slug por engano, e um findIndex por slug
-  // ficaria travado no primeiro que encontrasse). Só muda de verdade ao
-  // abrir/fechar o modal (key no ProductsList); navegar entre produtos da
-  // mesma categoria (setinhas) troca esse estado por dentro, sem desmontar.
+  // Índice, não o produto/slug: slug não é garantido único
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const currentProduct = products?.[currentIndex];
 
@@ -45,10 +41,7 @@ const ProductModal = ({
   const isClosingRef = useRef(false);
   const isNavigatingRef = useRef(false);
 
-  // Entrada: overlay some, modal "salta" pro centro com leve overshoot de
-  // escala, e o conteúdo de texto entra em stagger logo em seguida. Só
-  // roda na abertura de verdade (mount) — navegar entre produtos usa a
-  // transição de slide abaixo, não essa.
+  // Animação de entrada; roda só no mount, não na navegação entre produtos
   useGSAP(
     () => {
       if (!isOpen) return;
@@ -107,13 +100,8 @@ const ProductModal = ({
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < (products?.length ?? 0) - 1;
 
-  // direction: -1 = anterior, 1 = próximo. Não é o conteúdo escorregando
-  // dentro de uma caixa fixa — é o CARD INTEIRO (modalRef: caixa branca,
-  // sombra, cantos arredondados) que sai deslizando pro lado, e depois um
-  // "novo card" surge (mesmo pop de escala da animação de abertura), no
-  // lugar de simplesmente trocar o conteúdo de dentro do mesmo modal.
-  // O sinal é invertido de propósito: clicar na seta da ESQUERDA
-  // (anterior, direction=-1) manda o card pra DIREITA, e vice-versa.
+  // direction: -1 = anterior, 1 = próximo. Sinal invertido de propósito:
+  // seta esquerda manda o card pra direita, e vice-versa.
   function goTo(direction) {
     if (isNavigatingRef.current) return;
     const nextIndex = currentIndex + direction;
@@ -151,8 +139,7 @@ const ProductModal = ({
     }
 
     document.addEventListener("keydown", handleEscKey);
-    // O site usa ScrollSmoother (não scroll nativo) — travar overflow no body
-    // não teria efeito, então pausamos o smoother enquanto o modal está aberto.
+    // pausa o ScrollSmoother enquanto o modal está aberto
     ScrollSmoother.get()?.paused(true);
 
     return () => {
@@ -287,8 +274,6 @@ const ProductModal = ({
               />
             </div>
 
-            {/* Setinhas ficam AQUI (embaixo do CTA, cada uma num canto da
-                parte branca) — não na lateral do modal, sobre a imagem. */}
             {products?.length > 1 && (
               <div className={styles.navRow}>
                 <button

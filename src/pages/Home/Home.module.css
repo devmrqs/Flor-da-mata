@@ -1,7 +1,3 @@
-/* Breakpoints: ver comentário no topo de Navbar.module.css (mobile-first,
-   base = mobile, tablet 48rem, desktop 64rem — 64rem aqui só reaplica os
-   valores originais de antes da responsividade). */
-
 .main {
   display: flex;
   flex-direction: column;
@@ -65,7 +61,6 @@
   width: 100%;
 }
 
-/* ── Tablet: 48rem (768px) ── */
 @media (min-width: 48rem) {
   .main {
     margin-top: 4.5rem;
@@ -90,24 +85,23 @@
   }
 }
 
-/* ── Desktop: 64rem (1024px) — valores originais do desenho ── */
 @media (min-width: 64rem) {
   .main {
-    margin-top: 7.5rem; /* 120px */
+    margin-top: 7.5rem;
   }
 
   .containerBtn {
-    gap: 2.1875rem; /* 35px */
-    margin-bottom: 3.125rem; /* 50px */
+    gap: 2.1875rem;
+    margin-bottom: 3.125rem;
   }
 
   .textA {
-    font-size: 2.8125rem; /* 45px */
+    font-size: 2.8125rem;
     margin-bottom: 0.625rem;
   }
 
   .textSlogan {
-    font-size: 2.0625rem; /* 33px */
-    margin-bottom: 5.625rem; /* 90px */
+    font-size: 2.0625rem;
+    margin-bottom: 5.625rem;
   }
 }

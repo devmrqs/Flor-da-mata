@@ -160,7 +160,7 @@ const CategoryCarousel = () => {
       <div className={styles.track} ref={ref} onMouseDown={onMouseDown}>
         {loopedCategories.map((category, index) => {
           const key = `${category.id}-${index}`;
-          const isActive = expandedKey === key; // agora só UM card bate essa condição
+          const isActive = expandedKey === key;
           const isMounted = mountedKey === key;
 
           return (
