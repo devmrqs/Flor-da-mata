@@ -40,12 +40,6 @@ Funcionalidades de backend (envio real de formulários, autenticação, históri
 - CSS Modules
 - [GSAP](https://gsap.com) (`useGSAP`, ScrollTrigger, ScrollSmoother)
 
-## Animações
-
-O site usa GSAP para animações de entrada, scroll e interação — não só transições de hover. A lógica e as decisões técnicas por trás de cada uma estão documentadas em [ANIMATIONS.md](./ANIMATIONS.md); abaixo, o resultado visual de cada uma.
-
-> Os GIFs abaixo ainda não foram gravados — os espaços já estão prontos, é só gravar e salvar em [`docs/gifs/`](./docs/gifs) com o nome indicado. Ver [docs/gifs/README.md](./docs/gifs/README.md) para o roteiro de cada gravação.
-
 ### Entrada da Home (Hero)
 
 Timeline única e encadeada: título "A" desce, "NATUREZA" sobe com fade, slogan, botões e seta pulando — cada etapa começa antes da anterior terminar.
@@ -64,23 +58,11 @@ Links entram com stagger ao carregar a página; hover é CSS puro (cor + leve sc
 
 <img src="./docs/gifs/navbar-entrance.gif" alt="Entrada dos links da Navbar" width="100%" />
 
-### Botão — hover "engolindo" o texto
-
-No hover do botão `primary`, o texto encolhe até sumir e o círculo da seta cresce até preencher o botão inteiro.
-
-<img src="./docs/gifs/button-hover.gif" alt="Hover do botão primary encolhendo o texto" width="100%" />
-
-### Carrossel de categorias
+### Carrossel de categorias + Modal de produto
 
 Auto-scroll contínuo via `requestAnimationFrame`, pausando ao expandir um card ou abrir o modal de produto.
 
-<img src="./docs/gifs/category-carousel.gif" alt="Auto-scroll do carrossel de categorias e expansão de card" width="100%" />
-
-### Modal de produto
-
-Galeria com thumbnails e seleção de gramagem em cards.
-
-<img src="./docs/gifs/product-modal.gif" alt="Galeria e seleção de gramagem no modal de produto" width="100%" />
+<img src="./docs/gifs/category-carousel.gif" alt="Auto-scroll do carrossel de categorias e expansão de card, galeria e seleção de gramagem no modal de produto" width="100%" />
 
 ### ScrollSmoother
 
