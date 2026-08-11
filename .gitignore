@@ -27,8 +27,6 @@ ANIMATIONS.md
 .vite
 coverage
 
-# Gravações brutas dos GIFs antes da compressão (fica só o resultado final em docs/gifs)
-docs/gifs-raw/
 
 # Arquivos internos do projeto (briefing, contrato, orçamento com o cliente)
 /notes/
