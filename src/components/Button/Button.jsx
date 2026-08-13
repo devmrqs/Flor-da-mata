@@ -14,6 +14,8 @@ const DURATION_MAIN = 0.55;
 const DURATION_SOFT = 0.4;
 const EASE_MAIN = "power4.inOut";
 const EASE_SOFT = "power3.out";
+// precisa espelhar o `gap` do .btn no CSS — é pra cá que a saída volta
+const REST_GAP = 12;
 
 const Button = ({ label, variant, icon, size, onClick }) => {
   const btnRef = useRef(null);
@@ -67,7 +69,7 @@ const Button = ({ label, variant, icon, size, onClick }) => {
     });
 
     gsap.to(btnRef.current, {
-      gap: 20,
+      gap: REST_GAP,
       duration: DURATION_MAIN,
       ease: EASE_MAIN,
     });

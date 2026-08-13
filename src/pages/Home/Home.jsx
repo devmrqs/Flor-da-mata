@@ -82,6 +82,9 @@ const Home = () => {
             pinSpacing: false,
             scrub: 0.8,
             invalidateOnRefresh: true,
+            // barra de endereço do celular some/aparece e muda a altura da
+            // viewport: sem isso o ScrollTrigger recalcula e dá tranco no pin
+            ignoreMobileResize: true,
           },
         });
 
@@ -101,18 +104,24 @@ const Home = () => {
   return (
     <main>
       <section className={styles.main} ref={heroRef}>
-        <p className={styles.textA}>A</p>
-        <div className={styles.naturezaWrapper}>
-          <NaturezaText />
-        </div>
-        <p className={styles.textSlogan}>Nos leva até você!</p>
-        <div className={styles.containerBtn}>
-          <Button label="Solicitar orçamento" variant="primary" icon="arrow" />
-          <Button
-            label="Entrar em contato"
-            variant="secondary"
-            icon="whatsapp"
-          />
+        <div className={styles.heroContent}>
+          <p className={styles.textA}>A</p>
+          <div className={styles.naturezaWrapper}>
+            <NaturezaText />
+          </div>
+          <p className={styles.textSlogan}>Nos leva até você!</p>
+          <div className={styles.containerBtn}>
+            <Button
+              label="Solicitar orçamento"
+              variant="primary"
+              icon="arrow"
+            />
+            <Button
+              label="Entrar em contato"
+              variant="secondary"
+              icon="whatsapp"
+            />
+          </div>
         </div>
         <div className={styles.enddingPage}>
           <p>Nossos produtos</p>

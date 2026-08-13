@@ -1,13 +1,19 @@
+/* Medidas fluidas: encolhem em telas pequenas e chegam ao tamanho original
+   (270x75) a partir de ~990px, então o desktop fica igual ao de antes.
+   min-width: fit-content é a rede de segurança — se o rótulo não couber na
+   largura calculada, o botão cresce em vez de cortar o texto (o overflow:
+   hidden aqui existe para a animação de "engolir", não para truncar). */
 .btn {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 270px;
-  height: 75px;
-  font-size: 18px;
-  padding: 25px 10px;
-  gap: 20px;
+  width: clamp(15.625rem, 13.5rem + 5.5vw, 16.875rem);
+  min-width: fit-content;
+  height: clamp(4rem, 3.5rem + 1.5vw, 4.6875rem);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  padding: 0 0.625rem;
+  gap: 12px; /* espelhado em REST_GAP no Button.jsx */
   border-radius: 80px;
   user-select: none;
   overflow: hidden;
@@ -15,6 +21,13 @@
     rgba(0, 0, 0, 0.3) 0px 2px 4px 0px,
     rgba(0, 0, 0, 0.2) 0px 7px 4px -3px,
     inset rgba(0, 0, 0, 0.1) 0px -3px 0px 0px;
+}
+
+/* contrapeso invisível: com space-between, mantém o rótulo centrado
+   em vez de colado na borda esquerda */
+.spacer {
+  flex: 0 0 auto;
+  width: 0;
 }
 
 .label {
@@ -34,9 +47,17 @@
   color: #5d673c;
 }
 
-.arrowWrapper {
-  background: #ffffff;
-  padding: 15px 19px;
+/* Os dois círculos tinham diâmetros diferentes (43px na seta, 56px no
+   WhatsApp) porque o tamanho saía de padding + ícone, e os ícones têm
+   tamanhos distintos. Agora o diâmetro é explícito e igual nos dois. */
+.arrowWrapper,
+.wppIconWrapper {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(2.75rem, 2.4rem + 1vw, 3.125rem);
+  height: clamp(2.75rem, 2.4rem + 1vw, 3.125rem);
   border-radius: 300px;
   box-shadow:
     rgba(0, 0, 0, 0.4) 0px 2px 4px,
@@ -44,39 +65,36 @@
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
-.wppWrapper {
+.arrowWrapper {
+  background: #ffffff;
+}
+
+/* Calibrado em % do círculo, não em px iguais: a seta é traço fino sobre
+   fundo claro (lê leve), o WhatsApp é massa sólida branca sobre verde
+   (lê pesado). Alvo: seta ~34%, WhatsApp ~44% do diâmetro. */
+.arrowWrapper img {
+  width: clamp(0.9375rem, 0.88rem + 0.255vw, 1.0625rem);
   height: auto;
-  width: 26px;
-  margin-top: 3px;
 }
 
 .wppIconWrapper {
   background: #5d673c;
-  padding: 15px 15px;
-  border-radius: 300px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  box-shadow:
-    rgba(0, 0, 0, 0.4) 0px 2px 4px,
-    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .wppIcon {
+  width: clamp(1.25rem, 1.19rem + 0.26vw, 1.375rem);
   height: auto;
-  width: 26px;
   filter: brightness(0) invert(1);
 }
 
 .small {
-  width: 250px;
-  height: 70px;
-  font-size: 16px;
+  width: clamp(13.75rem, 12rem + 4.5vw, 15.625rem);
+  height: clamp(3.75rem, 3.4rem + 1.2vw, 4.375rem);
+  font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
 }
 
-.small .arrowWrapper {
-  padding: 14px 18px;
+.small .arrowWrapper,
+.small .wppIconWrapper {
+  width: clamp(2.5rem, 2.2rem + 0.9vw, 2.875rem);
+  height: clamp(2.5rem, 2.2rem + 0.9vw, 2.875rem);
 }

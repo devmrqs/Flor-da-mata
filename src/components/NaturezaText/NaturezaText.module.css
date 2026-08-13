@@ -5,12 +5,17 @@
   text-align: center;
 }
 
+/* Proporção decrescente: ocupa ~92vw no celular (onde precisa dominar a tela)
+   e vai afinando até ~72vw no monitor grande — sem degraus de breakpoint.
+   max-height é a válvula de segurança para telas baixas (notebook 768px,
+   celular deitado): impede que a palavra sozinha estoure o hero. */
 .naturezaSvg {
   display: block;
-  width: 72vw;
+  width: min(92vw, 6rem + 67vw);
   max-width: 1522px;
+  max-height: clamp(3rem, 30svh, 16.5rem);
   height: auto;
-  margin-bottom: 10px;
+  margin-bottom: clamp(0.35rem, 1vh, 0.625rem);
 }
 
 .naturezaText {

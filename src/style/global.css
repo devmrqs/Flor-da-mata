@@ -1,5 +1,11 @@
 /* Fontes carregadas via <link> no index.html, não @import (evita FOUT) */
 
+:root {
+  /* altura reservada pela navbar fixa — fonte única de verdade: o padding do
+     conteúdo e o cálculo de altura do hero saem daqui */
+  --nav-offset: clamp(5.25rem, 3.9rem + 4.2vw, 7.8125rem);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -14,21 +20,9 @@ body {
   overflow: hidden;
 }
 
-/* padding-top compensa a navbar fixa, some breakpoint por breakpoint */
+/* padding-top compensa a navbar fixa */
 #smooth-content {
   overflow: visible;
   width: 100%;
-  padding-top: 5.25rem;
-}
-
-@media (min-width: 48rem) {
-  #smooth-content {
-    padding-top: 6.25rem;
-  }
-}
-
-@media (min-width: 64rem) {
-  #smooth-content {
-    padding-top: 7.8125rem;
-  }
+  padding-top: var(--nav-offset);
 }
