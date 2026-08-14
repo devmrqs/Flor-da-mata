@@ -31,3 +31,11 @@
   opacity: 0.55;
   pointer-events: none;
 }
+
+/* feTurbulence + mix-blend-mode custam caro na GPU do celular, e a textura de
+   grão é praticamente imperceptível numa tela pequena. Sai do caminho. */
+@media (max-width: 48rem) {
+  .naturezaGrainLayer {
+    display: none;
+  }
+}

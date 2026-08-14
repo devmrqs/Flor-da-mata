@@ -17,6 +17,7 @@ export function useDragScroll(itemCount) {
   const resumeTimeout = useRef(null);
   const rafId = useRef(null);
   const lastTimestamp = useRef(null);
+  const isVisible = useRef(false);
 
   // Largura de um bloco = distância entre o 1º card de uma cópia e o da cópia
   // seguinte. Medir no DOM (em vez de scrollWidth / 3) conta o gap certo:
@@ -61,6 +62,24 @@ export function useDragScroll(itemCount) {
     }, delay);
   };
 
+  // Escrever scrollLeft força o navegador a recalcular layout. Fora da tela
+  // isso é custo puro a 60fps e aparece como engasgo no scroll da página
+  // inteira no celular — então o loop só trabalha com o carrossel à vista.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible.current = entry.isIntersecting;
+      },
+      { rootMargin: "200px" },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // Loop de auto-scroll via requestAnimationFrame
   useEffect(() => {
     const el = ref.current;
@@ -78,7 +97,7 @@ export function useDragScroll(itemCount) {
       );
       lastTimestamp.current = timestamp;
 
-      if (!isLocked.current) {
+      if (!isLocked.current && isVisible.current) {
         if (!isInteracting.current && !reducedMotion) {
           el.scrollLeft += AUTO_SCROLL_SPEED * delta;
         }

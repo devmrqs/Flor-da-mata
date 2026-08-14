@@ -21,6 +21,12 @@ body {
   overflow: hidden;
 }
 
+/* sem ScrollSmoother (toque), quem rola é o body — o overflow aqui só
+   atrapalharia */
+#smooth-wrapper[data-smooth="off"] {
+  overflow: visible;
+}
+
 /* padding-top compensa a navbar fixa */
 #smooth-content {
   overflow: visible;

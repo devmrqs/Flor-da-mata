@@ -4,13 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 // Components
 import Button from "../Button/Button.jsx";
 
 // Data
 import { getProductImages } from "../../utils/productImages.js";
+import { lockScroll, unlockScroll } from "../../utils/scrollLock.js";
 
 // Assets
 import arrowLeft from "../../assets/images/arrowLeft.svg";
@@ -139,12 +139,11 @@ const ProductModal = ({
     }
 
     document.addEventListener("keydown", handleEscKey);
-    // pausa o ScrollSmoother enquanto o modal está aberto
-    ScrollSmoother.get()?.paused(true);
+    lockScroll();
 
     return () => {
       document.removeEventListener("keydown", handleEscKey);
-      ScrollSmoother.get()?.paused(false);
+      unlockScroll();
     };
   }, [isOpen, handleClose]);
 

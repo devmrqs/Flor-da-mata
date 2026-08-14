@@ -24,8 +24,12 @@ const NaturezaText = () => {
 
       // blend: 0 = fase verde, 1 = fase marrom
       const state = { blend: 0, mouseBlend: 0 };
+      // Reescrever as cores repinta um SVG com feTurbulence + mix-blend-mode,
+      // o que é caro no celular. Fora da tela não há o que mostrar: pausa.
+      const isVisible = { current: true };
 
       function applyColors() {
+        if (!isVisible.current) return;
         const t = gsap.utils.clamp(0, 1, state.blend + state.mouseBlend);
         stopRefs.current.forEach((stop, index) => {
           if (!stop) return;
@@ -42,7 +46,7 @@ const NaturezaText = () => {
 
       gsap.ticker.add(applyColors);
 
-      gsap.to(state, {
+      const blendTween = gsap.to(state, {
         blend: 1,
         duration: 14,
         ease: "sine.inOut",
@@ -50,13 +54,20 @@ const NaturezaText = () => {
         yoyo: true,
       });
 
-      gsap.to(textRef.current, {
+      const pulseTween = gsap.to(textRef.current, {
         opacity: 0.93,
         duration: 5,
         ease: "sine.inOut",
         repeat: -1,
         yoyo: true,
       });
+
+      const observer = new IntersectionObserver(([entry]) => {
+        isVisible.current = entry.isIntersecting;
+        blendTween.paused(!entry.isIntersecting);
+        pulseTween.paused(!entry.isIntersecting);
+      });
+      observer.observe(containerRef.current);
 
       const setMouseBlend = gsap.quickTo(state, "mouseBlend", {
         duration: 0.7,
@@ -79,6 +90,7 @@ const NaturezaText = () => {
 
       return () => {
         gsap.ticker.remove(applyColors);
+        observer.disconnect();
         node.removeEventListener("pointermove", handlePointerMove);
         node.removeEventListener("pointerleave", handlePointerLeave);
       };

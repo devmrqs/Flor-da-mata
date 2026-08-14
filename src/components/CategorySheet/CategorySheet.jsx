@@ -4,10 +4,12 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 // Components
 import ProductsList from "../ProductsList/ProductsList.jsx";
+
+// Utils
+import { lockScroll, unlockScroll } from "../../utils/scrollLock.js";
 
 // CSS
 import styles from "./CategorySheet.module.css";
@@ -67,12 +69,11 @@ const CategorySheet = ({ category, categoryImage, onClose }) => {
     }
 
     document.addEventListener("keydown", handleEscKey);
-    // trava o scroll da página atrás da folha
-    ScrollSmoother.get()?.paused(true);
+    lockScroll();
 
     return () => {
       document.removeEventListener("keydown", handleEscKey);
-      ScrollSmoother.get()?.paused(false);
+      unlockScroll();
     };
   }, []);
 
