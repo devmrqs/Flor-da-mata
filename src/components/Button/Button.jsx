@@ -115,9 +115,7 @@ const Button = ({ label, variant, icon, size, onClick }) => {
       ref={btnRef}
       className={`${styles.btn} ${
         variant === "primary" ? styles.primary : styles.secondary
-      } ${size === "small" ? styles.small : ""} ${
-        size === "v-small" ? styles.vsmall : ""
-      }`}
+      } ${size === "small" ? styles.small : ""}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
