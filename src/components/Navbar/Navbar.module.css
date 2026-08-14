@@ -105,6 +105,30 @@
   }
 }
 
+/* Abaixo de 64rem os links somem, e sobrar uma barra sólida com dois itens
+   nas pontas não faz sentido: a logo vai pro centro e o hambúrguer pra borda.
+   O fundo translúcido fica só para a logo (verde escura) não sumir quando o
+   CTA verde ou a foto de um card passar por baixo — a navbar é fixa. */
+@media (max-width: 63.99rem) {
+  .navbar {
+    justify-content: center;
+    background: rgba(255, 254, 250, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    box-shadow: none;
+  }
+
+  /* absoluto em relação à .navbar, porque .container não é posicionada —
+     assim o dropdown dos links continua medindo a largura da barra inteira */
+  .hamburger {
+    position: absolute;
+    right: clamp(1.25rem, 4vw, 2rem);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
 @media (min-width: 64rem) {
   .navbar {
     height: 5.3125rem;
