@@ -228,9 +228,7 @@ const ProductModal = ({
                       key={weight}
                       type="button"
                       className={`${styles.weightCard} ${
-                        selectedWeight === weight
-                          ? styles.weightCardActive
-                          : ""
+                        selectedWeight === weight ? styles.weightCardActive : ""
                       }`}
                       onClick={() => setSelectedWeight(weight)}
                     >

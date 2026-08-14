@@ -1,5 +1,4 @@
-/* z-index abaixo do .overlay do ProductModal (999): tocar num produto aqui
-   dentro precisa abrir o modal por cima desta folha */
+/* abaixo do ProductModal (999): tocar num produto abre o modal por cima */
 .overlay {
   position: fixed;
   inset: 0;
@@ -15,7 +14,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* svh: a barra de endereço do celular não corta o rodapé da folha */
   height: 92vh;
   height: 92svh;
   background: #fffefa;
@@ -49,8 +47,7 @@
   outline-offset: 2px;
 }
 
-/* acima de 48rem o card expande no lugar e a folha nem é montada — este
-   limite existe só como rede de segurança se ela for aberta em tela grande */
+/* rede de segurança: acima de 48rem a folha normalmente nem é montada */
 @media (min-width: 48rem) {
   .overlay {
     align-items: center;

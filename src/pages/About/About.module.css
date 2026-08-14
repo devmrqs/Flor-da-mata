@@ -8,7 +8,6 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  /* svh: com vh, a barra de endereço do celular empurra o conteúdo pra fora */
   min-height: 80svh;
   text-align: center;
   padding: 0 1.5rem;
@@ -43,10 +42,8 @@
   user-select: none;
 }
 
-/* Os três blocos ficam empilhados no mesmo ponto e são revelados um por vez
-   pelo pin. Como são absolutos, texto que não cabe transborda a caixa e
-   colide com o transbordo dos outros dois — por isso as fontes precisam
-   caber de verdade na tela, não só encolher um pouco. */
+/* os três blocos ficam empilhados e são revelados um por vez pelo pin: como
+   são absolutos, texto que não cabe transborda e colide com o dos outros */
 .introBlock {
   position: absolute;
   inset: 0;
@@ -60,8 +57,6 @@
 
 .introBlock h1,
 .introBlock h2 {
-  /* o mínimo era 2.8rem (44.8px), grande demais para uma frase de ~95
-     caracteres num celular */
   font-size: clamp(1.5rem, 1rem + 2.6vw, 3.5rem);
   color: rgba(0, 0, 0, 0.9);
   font-weight: 200;

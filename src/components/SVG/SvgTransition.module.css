@@ -1,6 +1,4 @@
-/* inset: 0 em vez de width/height: sem offsets, um position: fixed fica na
-   posição estática do elemento (depois de todo o conteúdo), e não colado na
-   viewport. z-index acima da navbar (100) para a transição cobrir tudo. */
+/* inset: 0 e não width/height: um fixed sem offsets fica na posição estática */
 .divSvg {
   position: fixed;
   inset: 0;

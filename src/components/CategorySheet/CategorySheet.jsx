@@ -14,11 +14,8 @@ import { lockScroll, unlockScroll } from "../../utils/scrollLock.js";
 // CSS
 import styles from "./CategorySheet.module.css";
 
-/**
- * Em telas pequenas o card não tem para onde expandir lateralmente (card +
- * painel passam de 500px), então a categoria abre nesta folha em tela cheia.
- * Acima de 48rem o CategoryCarousel continua expandindo o card no lugar.
- */
+// abaixo de 48rem o card não tem para onde expandir de lado, então a
+// categoria abre aqui em tela cheia
 const CategorySheet = ({ category, categoryImage, onClose }) => {
   const overlayRef = useRef(null);
   const sheetRef = useRef(null);

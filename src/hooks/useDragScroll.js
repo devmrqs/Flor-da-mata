@@ -19,10 +19,7 @@ export function useDragScroll(itemCount) {
   const lastTimestamp = useRef(null);
   const isVisible = useRef(false);
 
-  // Largura de um bloco = distância entre o 1º card de uma cópia e o da cópia
-  // seguinte. Medir no DOM (em vez de scrollWidth / 3) conta o gap certo:
-  // scrollWidth tem 29 gaps para 30 cards, então dividir por 3 erra por 1/3 de
-  // gap a cada volta, e o erro aparece como um tranco.
+  // medido no DOM: scrollWidth / 3 erraria por 1/3 de gap a cada volta
   const getBlockWidth = useCallback(() => {
     const el = ref.current;
     if (!el || !itemCount) return 0;
@@ -39,10 +36,8 @@ export function useDragScroll(itemCount) {
     el.scrollLeft = getBlockWidth();
   }, [getBlockWidth, itemCount]);
 
-  // São 3 cópias idênticas, então pular exatamente um bloco é imperceptível:
-  // basta manter o scroll dentro da cópia do meio. A versão anterior usava
-  // faixas de tolerância que se sobrepunham — as duas condições disparavam no
-  // mesmo frame e cancelavam o avanço do auto-scroll, travando o carrossel.
+  // 3 cópias idênticas: pular um bloco inteiro é imperceptível, então basta
+  // manter o scroll dentro da cópia do meio
   const checkLoop = useCallback(() => {
     const el = ref.current;
     if (!el || isLocked.current) return;
@@ -62,9 +57,7 @@ export function useDragScroll(itemCount) {
     }, delay);
   };
 
-  // Escrever scrollLeft força o navegador a recalcular layout. Fora da tela
-  // isso é custo puro a 60fps e aparece como engasgo no scroll da página
-  // inteira no celular — então o loop só trabalha com o carrossel à vista.
+  // escrever scrollLeft força layout: fora da tela isso é custo puro a 60fps
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -101,8 +94,7 @@ export function useDragScroll(itemCount) {
         if (!isInteracting.current && !reducedMotion) {
           el.scrollLeft += AUTO_SCROLL_SPEED * delta;
         }
-        // roda mesmo durante a interação: senão o usuário arrasta até o fim da
-        // terceira cópia e o carrossel "acaba"
+        // roda mesmo durante a interação, senão o arraste chega ao fim da fita
         checkLoop();
       }
 
@@ -129,9 +121,7 @@ export function useDragScroll(itemCount) {
     return () => el.removeEventListener("wheel", blockWheel);
   }, []);
 
-  // Toque: o scroll nativo da faixa já funciona sozinho, mas o auto-scroll
-  // precisa sair da frente enquanto o dedo (e a inércia) estão no comando.
-  // mousedown não dispara em toque, então o drag abaixo não cobre esse caso.
+  // mousedown não dispara em toque, então o drag abaixo não cobre este caso
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -182,7 +172,7 @@ export function useDragScroll(itemCount) {
     scrollLeft.current = ref.current.scrollLeft;
   };
 
-  // useCallback mantém a identidade estável para quem usa em deps de efeito
+  // identidade estável: é usado em deps de efeito no CategoryCarousel
   const setLocked = useCallback((value) => {
     isLocked.current = value;
   }, []);

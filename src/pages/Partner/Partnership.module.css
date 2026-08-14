@@ -7,14 +7,11 @@
   font-family: "DM Sans", sans-serif;
 }
 
-/* cancela o padding da navbar, deixando 20px de respiro — acompanha a navbar
-   em qualquer tela, em vez dos -105px chumbados */
+/* cancela o padding da navbar, deixando 20px de respiro */
 .partnershipPage {
   margin-top: calc(var(--nav-offset) * -1 + 1.25rem);
 }
 
-/* Os três blocos abaixo tinham width: 1740px fixo: num celular ficavam
-   centralizados nessa largura e o conteúdo caía fora da tela. */
 .hero {
   width: min(100% - 2.5rem, 108.75rem);
   display: flex;
@@ -88,9 +85,8 @@
   gap: clamp(1rem, 3vw, 3.75rem);
 }
 
-/* Nas linhas invertidas a imagem vem antes do texto no DOM (para o
-   row-reverse do desktop). Empilhado, a leitura tem que ser sempre
-   número → texto → imagem. */
+/* no DOM a imagem vem antes do texto, para o row-reverse do desktop;
+   empilhado, a leitura tem que ser número, texto, imagem */
 .reverse .reasonImagePlaceholder {
   order: 1;
 }
@@ -231,7 +227,7 @@
   text-decoration: underline;
 }
 
-/* A partir daqui cabem as duplas lado a lado */
+/* a partir daqui cabem as duplas lado a lado */
 @media (min-width: 64rem) {
   .hero {
     flex-direction: row;

@@ -1,6 +1,5 @@
 .carouselContainer {
-  /* medidas dos cards em um lugar só: o JS mede o DOM em vez de repetir
-     esses números, então mudar aqui basta */
+  /* medidas dos cards: o JS mede o DOM, então mudar aqui basta */
   --card-w: clamp(14rem, 10rem + 12vw, 21.875rem);
   --card-h: clamp(19.25rem, 15.9rem + 14.2vw, 30rem);
   --panel-w: clamp(17.5rem, 10rem + 27vw, 39.375rem);
@@ -144,10 +143,8 @@
   transform: rotate(-180deg);
 }
 
-/* Sem hover, o título branco ainda precisa de contraste sobre a foto — mas o
-   véu cheio faria todo card parecer selecionado. Um degradê discreto no topo
-   (onde o texto fica) resolve a legibilidade sem simular estado ativo.
-   A descrição não aparece aqui: ela vive na folha que abre ao tocar. */
+/* sem hover, o título precisa de contraste — mas o véu cheio faria todo card
+   parecer selecionado, então só um degradê no topo */
 @media (hover: none) {
   .card::after {
     opacity: 1;
@@ -159,7 +156,7 @@
     );
   }
 
-  /* a seta fica visível como única pista de que o card é tocável */
+  /* única pista de que o card é tocável */
   .cardContent .arrowCard {
     opacity: 1;
   }

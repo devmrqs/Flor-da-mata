@@ -61,9 +61,8 @@
   max-width: 20rem;
 }
 
-/* empilhados, os dois botões ocupam a largura toda do container: garante
-   largura igual entre eles (os rótulos têm tamanhos diferentes) e dá folga
-   de sobra pro texto no celular */
+/* empilhados ocupam a largura toda: garante largura igual entre rótulos de
+   tamanhos diferentes */
 @media (max-width: 47.99rem) {
   .containerBtn > button {
     width: 100%;

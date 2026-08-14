@@ -105,10 +105,8 @@
   }
 }
 
-/* Abaixo de 64rem os links somem, e sobrar uma barra sólida com dois itens
-   nas pontas não faz sentido: a logo vai pro centro e o hambúrguer pra borda.
-   O fundo translúcido fica só para a logo (verde escura) não sumir quando o
-   CTA verde ou a foto de um card passar por baixo — a navbar é fixa. */
+/* abaixo de 64rem os links somem: logo ao centro, hambúrguer na borda.
+   O fundo fica porque a navbar é fixa e a logo sumiria sobre o CTA verde. */
 @media (max-width: 63.99rem) {
   .navbar {
     justify-content: center;
@@ -119,8 +117,8 @@
     box-shadow: none;
   }
 
-  /* absoluto em relação à .navbar, porque .container não é posicionada —
-     assim o dropdown dos links continua medindo a largura da barra inteira */
+  /* absoluto na .navbar (a .container não é posicionada), senão o dropdown
+     dos links mediria a largura do botão */
   .hamburger {
     position: absolute;
     right: clamp(1.25rem, 4vw, 2rem);

@@ -1,8 +1,7 @@
 /* Fontes carregadas via <link> no index.html, não @import (evita FOUT) */
 
 :root {
-  /* altura reservada pela navbar fixa — fonte única de verdade: o padding do
-     conteúdo e o cálculo de altura do hero saem daqui */
+  /* altura da navbar fixa — fonte única para padding e altura do hero */
   --nav-offset: clamp(5.25rem, 3.9rem + 4.2vw, 7.8125rem);
 }
 
@@ -21,8 +20,7 @@ body {
   overflow: hidden;
 }
 
-/* sem ScrollSmoother (toque), quem rola é o body — o overflow aqui só
-   atrapalharia */
+/* sem ScrollSmoother (toque), quem rola é o body */
 #smooth-wrapper[data-smooth="off"] {
   overflow: visible;
 }

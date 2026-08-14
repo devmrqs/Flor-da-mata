@@ -308,10 +308,7 @@
   cursor: default;
 }
 
-/* Abaixo de 1024px não cabem as duas colunas (só a galeria eram 460px fixos,
-   mais que a largura inteira do modal num celular). Vira uma coluna só:
-   imagem em cima, informação embaixo, e o scroll passa da coluna de texto
-   para o modal inteiro. */
+/* coluna única: o scroll passa da coluna de texto para o modal inteiro */
 @media (max-width: 63.99rem) {
   .content {
     grid-template-columns: 1fr;

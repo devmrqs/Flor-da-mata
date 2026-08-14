@@ -1,6 +1,5 @@
 .timelineSection {
-  /* posição do trilho e recuo do conteúdo no layout vertical (celular) —
-     o dot se alinha ao trilho a partir daqui */
+  /* o dot se alinha ao trilho a partir destas duas medidas */
   --rail-x: 1.25rem;
   --card-indent: 3rem;
   --dot-size: 14px;
@@ -44,8 +43,7 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
-/* Altura livre no celular: 5 cards empilhados não cabem numa viewport, então
-   o pin só existe no desktop (ver Timeline.jsx) */
+/* altura livre no celular: o pin só existe no desktop (ver Timeline.jsx) */
 .pinWrapper {
   position: relative;
   width: 100%;
@@ -69,7 +67,6 @@
   padding-left: var(--card-indent);
 }
 
-/* vertical: corre pela lateral esquerda, ligando os dots */
 .rail {
   position: absolute;
   top: 0.5rem;
@@ -99,7 +96,6 @@
   background: #d9d9d9;
 }
 
-/* sai do fluxo e encosta no trilho, à esquerda do card */
 .dot {
   position: absolute;
   top: 0.5rem;
@@ -135,7 +131,7 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
-/* A partir daqui cabem os 5 cards lado a lado e o pin volta a fazer sentido */
+/* a partir daqui cabem os 5 cards lado a lado */
 @media (min-width: 64rem) {
   .pinWrapper {
     height: 100svh;

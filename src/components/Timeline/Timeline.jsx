@@ -25,8 +25,7 @@ const Timeline = () => {
 
       const mm = gsap.matchMedia();
 
-      // Desktop: os 5 cards cabem lado a lado, então a seção fica presa e eles
-      // surgem um a um conforme o scroll avança
+      // desktop: cards lado a lado, revelados um a um com a seção presa
       mm.add("(min-width: 64rem)", () => {
         gsap.set(headerRef.current.children, { opacity: 0, y: 30 });
         gsap.set(cards, { opacity: 0, scale: 0.8 });
@@ -59,9 +58,8 @@ const Timeline = () => {
           });
       });
 
-      // Celular e tablet: a timeline é vertical e os 5 cards somados passam de
-      // uma tela — não há como prender a seção e revelar todos dentro dela.
-      // Cada card aparece por conta própria ao entrar na viewport.
+      // vertical: os 5 cards passam de uma tela, então não dá para prender a
+      // seção — cada um aparece ao entrar na viewport
       mm.add("(max-width: 63.99rem)", () => {
         gsap.from(headerRef.current.children, {
           scrollTrigger: {

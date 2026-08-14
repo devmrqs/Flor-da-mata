@@ -30,8 +30,7 @@ const EASE_COLLAPSE = "power3.inOut";
 // espelha o --panel-overlap do CSS (margin-left negativo do painel)
 const PANEL_OVERLAP = 30;
 
-// As larguras vêm do CSS (--card-w / --panel-w, ambas fluidas), então são
-// medidas no DOM em vez de repetidas aqui como número fixo.
+// as larguras vêm do CSS (--card-w / --panel-w, fluidas): medir, não repetir
 function getCardWidth(wrapper) {
   return wrapper.firstElementChild?.offsetWidth ?? 0;
 }
@@ -59,8 +58,7 @@ const CategoryCarousel = () => {
 
   const loopedCategories = [...categories, ...categories, ...categories];
 
-  // Ao cruzar o limite, fecha o que estiver aberto: o card expandido não faz
-  // sentido no celular, nem a folha no desktop
+  // ao cruzar o limite, fecha o que estiver aberto dos dois lados
   useEffect(() => {
     const mq = window.matchMedia(COMPACT_QUERY);
 
@@ -71,8 +69,7 @@ const CategoryCarousel = () => {
       setMountedKey(null);
       setLocked(false);
 
-      // recolhe sem animar (redimensionar não é interação) e devolve ao CSS
-      // a largura que o GSAP tinha gravado inline no card expandido
+      // devolve ao CSS a largura que o GSAP gravou inline, sem animar
       wrapperRefs.current.forEach((wrapper) => {
         gsap.killTweensOf(wrapper);
         gsap.set(wrapper, { clearProps: "width" });

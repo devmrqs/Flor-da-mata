@@ -18,8 +18,6 @@
   background: #f8f6f08f;
   border: 1px solid rgba(93, 103, 60, 0.12);
   border-radius: clamp(1.25rem, 2.5vw, 2rem);
-  /* o mínimo era 3em (48px): somado ao padding do container, sobrava pouco
-     mais de 240px no celular e cabia só um selo por linha */
   padding: clamp(1.25rem, 4vw, 3.5rem);
 }
 
@@ -67,7 +65,7 @@
   gap: clamp(0.5rem, 1.2vw, 1rem);
 }
 
-/* 88px no celular deixa 3 selos por linha; cresce até os 136px originais */
+/* 88px deixa 3 selos por linha no celular */
 .sealCard {
   position: relative;
   display: flex;

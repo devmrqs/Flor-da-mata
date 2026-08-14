@@ -1,12 +1,9 @@
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 
-// Contador porque as travas se aninham: o ProductModal abre por dentro do
-// CategorySheet, e fechar o de cima não pode destravar a página com o de
-// baixo ainda aberto.
+// as travas se aninham: o ProductModal abre por dentro do CategorySheet
 let lockCount = 0;
 
-// Com o ScrollSmoother ligado basta pausá-lo. Em aparelhos de toque ele nem
-// é criado (ver App.jsx), então a trava vai no overflow do documento.
+// em toque o ScrollSmoother nem é criado (ver App.jsx): cai no overflow
 export function lockScroll() {
   lockCount += 1;
   if (lockCount > 1) return;

@@ -132,8 +132,7 @@
   margin: 0;
   display: grid;
   grid-auto-flow: column;
-  /* menos linhas no celular: o painel encolhe junto com o card e 6 linhas
-     não caberiam na altura disponível */
+  /* 6 linhas não cabem na altura que o painel tem no celular */
   grid-template-rows: repeat(3, auto);
   grid-auto-columns: minmax(9rem, 13.75rem);
   column-gap: clamp(1.25rem, 2.2vw, 2.125rem);
@@ -191,10 +190,8 @@
   background: rgba(130, 141, 93, 0.85);
 }
 
-/* Dimensões herdadas do .carouselContainer para bater com o card ao lado.
-   flex-shrink: 0 é obrigatório: como item flex de um wrapper ainda estreito
-   (antes da animação de expandir), sem isso o painel seria espremido a zero
-   e a medição da largura final sairia errada. */
+/* flex-shrink: 0 é obrigatório — sem ele o painel é espremido a zero antes
+   de expandir, e o JS mede a largura errada */
 .insideCard {
   width: var(--panel-w, 39.375rem);
   height: var(--card-h, 30rem);
@@ -230,7 +227,6 @@
   background: #fffefa;
 }
 
-/* o preview vira um cabeçalho horizontal compacto, não uma coluna lateral */
 .sheet .categoryPreview {
   flex-direction: row;
   align-items: center;
@@ -251,8 +247,7 @@
   margin-bottom: 0.25rem;
 }
 
-/* no celular o card do carrossel mostra só o título, então é aqui que a
-   descrição da categoria aparece — curta, para não roubar altura da lista */
+/* no celular o card do carrossel mostra só o título: a descrição vem aqui */
 .sheet .previewContent p {
   max-width: none;
   font-size: 0.8125rem;
@@ -275,7 +270,6 @@
   font-size: 1.375rem;
 }
 
-/* rola na vertical, como uma lista — não na horizontal, como no desktop */
 .sheet .productsScroll {
   overflow-x: hidden;
   overflow-y: auto;
