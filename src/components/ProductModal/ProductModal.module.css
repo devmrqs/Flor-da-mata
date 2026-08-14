@@ -5,19 +5,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  padding: clamp(0.75rem, 3vw, 2rem);
   background: rgba(20, 22, 16, 0.75);
   cursor: default;
 }
 
 .modal {
   position: relative;
-  width: min(1300px, 90vw);
+  width: min(81.25rem, 100%);
   max-height: 88vh;
+  max-height: 88svh;
   background: #fffefa;
-  border-radius: 28px;
-  clip-path: inset(0 round 28px);
-  font-family: "DM Sans", sans-serif;
+  border-radius: clamp(1.125rem, 2.5vw, 1.75rem);
+  clip-path: inset(0 round clamp(1.125rem, 2.5vw, 1.75rem));
 
   box-shadow: 0 32px 100px rgba(0, 0, 0, 0.22);
   user-select: none;
@@ -25,17 +25,18 @@
 
 .content {
   display: grid;
-  grid-template-columns: 460px 1fr;
+  grid-template-columns: 28.75rem 1fr;
   max-height: 88vh;
+  max-height: 88svh;
 }
 
 .closeButton {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: clamp(0.75rem, 2vw, 1.25rem);
+  right: clamp(0.75rem, 2vw, 1.25rem);
   z-index: 10;
-  width: 38px;
-  height: 38px;
+  width: 2.75rem;
+  height: 2.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,6 +61,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .mainImage {
@@ -72,7 +74,7 @@
   color: rgba(46, 48, 39, 0.4);
   font-size: 14px;
   letter-spacing: 0.04em;
-  min-height: 340px;
+  min-height: 21.25rem;
 }
 
 .mainImageImg {
@@ -83,8 +85,8 @@
 
 .categoryBadge {
   position: absolute;
-  top: 24px;
-  left: 24px;
+  top: clamp(0.875rem, 2vw, 1.5rem);
+  left: clamp(0.875rem, 2vw, 1.5rem);
   padding: 8px 18px;
   border-radius: 100px;
   background: rgba(20, 22, 16, 0.55);
@@ -100,14 +102,20 @@
 .thumbList {
   display: flex;
   gap: 10px;
-  padding: 18px 24px;
+  padding: clamp(0.75rem, 2vw, 1.125rem) clamp(0.875rem, 2.5vw, 1.5rem);
   background: #fffefa;
   border-top: 1px solid rgba(93, 103, 60, 0.1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.thumbList::-webkit-scrollbar {
+  display: none;
 }
 
 .thumb {
-  width: 60px;
-  height: 60px;
+  width: clamp(2.75rem, 2.4rem + 1.5vw, 3.75rem);
+  height: clamp(2.75rem, 2.4rem + 1.5vw, 3.75rem);
   flex-shrink: 0;
   padding: 0;
   border-radius: 12px;
@@ -137,18 +145,20 @@
 }
 
 .info {
-  padding: 44px 52px 40px;
+  padding: clamp(1.5rem, 4vw, 2.75rem) clamp(1.25rem, 4.5vw, 3.25rem)
+    clamp(1.5rem, 3.5vw, 2.5rem);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: clamp(0.875rem, 2vw, 1.25rem);
   overflow-y: auto;
+  min-width: 0;
 }
 
 .infoHeader {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-bottom: 20px;
+  padding-bottom: clamp(0.875rem, 2vw, 1.25rem);
   border-bottom: 1px solid rgba(93, 103, 60, 0.12);
 }
 
@@ -158,7 +168,7 @@
 
 .info h2 {
   margin: 0;
-  font-size: 52px;
+  font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3.25rem);
   font-weight: 500;
   color: rgba(0, 0, 0, 0.9);
   line-height: 1.1;
@@ -166,20 +176,20 @@
 
 .shortDesc {
   margin: 0;
-  font-size: 17px;
+  font-size: clamp(0.9375rem, 0.88rem + 0.25vw, 1.0625rem);
   font-weight: 300;
   color: #333725;
   line-height: 1.5;
-  max-width: 480px;
+  max-width: 30rem;
 }
 
 .desc {
   margin: 0;
-  font-size: 15px;
+  font-size: clamp(0.875rem, 0.85rem + 0.12vw, 0.9375rem);
   font-weight: 300;
   color: rgba(46, 48, 39, 0.65);
   line-height: 1.7;
-  max-width: 520px;
+  max-width: 32.5rem;
 }
 
 .label {
@@ -200,11 +210,12 @@
 
 .weightsList {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
 .weightCard {
-  min-width: 84px;
+  min-width: 5.25rem;
   padding: 14px 18px;
   border: 1.5px solid rgba(93, 103, 60, 0.2);
   border-radius: 14px;
@@ -229,7 +240,7 @@
   flex-direction: column;
   gap: 0;
   border-radius: 16px;
-  max-width: 500px;
+  max-width: 31.25rem;
   border: 1px solid rgba(93, 103, 60, 0.1);
   overflow: hidden;
 }
@@ -238,6 +249,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   padding: 14px 18px;
   background: rgba(93, 103, 60, 0.04);
 }
@@ -249,12 +261,14 @@
 .detailItem span {
   font-size: 13px;
   color: rgba(46, 48, 39, 0.5);
+  flex-shrink: 0;
 }
 
 .detailItem strong {
   font-size: 14px;
   font-weight: 500;
   color: #333725;
+  text-align: right;
 }
 
 .cta {
@@ -269,8 +283,8 @@
 }
 
 .navButton {
-  width: 30px;
-  height: 30px;
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 0;
   border: none;
   background: none;
@@ -292,4 +306,44 @@
 .navButton:disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+/* Abaixo de 1024px não cabem as duas colunas (só a galeria eram 460px fixos,
+   mais que a largura inteira do modal num celular). Vira uma coluna só:
+   imagem em cima, informação embaixo, e o scroll passa da coluna de texto
+   para o modal inteiro. */
+@media (max-width: 63.99rem) {
+  .content {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mainImage {
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    max-height: 40svh;
+  }
+
+  .info {
+    overflow-y: visible;
+  }
+
+  .navRow {
+    padding-top: 0.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .closeButton {
+    width: 2.375rem;
+    height: 2.375rem;
+  }
+
+  .navButton {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
 }

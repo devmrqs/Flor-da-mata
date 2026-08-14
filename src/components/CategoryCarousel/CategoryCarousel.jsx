@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,6 +14,7 @@ import { getCategoryImage } from "../../utils/categoryImages.js";
 
 // Components
 import ProductsList from "../ProductsList/ProductsList.jsx";
+import CategorySheet from "../CategorySheet/CategorySheet.jsx";
 
 // Assets
 import arrow from "../../assets/images/cards-products/arrowProducts.svg";
@@ -24,14 +25,31 @@ import styles from "./CategoryCarousel.module.css";
 gsap.registerPlugin(ScrollTrigger);
 
 // Constantes da animação de expandir/recolher o card — ajusta aqui pra mudar o "feel"
-const EXPANDED_WIDTH = 980;
-const BASE_WIDTH = 350;
 const EASE_EXPAND = "power4.inOut";
 const EASE_COLLAPSE = "power3.inOut";
+// espelha o --panel-overlap do CSS (margin-left negativo do painel)
+const PANEL_OVERLAP = 30;
+
+// As larguras vêm do CSS (--card-w / --panel-w, ambas fluidas), então são
+// medidas no DOM em vez de repetidas aqui como número fixo.
+function getCardWidth(wrapper) {
+  return wrapper.firstElementChild?.offsetWidth ?? 0;
+}
+
+function getExpandedWidth(wrapper, panel) {
+  return getCardWidth(wrapper) + (panel?.offsetWidth ?? 0) - PANEL_OVERLAP;
+}
+
+// Abaixo disso não há largura para expandir o card de lado — abre a folha
+const COMPACT_QUERY = "(max-width: 47.99rem)";
 
 const CategoryCarousel = () => {
   const [expandedKey, setExpandedKey] = useState(null);
   const [mountedKey, setMountedKey] = useState(null);
+  const [sheetCategory, setSheetCategory] = useState(null);
+  const [isCompact, setIsCompact] = useState(
+    () => window.matchMedia(COMPACT_QUERY).matches,
+  );
   const containerRef = useRef(null);
   const wrapperRefs = useRef(new Map());
   const panelRefs = useRef(new Map());
@@ -40,6 +58,30 @@ const CategoryCarousel = () => {
   );
 
   const loopedCategories = [...categories, ...categories, ...categories];
+
+  // Ao cruzar o limite, fecha o que estiver aberto: o card expandido não faz
+  // sentido no celular, nem a folha no desktop
+  useEffect(() => {
+    const mq = window.matchMedia(COMPACT_QUERY);
+
+    function handleChange(event) {
+      setIsCompact(event.matches);
+      setSheetCategory(null);
+      setExpandedKey(null);
+      setMountedKey(null);
+      setLocked(false);
+
+      // recolhe sem animar (redimensionar não é interação) e devolve ao CSS
+      // a largura que o GSAP tinha gravado inline no card expandido
+      wrapperRefs.current.forEach((wrapper) => {
+        gsap.killTweensOf(wrapper);
+        gsap.set(wrapper, { clearProps: "width" });
+      });
+    }
+
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
+  }, [setLocked]);
 
   useGSAP(
     () => {
@@ -90,7 +132,7 @@ const CategoryCarousel = () => {
 
       const tl = gsap.timeline();
       tl.to(wrapper, {
-        width: EXPANDED_WIDTH,
+        width: getExpandedWidth(wrapper, panel),
         duration: 0.6,
         ease: EASE_EXPAND,
       });
@@ -129,7 +171,7 @@ const CategoryCarousel = () => {
     tl.to(
       wrapper,
       {
-        width: BASE_WIDTH,
+        width: getCardWidth(wrapper),
         duration: 0.5,
         ease: EASE_COLLAPSE,
         clearProps: "width",
@@ -138,7 +180,12 @@ const CategoryCarousel = () => {
     );
   }
 
-  function handleSelectCategory(key) {
+  function handleSelectCategory(key, category) {
+    if (isCompact) {
+      setSheetCategory(category);
+      return;
+    }
+
     if (expandedKey === key) {
       setExpandedKey(null);
       closeCard(key, () => setLocked(false));
@@ -176,7 +223,7 @@ const CategoryCarousel = () => {
                 }`}
                 onClick={() => {
                   if (hasDragged.current) return;
-                  handleSelectCategory(key);
+                  handleSelectCategory(key, category);
                 }}
                 type="button"
               >
@@ -194,7 +241,7 @@ const CategoryCarousel = () => {
                 </div>
               </button>
 
-              {isMounted && (
+              {isMounted && !isCompact && (
                 <ProductsList
                   category={category}
                   categoryImage={getCategoryImage(category.slug)}
@@ -206,6 +253,14 @@ const CategoryCarousel = () => {
           );
         })}
       </div>
+
+      {sheetCategory && (
+        <CategorySheet
+          category={sheetCategory}
+          categoryImage={getCategoryImage(sheetCategory.slug)}
+          onClose={() => setSheetCategory(null)}
+        />
+      )}
     </div>
   );
 };

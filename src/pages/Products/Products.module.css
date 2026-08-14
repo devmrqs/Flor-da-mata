@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   font-family: "DM Sans", sans-serif;
   position: relative;
   z-index: 10;
@@ -9,20 +10,26 @@
   user-select: none;
 }
 
+/* cancela o padding da navbar para o card subir até quase o topo,
+   deixando um respiro de 20px — acompanha a navbar em qualquer tela */
 .productsPage {
-  margin-top: -105px;
+  margin-top: calc(var(--nav-offset) * -1 + 1.25rem);
 }
 
+/* Era width: 1740px fixo: num celular o card ficava centralizado com 1740px
+   de largura, jogando todo o texto (que começa depois do padding) para fora
+   da tela à esquerda. Agora acompanha o container e só chega aos 1740px
+   quando há espaço para isso. */
 .heroProducts {
   background-color: #d9d9d9;
-  width: 1740px;
-  height: 650px;
-  border-radius: 55px;
+  width: min(100% - 2.5rem, 108.75rem);
+  min-height: clamp(24rem, 16rem + 30vw, 40.625rem);
+  border-radius: clamp(1.5rem, 0.75rem + 2.5vw, 3.4375rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 100px;
-  gap: 30px;
+  padding: clamp(2rem, 1rem + 5vw, 6.25rem);
+  gap: clamp(1rem, 2vh, 1.875rem);
   color: rgba(0, 0, 0, 0.9);
 }
 
@@ -30,28 +37,34 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 70px;
+  margin-top: clamp(0.5rem, 4.5vw, 4.375rem);
 }
 
 .textHero .label {
-  font-size: 40px;
+  font-size: clamp(1.5rem, 1rem + 1.7vw, 2.5rem);
   font-weight: 200;
 }
 
 .textHero h2 {
-  font-size: 70px;
+  font-size: clamp(2.5rem, 1.5rem + 3.2vw, 4.375rem);
   font-weight: 300;
+  line-height: 1.1;
 }
 
 .heroProducts .labelTwo {
-  font-size: 23px;
+  font-size: clamp(1rem, 0.9rem + 0.6vw, 1.4375rem);
   font-weight: lighter;
-  max-width: 590px;
+  max-width: 36.875rem;
 }
 
+/* Era flex com padding de 100px por item: 4 itens passavam de 1100px e
+   estouravam a tela. Grid 2x2 no celular, 4 colunas a partir do tablet. */
 .statsBar {
-  display: flex;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: center;
+  margin: clamp(2.5rem, 6vh, 3.75rem) 0;
+  padding: 0 1.25rem;
 }
 
 .statItem {
@@ -59,23 +72,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  text-align: center;
+  gap: 0.625rem;
+  padding: clamp(0.75rem, 2vw, 1.5rem) clamp(1rem, 6vw, 6.25rem);
   border-right: 1px solid #000;
-  padding: 0 100px;
-  margin: 60px 0;
 }
 
-.statItem:last-child {
+.statItem:nth-child(2n) {
   border-right: none;
 }
 
 .statItem strong {
-  font-size: 30px;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.875rem);
   font-weight: 600;
 }
 
 .statItem p {
-  font-size: 20px;
+  font-size: clamp(0.8125rem, 0.7rem + 0.55vw, 1.25rem);
   font-weight: 200;
 }
 
@@ -84,23 +97,40 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 120px;
-  gap: 5px;
+  text-align: center;
+  padding: 0 1.25rem;
+  margin-top: clamp(3rem, 8vw, 7.5rem);
+  gap: 0.3125rem;
 }
 
 .introCarousel .label {
-  font-size: 33px;
+  font-size: clamp(1.25rem, 0.95rem + 1.3vw, 2.0625rem);
   font-weight: 100;
 }
 
 .introCarousel h3 {
-  font-size: 50px;
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3.125rem);
   font-weight: 400;
+  line-height: 1.15;
 }
 
 .introCarousel .labelTwo {
-  font-size: 12px;
+  font-size: clamp(0.625rem, 0.6rem + 0.1vw, 0.75rem);
   font-weight: 200;
   letter-spacing: 2px;
-  margin-top: 5px;
+  margin-top: 0.3125rem;
+}
+
+@media (min-width: 48rem) {
+  .statsBar {
+    grid-template-columns: repeat(4, auto);
+  }
+
+  .statItem:nth-child(2n) {
+    border-right: 1px solid #000;
+  }
+
+  .statItem:last-child {
+    border-right: none;
+  }
 }

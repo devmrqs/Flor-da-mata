@@ -141,7 +141,7 @@ const Products = ({ isPage = false }) => {
         <p className={styles.label}>Nosso catálogo</p>
         <h3>Explore por categoria</h3>
         <p className={styles.labelTwo}>
-          PASSE O MOUSE SOBRE CADA CATEGORIA PARA CONHECER MAIS
+          SELECIONE UMA CATEGORIA PARA VER OS PRODUTOS
         </p>
       </div>
       <CategoryCarousel />
