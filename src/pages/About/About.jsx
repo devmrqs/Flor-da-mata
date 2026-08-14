@@ -94,7 +94,10 @@ const About = ({ isPage = false }) => {
             scrollTrigger: {
               trigger: pinRef.current,
               start: "top top",
-              end: "+=3400",
+              // proporcional à tela: 3400px fixos eram ~3,6 telas no desktop,
+              // mas viravam 5 telas de rolagem num celular
+              end: () => "+=" + window.innerHeight * 3.6,
+              invalidateOnRefresh: true,
               pin: true,
               pinSpacing: true,
               scrub: 1,

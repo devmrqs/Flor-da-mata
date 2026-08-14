@@ -1,8 +1,13 @@
 .timelineSection {
+  /* posição do trilho e recuo do conteúdo no layout vertical (celular) —
+     o dot se alinha ao trilho a partir daqui */
+  --rail-x: 1.25rem;
+  --card-indent: 3rem;
+  --dot-size: 14px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "DM Sans", sans-serif;
   padding-bottom: clamp(1.5rem, 4vw, 3rem);
   user-select: none;
 }
@@ -26,23 +31,25 @@
 }
 
 .header h2 {
-  font-size: 3.2rem;
+  font-size: clamp(1.75rem, 1.2rem + 2.3vw, 3.2rem);
   font-weight: 400;
+  line-height: 1.15;
   color: rgba(65, 66, 33, 0.8);
 }
 
 .header p {
-  font-size: 1.2rem;
+  font-size: clamp(0.9375rem, 0.85rem + 0.42vw, 1.2rem);
   font-weight: 200;
   font-style: italic;
   color: rgba(0, 0, 0, 0.8);
 }
 
+/* Altura livre no celular: 5 cards empilhados não cabem numa viewport, então
+   o pin só existe no desktop (ver Timeline.jsx) */
 .pinWrapper {
   position: relative;
   width: 100%;
-  height: 100vh;
-  padding: calc(125px + 2rem) 4vw 0;
+  padding: calc(var(--nav-offset) + 2rem) 4vw clamp(2rem, 5vw, 3rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,18 +63,19 @@
   max-width: 1400px;
   margin: 0 auto;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 32px;
-  padding: 0 4vw;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(2.25rem, 6vw, 3rem);
+  padding-left: var(--card-indent);
 }
 
+/* vertical: corre pela lateral esquerda, ligando os dots */
 .rail {
   position: absolute;
-  top: 244px;
-  left: 4%;
-  right: 4%;
-  height: 2px;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  left: var(--rail-x);
+  width: 2px;
   background: rgba(93, 103, 60, 0.6);
   z-index: 0;
   user-select: none;
@@ -76,26 +84,29 @@
 .card {
   position: relative;
   z-index: 1;
-  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
   user-select: none;
 }
 
 .imagePlaceholder {
   width: 100%;
-  height: 220px;
+  height: clamp(9rem, 30vw, 13.75rem);
   border-radius: 20px;
   background: #d9d9d9;
 }
 
+/* sai do fluxo e encosta no trilho, à esquerda do card */
 .dot {
-  width: 14px;
-  height: 14px;
-  margin-top: 18px;
+  position: absolute;
+  top: 0.5rem;
+  left: calc(var(--rail-x) - var(--card-indent) - var(--dot-size) / 2);
+  width: var(--dot-size);
+  height: var(--dot-size);
+  margin-top: 0;
   border-radius: 50%;
   background: #5d673c;
   border: 3px solid #fffefa;
@@ -103,23 +114,63 @@
 }
 
 .card h3 {
-  margin-top: 20px;
-  font-size: 1.6rem;
+  margin-top: 1rem;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem);
   font-weight: 600;
   color: #5d673c;
 }
 
 .card strong {
   margin-top: 4px;
-  font-size: 1.15rem;
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.15rem);
   font-weight: 500;
   color: rgba(0, 0, 0, 0.85);
 }
 
 .card p {
   margin-top: 10px;
-  font-size: 0.95rem;
+  font-size: clamp(0.875rem, 0.83rem + 0.2vw, 0.95rem);
   font-weight: 300;
   line-height: 1.55;
   color: rgba(0, 0, 0, 0.6);
+}
+
+/* A partir daqui cabem os 5 cards lado a lado e o pin volta a fazer sentido */
+@media (min-width: 64rem) {
+  .pinWrapper {
+    height: 100svh;
+    padding-bottom: 0;
+  }
+
+  .row {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 0 4vw;
+  }
+
+  .rail {
+    top: 244px;
+    bottom: auto;
+    left: 4%;
+    right: 4%;
+    width: auto;
+    height: 2px;
+  }
+
+  .card {
+    flex: 1;
+    align-items: center;
+    text-align: center;
+  }
+
+  .dot {
+    position: static;
+    margin-top: 18px;
+  }
+
+  .card h3 {
+    margin-top: 20px;
+  }
 }

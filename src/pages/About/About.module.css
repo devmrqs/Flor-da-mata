@@ -8,23 +8,22 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  min-height: 80vh;
+  /* svh: com vh, a barra de endereço do celular empurra o conteúdo pra fora */
+  min-height: 80svh;
   text-align: center;
   padding: 0 1.5rem;
   user-select: none;
 }
 
 .pageHeroLabel {
-  font-family: "DM Sans", sans-serif;
   font-weight: 300;
-  font-size: 2.4rem;
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.4rem);
   color: #5d673c;
 }
 
 .pageHeroText {
-  font-family: "DM Sans", sans-serif;
   font-weight: 200;
-  font-size: 1.375rem;
+  font-size: clamp(0.9375rem, 0.85rem + 0.5vw, 1.375rem);
   color: rgba(0, 0, 0, 0.65);
 }
 
@@ -37,13 +36,17 @@
 .introPin {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
 }
 
+/* Os três blocos ficam empilhados no mesmo ponto e são revelados um por vez
+   pelo pin. Como são absolutos, texto que não cabe transborda a caixa e
+   colide com o transbordo dos outros dois — por isso as fontes precisam
+   caber de verdade na tela, não só encolher um pouco. */
 .introBlock {
   position: absolute;
   inset: 0;
@@ -52,29 +55,30 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 0 1.5rem;
+  padding: 0 clamp(1.25rem, 4vw, 1.5rem);
 }
 
 .introBlock h1,
 .introBlock h2 {
-  font-size: clamp(2.8rem, 5vw, 3.5rem);
-  font-family: "DM Sans", sans-serif;
+  /* o mínimo era 2.8rem (44.8px), grande demais para uma frase de ~95
+     caracteres num celular */
+  font-size: clamp(1.5rem, 1rem + 2.6vw, 3.5rem);
   color: rgba(0, 0, 0, 0.9);
   font-weight: 200;
-
+  line-height: 1.25;
   max-width: 80rem;
 }
 
 .introBlock p {
-  font-size: 1.8rem;
-  font-family: "DM Sans", sans-serif;
+  font-size: clamp(1.0625rem, 0.85rem + 1.1vw, 1.8rem);
   font-weight: 200;
+  line-height: 1.4;
   max-width: 55ch;
 }
 
 .introBlock img {
   height: auto;
-  width: 60px;
-  margin-top: 2rem;
+  width: clamp(2.25rem, 4vw, 3.75rem);
+  margin-top: clamp(1rem, 3vw, 2rem);
   user-select: none;
 }
