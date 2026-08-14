@@ -13,13 +13,20 @@ import styles from "./SvgTransition.module.css";
 
 gsap.registerPlugin(DrawSVGPlugin);
 
+// Espessura que inunda a tela. Com preserveAspectRatio "slice" numa tela
+// estreita, só uma fatia vertical do traçado fica visível — e 490 (87% da
+// altura do viewBox) deixava faixas descobertas em cima e embaixo quando o
+// traçado passava pelo meio dessa fatia. Baixe se o flood ficar rápido demais.
+const COVER_STROKE = 700;
+const REST_STROKE = 2;
+
 // expõe playIn(onComplete)/playOut(onComplete) via ref
 const SvgTransition = forwardRef((_props, ref) => {
   const pathRef = useRef(null);
 
   useGSAP(
     () => {
-      gsap.set(pathRef.current, { drawSVG: "0%", strokeWidth: 2 });
+      gsap.set(pathRef.current, { drawSVG: "0%", strokeWidth: REST_STROKE });
     },
     { scope: pathRef },
   );
@@ -29,7 +36,7 @@ const SvgTransition = forwardRef((_props, ref) => {
     playIn(onComplete) {
       gsap.to(pathRef.current, {
         drawSVG: "100%",
-        strokeWidth: 490,
+        strokeWidth: COVER_STROKE,
         duration: 1.7,
         ease: "power2.inOut",
         onComplete,
@@ -39,7 +46,7 @@ const SvgTransition = forwardRef((_props, ref) => {
     playOut(onComplete) {
       gsap.to(pathRef.current, {
         drawSVG: "0%",
-        strokeWidth: 2,
+        strokeWidth: REST_STROKE,
         duration: 1.5,
         ease: "power2.inOut",
         onComplete,
@@ -49,10 +56,12 @@ const SvgTransition = forwardRef((_props, ref) => {
 
   return (
     <div className={styles.divSvg}>
+      {/* slice em vez do "meet" padrão: o viewBox é panorâmico (1062x563) e,
+          numa tela vertical, "meet" encaixaria o desenho na largura deixando
+          faixas vazias em cima e embaixo. "slice" cobre e corta o excedente. */}
       <svg
-        width="100%"
-        height="100%"
         viewBox="0 0 1062 563"
+        preserveAspectRatio="xMidYMid slice"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
