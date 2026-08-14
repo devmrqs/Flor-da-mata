@@ -144,11 +144,22 @@
   transform: rotate(-180deg);
 }
 
-/* Sem hover não há como revelar a descrição nem o véu que dá contraste ao
-   texto branco: em touch os cards já nascem no estado "hover". */
+/* Sem hover, o título branco ainda precisa de contraste sobre a foto — mas o
+   véu cheio faria todo card parecer selecionado. Um degradê discreto no topo
+   (onde o texto fica) resolve a legibilidade sem simular estado ativo.
+   A descrição não aparece aqui: ela vive na folha que abre ao tocar. */
 @media (hover: none) {
-  .card::after,
-  .cardContent p,
+  .card::after {
+    opacity: 1;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.2) 40%,
+      rgba(0, 0, 0, 0) 72%
+    );
+  }
+
+  /* a seta fica visível como única pista de que o card é tocável */
   .cardContent .arrowCard {
     opacity: 1;
   }

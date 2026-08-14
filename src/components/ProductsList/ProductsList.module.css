@@ -251,9 +251,13 @@
   margin-bottom: 0.25rem;
 }
 
-/* a descrição já aparece no card do carrossel — aqui rouba altura da lista */
+/* no celular o card do carrossel mostra só o título, então é aqui que a
+   descrição da categoria aparece — curta, para não roubar altura da lista */
 .sheet .previewContent p {
-  display: none;
+  max-width: none;
+  font-size: 0.8125rem;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
 }
 
 .sheet .productsContent {
