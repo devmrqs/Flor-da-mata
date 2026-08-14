@@ -22,10 +22,12 @@ import Partnership from "./pages/Partner/Partnership";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-// Em aparelhos de toque o ScrollSmoother já não suaviza nada (smoothTouch vem
-// desligado por padrão), mas mantém um wrapper position: fixed sendo
-// transformado. Esse wrapper brigando com o scroll nativo — e com o pin do
-// hero — é o que causava o flicker no celular. Sem ele, a página rola no body.
+// a barra de endereço do celular muda innerHeight e deslocaria os pins no
+// meio da rolagem; rotação de tela continua recalculando
+ScrollTrigger.config({ ignoreMobileResize: true });
+
+// em toque o ScrollSmoother não suaviza nada (smoothTouch vem desligado), só
+// deixa um wrapper fixo sendo transformado — origem do flicker no celular
 const IS_TOUCH_ONLY = window.matchMedia(
   "(hover: none) and (pointer: coarse)",
 ).matches;
@@ -39,8 +41,7 @@ function App() {
         wrapper: "#smooth-wrapper",
         content: "#smooth-content",
         smooth: 1.2,
-        // nenhum elemento usa data-speed/data-lag: ligado, só varre o DOM à toa
-        effects: false,
+        effects: false, // nenhum elemento usa data-speed/data-lag
       });
     }
 
