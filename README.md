@@ -30,7 +30,7 @@ Funcionalidades de backend (envio real de formulários, autenticação, históri
 | ![#FFFEFA](https://placehold.co/16x16/FFFEFA/FFFEFA.png?text=+) Cream | `#FFFEFA` | fundo                            |
 | ![#B5713F](https://placehold.co/16x16/B5713F/B5713F.png) Terracota    | `#B5713F` | acentos, hover, CTA              |
 
-- **Tipografia:** [Cormorant Garamond](https://fonts.google.com/specimen/Cormorant+Garamond) (títulos editoriais) + [DM Sans](https://fonts.google.com/specimen/DM+Sans) (corpo e navegação)
+- **Tipografia:** [DM Sans](https://fonts.google.com/specimen/DM+Sans) (corpo e navegação)
 - **Estética:** editorial, quente, artesanal — interações expressivas inspiradas no [MindMarket](https://mindmarket.com/)
 
 ## Stack
