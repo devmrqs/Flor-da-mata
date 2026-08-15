@@ -40,6 +40,8 @@ const Timeline = () => {
               pin: true,
               pinSpacing: true,
               scrub: 1,
+              // último pin da página: recalcula depois dos que estão acima
+              refreshPriority: 1,
             },
           })
           .to(headerRef.current.children, {
@@ -75,18 +77,36 @@ const Timeline = () => {
         });
 
         cards.forEach((card) => {
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-            },
+          const trigger = {
+            trigger: card,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          };
+
+          // imagem e texto entram separados, como na seção de parceria: o card
+          // inteiro de uma vez não dá a sensação de surgimento gradual
+          gsap.from(card.querySelector(`.${styles.imagePlaceholder}`), {
+            scrollTrigger: trigger,
             opacity: 0,
             y: 40,
-            scale: 0.94,
-            duration: 0.6,
+            scale: 0.96,
+            duration: 0.7,
             ease: "power3.out",
+            clearProps: "transform",
           });
+
+          gsap.from(
+            card.querySelectorAll(`.${styles.dot}, h3, strong, p`),
+            {
+              scrollTrigger: trigger,
+              opacity: 0,
+              y: 24,
+              duration: 0.5,
+              stagger: 0.15,
+              ease: "power3.out",
+              clearProps: "transform",
+            },
+          );
         });
       });
     },

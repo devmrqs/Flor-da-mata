@@ -100,6 +100,10 @@ const About = ({ isPage = false }) => {
               pin: true,
               pinSpacing: true,
               scrub: 1,
+              // este pin insere ~3,6 telas de espaçador e empurra a Timeline
+              // para baixo: ele precisa recalcular antes dela, senão ela mede
+              // as posições como se o espaçador não existisse
+              refreshPriority: 2,
             },
           })
           .to(split1.chars, charsIn)

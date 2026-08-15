@@ -89,6 +89,8 @@ const Home = () => {
             // barra de endereço do celular some/aparece e muda a altura da
             // viewport: sem isso o ScrollTrigger recalcula e dá tranco no pin
             ignoreMobileResize: true,
+            // primeiro pin da página: recalcula antes de todos abaixo dele
+            refreshPriority: 3,
           },
         });
 
