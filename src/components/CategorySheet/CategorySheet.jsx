@@ -97,6 +97,7 @@ const CategorySheet = ({ category, categoryImage, onClose }) => {
           category={category}
           categoryImage={categoryImage}
           variant="sheet"
+          onNavigateAway={onClose}
         />
       </div>
     </div>,

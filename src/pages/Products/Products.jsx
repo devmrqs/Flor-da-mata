@@ -4,6 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Hooks
+import { useSvgTransition } from "../../components/SVG/useSvgTransition";
+
 // Components
 import Button from "../../components/Button/Button";
 import CategoryCarousel from "../../components/CategoryCarousel/CategoryCarousel";
@@ -20,6 +23,7 @@ const Products = ({ isPage = false }) => {
   const heroRef = useRef(null);
   const statsRef = useRef(null);
   const introRef = useRef(null);
+  const { transitionTo } = useSvgTransition();
 
   useGSAP(
     () => {
@@ -117,6 +121,7 @@ const Products = ({ isPage = false }) => {
           variant="primary"
           icon="arrow"
           size="small"
+          onClick={() => transitionTo("/seja-parceiro")}
         />
       </div>
       <div className={styles.statsBar} ref={statsRef}>

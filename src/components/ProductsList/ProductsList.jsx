@@ -6,7 +6,13 @@ import ProductModal from "../ProductModal/ProductModal";
 // CSS
 import styles from "./ProductsList.module.css";
 
-const ProductsList = ({ category, categoryImage, variant, panelRef }) => {
+const ProductsList = ({
+  category,
+  categoryImage,
+  variant,
+  panelRef,
+  onNavigateAway,
+}) => {
   // Índice no array, não o produto em si — slug não é garantido único
   const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -64,6 +70,7 @@ const ProductsList = ({ category, categoryImage, variant, panelRef }) => {
         categorySlug={category.slug}
         categoryTitle={category.title}
         onClose={() => setSelectedIndex(null)}
+        onNavigateAway={onNavigateAway}
       />
     </>
   );

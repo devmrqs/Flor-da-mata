@@ -5,6 +5,9 @@ import { createPortal } from "react-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
+// Hooks
+import { useSvgTransition } from "../SVG/useSvgTransition.js";
+
 // Components
 import Button from "../Button/Button.jsx";
 
@@ -25,8 +28,11 @@ const ProductModal = ({
   categorySlug,
   categoryTitle,
   onClose,
+  // fecha também o que abriu este modal (a folha de categoria, no celular)
+  onNavigateAway,
 }) => {
   const isOpen = initialIndex !== null && initialIndex !== undefined;
+  const { transitionTo } = useSvgTransition();
 
   // Índice, não o produto/slug: slug não é garantido único
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
@@ -95,6 +101,19 @@ const ProductModal = ({
     if (isClosingRef.current) return;
     isClosingRef.current = true;
     playExitAnimation(onClose);
+  }
+
+  // A cortina do SvgTransition fica num z-index abaixo deste modal, então ela
+  // desenharia por trás dele. Fecha tudo primeiro, depois transiciona.
+  function handleRequestQuote() {
+    if (isClosingRef.current) return;
+    isClosingRef.current = true;
+
+    playExitAnimation(() => {
+      onClose();
+      onNavigateAway?.();
+      transitionTo("/seja-parceiro");
+    });
   }
 
   const hasPrev = currentIndex > 0;
@@ -268,6 +287,7 @@ const ProductModal = ({
                 variant="primary"
                 icon="arrow"
                 size="small"
+                onClick={handleRequestQuote}
               />
             </div>
 

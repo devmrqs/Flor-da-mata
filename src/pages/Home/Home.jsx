@@ -4,6 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Hooks
+import { useSvgTransition } from "../../components/SVG/useSvgTransition";
+
 // Components
 import Button from "../../components/Button/Button";
 import NaturezaText from "../../components/NaturezaText/NaturezaText";
@@ -23,6 +26,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Home = () => {
   const heroRef = useRef(null);
   const arrowRef = useRef(null);
+  const { transitionTo } = useSvgTransition();
 
   useGSAP(
     () => {
@@ -115,6 +119,7 @@ const Home = () => {
               label="Solicitar orçamento"
               variant="primary"
               icon="arrow"
+              onClick={() => transitionTo("/seja-parceiro")}
             />
             <Button
               label="Entrar em contato"
