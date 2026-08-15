@@ -213,84 +213,77 @@
   display: none;
 }
 
-/* ---- Variante "sheet": folha em tela cheia usada no celular ---- */
+/* ---- Variante "expanded": painel que abre abaixo do card no celular ---- */
 
-.sheet {
+.expanded {
   width: 100%;
-  height: 100%;
+  height: auto;
   margin: 0;
   display: flex;
   flex-direction: column;
   border: none;
   border-radius: 0;
   box-shadow: none;
-  background: #fffefa;
+  background: transparent;
 }
 
-.sheet .categoryPreview {
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
+/* o card logo acima já mostra imagem, nome e descrição da categoria */
+.expanded .categoryPreview {
+  display: none;
+}
+
+.expanded .productsContent {
   height: auto;
-  flex-shrink: 0;
-  padding: 1.25rem 3.5rem 1.25rem 1.25rem;
+  padding: 1.25rem 1.25rem 1rem;
+  background: none;
 }
 
-.sheet .imageWrapper {
-  width: 4.5rem;
-  height: 4.5rem;
-  border-radius: 0.875rem;
+.expanded .productsHeader {
+  margin-bottom: 0.75rem;
+  padding-right: 2.5rem;
 }
 
-.sheet .previewContent h3 {
+.expanded .productsHeader h4 {
   font-size: 1.25rem;
-  margin-bottom: 0.25rem;
 }
 
-/* no celular o card do carrossel mostra só o título: a descrição vem aqui */
-.sheet .previewContent p {
-  max-width: none;
+.expanded .productsHeader p {
   font-size: 0.8125rem;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
 }
 
-.sheet .productsContent {
-  flex: 1;
-  min-height: 0;
-  height: auto;
-  padding: 1.25rem;
-}
-
-.sheet .productsHeader {
-  margin-bottom: 1rem;
-}
-
-.sheet .productsHeader h4 {
-  font-size: 1.375rem;
-}
-
-.sheet .productsScroll {
+/* Lista vertical com teto de altura: a maioria das categorias cabe inteira,
+   e as maiores rolam aqui dentro. overscroll-behavior impede que, ao chegar
+   ao fim, o gesto continue rolando a pagina atras. A mascara avisa que ha
+   mais conteudo abaixo. */
+.expanded .productsScroll {
+  max-height: 45svh;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
   cursor: default;
   padding-bottom: 0;
+  mask-image: linear-gradient(to bottom, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 88%, transparent 100%);
 }
 
-.sheet .productsGrid {
+.expanded .productsGrid {
   grid-auto-flow: row;
   grid-template-rows: none;
   grid-template-columns: 1fr;
   width: 100%;
 }
 
-.sheet .productItem {
-  padding: 0.625rem 0 0.625rem 1.125rem;
+.expanded .productItem {
+  padding: 0.6875rem 0 0.6875rem 1.125rem;
   border-bottom: 1px solid rgba(93, 103, 60, 0.12);
 }
 
-.sheet .productItem::before {
-  top: 1.15em;
+.expanded .productItem:last-child {
+  border-bottom: none;
+}
+
+.expanded .productItem::before {
+  top: 1.2em;
 }
 
 .insideCard .productsContent {

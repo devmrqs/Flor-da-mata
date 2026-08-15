@@ -14,10 +14,7 @@ import { getCategoryImage } from "../../utils/categoryImages.js";
 
 // Components
 import ProductsList from "../ProductsList/ProductsList.jsx";
-import CategorySheet from "../CategorySheet/CategorySheet.jsx";
-
-// Assets
-import arrow from "../../assets/images/cards-products/arrowProducts.svg";
+import CategoryShowcase from "../CategoryShowcase/CategoryShowcase.jsx";
 
 // CSS
 import styles from "./CategoryCarousel.module.css";
@@ -39,13 +36,13 @@ function getExpandedWidth(wrapper, panel) {
   return getCardWidth(wrapper) + (panel?.offsetWidth ?? 0) - PANEL_OVERLAP;
 }
 
-// Abaixo disso não há largura para expandir o card de lado — abre a folha
+// Abaixo disso não há largura para a fita horizontal nem para expandir o card
+// de lado: a vitrine vertical (CategoryShowcase) assume
 const COMPACT_QUERY = "(max-width: 47.99rem)";
 
 const CategoryCarousel = () => {
   const [expandedKey, setExpandedKey] = useState(null);
   const [mountedKey, setMountedKey] = useState(null);
-  const [sheetCategory, setSheetCategory] = useState(null);
   const [isCompact, setIsCompact] = useState(
     () => window.matchMedia(COMPACT_QUERY).matches,
   );
@@ -64,7 +61,6 @@ const CategoryCarousel = () => {
 
     function handleChange(event) {
       setIsCompact(event.matches);
-      setSheetCategory(null);
       setExpandedKey(null);
       setMountedKey(null);
       setLocked(false);
@@ -177,12 +173,7 @@ const CategoryCarousel = () => {
     );
   }
 
-  function handleSelectCategory(key, category) {
-    if (isCompact) {
-      setSheetCategory(category);
-      return;
-    }
-
+  function handleSelectCategory(key) {
     if (expandedKey === key) {
       setExpandedKey(null);
       closeCard(key, () => setLocked(false));
@@ -198,6 +189,10 @@ const CategoryCarousel = () => {
       openCard(key);
     }
   }
+
+  // no celular a fita horizontal não cabe nem tem para onde expandir de lado:
+  // a vitrine assume a seção inteira
+  if (isCompact) return <CategoryShowcase />;
 
   return (
     <div className={styles.carouselContainer} ref={containerRef}>
@@ -220,7 +215,7 @@ const CategoryCarousel = () => {
                 }`}
                 onClick={() => {
                   if (hasDragged.current) return;
-                  handleSelectCategory(key, category);
+                  handleSelectCategory(key);
                 }}
                 type="button"
               >
@@ -230,15 +225,27 @@ const CategoryCarousel = () => {
                   className={styles.cardImage}
                 />
                 <div className={styles.cardContent}>
-                  <div className={styles.cardHeader}>
-                    <h4>{category.title}</h4>
-                    <img src={arrow} alt="" className={styles.arrowCard} />
+                  <span className={styles.cardCount}>
+                    {category.products?.length > 0
+                      ? `${category.products.length} produtos`
+                      : "Em breve"}
+                  </span>
+                  <h4>{category.title}</h4>
+
+                  {/* wrapper existe para o truque de grid 0fr→1fr, que anima
+                      altura sem precisar saber o valor final */}
+                  <div className={styles.cardReveal}>
+                    <div>
+                      <p>{category.description}</p>
+                      <span className={styles.cardAction}>
+                        {isActive ? "Fechar" : "Ver produtos"}
+                      </span>
+                    </div>
                   </div>
-                  <p>{category.description}</p>
                 </div>
               </button>
 
-              {isMounted && !isCompact && (
+              {isMounted && (
                 <ProductsList
                   category={category}
                   categoryImage={getCategoryImage(category.slug)}
@@ -250,14 +257,6 @@ const CategoryCarousel = () => {
           );
         })}
       </div>
-
-      {sheetCategory && (
-        <CategorySheet
-          category={sheetCategory}
-          categoryImage={getCategoryImage(sheetCategory.slug)}
-          onClose={() => setSheetCategory(null)}
-        />
-      )}
     </div>
   );
 };

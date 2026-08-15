@@ -22,7 +22,7 @@ const ProductsList = ({
         ref={panelRef}
         className={`${styles.productsPanel} ${
           variant === "insideCard" ? styles.insideCard : ""
-        } ${variant === "sheet" ? styles.sheet : ""}`}
+        } ${variant === "expanded" ? styles.expanded : ""}`}
       >
         <aside className={styles.categoryPreview}>
           <div className={styles.imageWrapper}>
