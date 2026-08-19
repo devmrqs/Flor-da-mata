@@ -48,14 +48,14 @@ const NaturezaText = () => {
 
       const blendTween = gsap.to(state, {
         blend: 1,
-        duration: 14,
+        duration: 7,
         ease: "sine.inOut",
         repeat: -1,
         yoyo: true,
       });
 
       const pulseTween = gsap.to(textRef.current, {
-        opacity: 0.93,
+        opacity: 0.9,
         duration: 5,
         ease: "sine.inOut",
         repeat: -1,

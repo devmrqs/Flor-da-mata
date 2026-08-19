@@ -108,19 +108,6 @@ export function useDragScroll(itemCount) {
     };
   }, [checkLoop, itemCount]);
 
-  // Bloqueia o wheel — o carousel só se move via auto-scroll ou drag
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const blockWheel = (e) => {
-      e.preventDefault();
-    };
-
-    el.addEventListener("wheel", blockWheel, { passive: false });
-    return () => el.removeEventListener("wheel", blockWheel);
-  }, []);
-
   // mousedown não dispara em toque, então o drag abaixo não cobre este caso
   useEffect(() => {
     const el = ref.current;

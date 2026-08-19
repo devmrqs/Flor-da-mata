@@ -22,6 +22,9 @@ import arrowRight from "../../assets/images/arrowRight.svg";
 // CSS
 import styles from "./ProductModal.module.css";
 
+const WEIGHT_ACTIVE_TEXT = "#fffefa";
+const WEIGHT_INACTIVE_TEXT = "#333725";
+
 const ProductModal = ({
   products,
   initialIndex,
@@ -46,6 +49,20 @@ const ProductModal = ({
   const modalRef = useRef(null);
   const isClosingRef = useRef(false);
   const isNavigatingRef = useRef(false);
+
+  // Duas camadas empilhadas pro crossfade — nunca desmontam, só trocam de src
+  const imageSlotsRef = useRef([null, null]);
+  const visibleSlotRef = useRef(0);
+  const currentSrcRef = useRef(null);
+  const productKeyRef = useRef(null);
+
+  // Preenchimento das gramagens: mapas por weight, não por índice, porque
+  // os botões trocam de peso disponível a cada produto
+  const weightFillRefs = useRef({});
+  const weightLabelRefs = useRef({});
+  const clickOriginRef = useRef({});
+  const activeWeightRef = useRef(null);
+  const weightsProductKeyRef = useRef(null);
 
   // Animação de entrada; roda só no mount, não na navegação entre produtos
   useGSAP(
@@ -81,6 +98,185 @@ const ProductModal = ({
     },
     { scope: overlayRef },
   );
+
+  const images = getProductImages(
+    categorySlug,
+    currentProduct?.slug,
+    selectedWeight,
+  );
+
+  // Crossfade entre as duas camadas sempre que a imagem-alvo muda (troca de
+  // gramagem, clique numa thumb, ou navegação pra outro produto). Na primeira
+  // imagem de cada produto, a troca é instantânea — quem anima a entrada
+  // ali é o modal como um todo, não faz sentido também animar a foto.
+  useGSAP(
+    () => {
+      const targetSrc = images[activeImage];
+      if (!targetSrc) return;
+
+      const isNewProduct = productKeyRef.current !== currentIndex;
+      productKeyRef.current = currentIndex;
+
+      if (targetSrc === currentSrcRef.current && !isNewProduct) return;
+
+      const visible = visibleSlotRef.current;
+      const hidden = visible === 0 ? 1 : 0;
+      const hiddenEl = imageSlotsRef.current[hidden];
+      const visibleEl = imageSlotsRef.current[visible];
+      if (!hiddenEl || !visibleEl) return;
+
+      // Cancela qualquer fade pendente das duas camadas antes de começar um
+      // novo — sem isso, cliques rápidos entre fotos podem deixar um
+      // onComplete antigo esvaziar o src da imagem errada.
+      gsap.killTweensOf([hiddenEl, visibleEl]);
+
+      function showImage(instant) {
+        hiddenEl.src = targetSrc;
+
+        if (instant) {
+          gsap.set(hiddenEl, { opacity: 1, scale: 1, zIndex: 2 });
+          gsap.set(visibleEl, { opacity: 0, zIndex: 1 });
+        } else {
+          gsap.set(hiddenEl, { opacity: 0, scale: 1.04, zIndex: 2 });
+          gsap.set(visibleEl, { zIndex: 1 });
+          gsap.to(hiddenEl, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: "power3.out",
+          });
+          gsap.to(visibleEl, {
+            opacity: 0,
+            duration: 0.45,
+            ease: "power2.in",
+            onComplete: () => {
+              // libera a decodificação da imagem que saiu de cena
+              visibleEl.src = "";
+            },
+          });
+        }
+
+        visibleSlotRef.current = hidden;
+        currentSrcRef.current = targetSrc;
+      }
+
+      // pré-carrega antes de animar — evita flash de imagem quebrada/em branco
+      const preload = new Image();
+      preload.src = targetSrc;
+      if (preload.complete) {
+        showImage(isNewProduct);
+      } else {
+        preload.onload = () => showImage(isNewProduct);
+      }
+    },
+    { dependencies: [images[activeImage], currentIndex], scope: modalRef },
+  );
+
+  // Preenchimento circular da gramagem ativa — nasce no ponto exato do
+  // clique e cresce até cobrir o botão inteiro (efeito "tinta se
+  // espalhando", via clip-path em vez de transform: scaleX). Ao trocar de
+  // produto, o estado "salta" direto pro peso correto sem animar (evita
+  // herdar preenchimento visual de um card que nem existe mais no produto
+  // novo). Ao clicar dentro do mesmo produto, anima: o card clicado ganha
+  // a mancha, e o anteriormente ativo recolhe a dele a partir de onde foi
+  // clicado originalmente.
+  useGSAP(
+    () => {
+      if (!selectedWeight) return;
+
+      const isNewProduct = weightsProductKeyRef.current !== currentIndex;
+      weightsProductKeyRef.current = currentIndex;
+
+      const nextFill = weightFillRefs.current[selectedWeight];
+      const nextLabel = weightLabelRefs.current[selectedWeight];
+      if (!nextFill || !nextLabel) return;
+
+      if (isNewProduct) {
+        Object.values(weightFillRefs.current).forEach((el) => {
+          if (el) gsap.set(el, { clipPath: "circle(0px at 50% 50%)" });
+        });
+        Object.values(weightLabelRefs.current).forEach((el) => {
+          if (el) gsap.set(el, { color: WEIGHT_INACTIVE_TEXT });
+        });
+        gsap.set(nextFill, { clipPath: "circle(150% at 50% 50%)" });
+        gsap.set(nextLabel, { color: WEIGHT_ACTIVE_TEXT });
+        activeWeightRef.current = selectedWeight;
+        return;
+      }
+
+      const prevWeight = activeWeightRef.current;
+      if (prevWeight === selectedWeight) return;
+      activeWeightRef.current = selectedWeight;
+
+      const origin = clickOriginRef.current[selectedWeight] ?? {
+        x: "50%",
+        y: "50%",
+        maxRadius: 100,
+      };
+
+      gsap.killTweensOf(nextFill);
+      gsap.fromTo(
+        nextFill,
+        { clipPath: `circle(0px at ${origin.x}px ${origin.y}px)` },
+        {
+          clipPath: `circle(${origin.maxRadius}px at ${origin.x}px ${origin.y}px)`,
+          duration: 0.55,
+          ease: "power2.out",
+        },
+      );
+      gsap.to(nextLabel, {
+        color: WEIGHT_ACTIVE_TEXT,
+        duration: 0.3,
+        ease: "power1.out",
+      });
+
+      if (prevWeight) {
+        const prevFill = weightFillRefs.current[prevWeight];
+        const prevLabel = weightLabelRefs.current[prevWeight];
+        const prevOrigin = clickOriginRef.current[prevWeight] ?? {
+          x: "50%",
+          y: "50%",
+        };
+        if (prevFill) {
+          gsap.killTweensOf(prevFill);
+          gsap.to(prevFill, {
+            clipPath: `circle(0px at ${prevOrigin.x}px ${prevOrigin.y}px)`,
+            duration: 0.4,
+            ease: "power2.in",
+          });
+        }
+        if (prevLabel) {
+          gsap.to(prevLabel, {
+            color: WEIGHT_INACTIVE_TEXT,
+            duration: 0.2,
+            ease: "power1.out",
+          });
+        }
+      }
+    },
+    { dependencies: [selectedWeight, currentIndex], scope: modalRef },
+  );
+
+  function handleWeightClick(event, weight) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // raio precisa alcançar o canto mais distante do ponto clicado,
+    // senão a mancha para antes de cobrir o botão todo
+    const corners = [
+      [0, 0],
+      [rect.width, 0],
+      [0, rect.height],
+      [rect.width, rect.height],
+    ];
+    const maxRadius = Math.max(
+      ...corners.map(([cx, cy]) => Math.hypot(x - cx, y - cy)),
+    );
+
+    clickOriginRef.current[weight] = { x, y, maxRadius };
+    setSelectedWeight(weight);
+  }
 
   function playExitAnimation(onComplete) {
     gsap
@@ -168,8 +364,6 @@ const ProductModal = ({
 
   if (!isOpen || !currentProduct) return null;
 
-  const images = getProductImages(categorySlug, currentProduct.slug);
-
   return createPortal(
     <div className={styles.overlay} onClick={handleClose} ref={overlayRef}>
       <div
@@ -188,20 +382,29 @@ const ProductModal = ({
 
         <div className={styles.content}>
           <div className={styles.gallery}>
-            <div className={styles.mainImage}>
-              {images[activeImage] ? (
-                <img
-                  src={images[activeImage]}
-                  alt={currentProduct.name}
-                  className={styles.mainImageImg}
-                />
-              ) : (
-                <span>Imagem do produto</span>
-              )}
+            <div className={styles.imageStage}>
+              <div className={styles.imageFrame}>
+                {images.length > 0 ? (
+                  <>
+                    <img
+                      ref={(el) => (imageSlotsRef.current[0] = el)}
+                      alt={currentProduct.name}
+                      className={styles.mainImageImg}
+                    />
+                    <img
+                      ref={(el) => (imageSlotsRef.current[1] = el)}
+                      alt={currentProduct.name}
+                      className={styles.mainImageImg}
+                    />
+                  </>
+                ) : (
+                  <span>Imagem do produto</span>
+                )}
 
-              {categoryTitle && (
-                <span className={styles.categoryBadge}>{categoryTitle}</span>
-              )}
+                {categoryTitle && (
+                  <span className={styles.categoryBadge}>{categoryTitle}</span>
+                )}
+              </div>
             </div>
 
             {images.length > 1 && (
@@ -249,9 +452,18 @@ const ProductModal = ({
                       className={`${styles.weightCard} ${
                         selectedWeight === weight ? styles.weightCardActive : ""
                       }`}
-                      onClick={() => setSelectedWeight(weight)}
+                      onClick={(e) => handleWeightClick(e, weight)}
                     >
-                      {weight}
+                      <span
+                        className={styles.weightCardFill}
+                        ref={(el) => (weightFillRefs.current[weight] = el)}
+                      />
+                      <span
+                        className={styles.weightCardLabel}
+                        ref={(el) => (weightLabelRefs.current[weight] = el)}
+                      >
+                        {weight}
+                      </span>
                     </button>
                   ))}
                 </div>
