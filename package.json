@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
-    "@paper-design/shaders-react": "^0.0.80",
     "gsap": "^3.15.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
