@@ -42,9 +42,10 @@ const ProductModal = ({
   const currentProduct = products?.[currentIndex];
 
   const [activeImage, setActiveImage] = useState(0);
-  const [selectedWeight, setSelectedWeight] = useState(
-    currentProduct?.weights?.[0] ?? null,
-  );
+
+  // Começa com null para não forçar seleção inicial e evitar bug visual
+  const [selectedWeight, setSelectedWeight] = useState(null);
+
   const overlayRef = useRef(null);
   const modalRef = useRef(null);
   const isClosingRef = useRef(false);
@@ -172,48 +173,41 @@ const ProductModal = ({
     { dependencies: [images[activeImage], currentIndex], scope: modalRef },
   );
 
-  // Preenchimento circular da gramagem ativa — nasce no ponto exato do
-  // clique e cresce até cobrir o botão inteiro (efeito "tinta se
-  // espalhando", via clip-path em vez de transform: scaleX). Ao trocar de
-  // produto, o estado "salta" direto pro peso correto sem animar (evita
-  // herdar preenchimento visual de um card que nem existe mais no produto
-  // novo). Ao clicar dentro do mesmo produto, anima: o card clicado ganha
-  // a mancha, e o anteriormente ativo recolhe a dele a partir de onde foi
-  // clicado originalmente.
+  // Preenchimento circular da gramagem ativa
   useGSAP(
     () => {
-      if (!selectedWeight) return;
+      // 1. Se mudou de produto, reseta tudo IMEDIATAMENTE antes de checar selectedWeight
+      if (weightsProductKeyRef.current !== currentIndex) {
+        weightsProductKeyRef.current = currentIndex;
+        activeWeightRef.current = null; // Zera a memória do peso anterior
 
-      const isNewProduct = weightsProductKeyRef.current !== currentIndex;
-      weightsProductKeyRef.current = currentIndex;
-
-      const nextFill = weightFillRefs.current[selectedWeight];
-      const nextLabel = weightLabelRefs.current[selectedWeight];
-      if (!nextFill || !nextLabel) return;
-
-      if (isNewProduct) {
+        // Limpa visualmente todos os botões que ficaram pendentes
         Object.values(weightFillRefs.current).forEach((el) => {
           if (el) gsap.set(el, { clipPath: "circle(0px at 50% 50%)" });
         });
         Object.values(weightLabelRefs.current).forEach((el) => {
           if (el) gsap.set(el, { color: WEIGHT_INACTIVE_TEXT });
         });
-        gsap.set(nextFill, { clipPath: "circle(150% at 50% 50%)" });
-        gsap.set(nextLabel, { color: WEIGHT_ACTIVE_TEXT });
-        activeWeightRef.current = selectedWeight;
-        return;
       }
 
+      // 2. Se nada estiver selecionado (ex: modal abriu agora), apenas aguarda
+      if (!selectedWeight) return;
+
+      const nextFill = weightFillRefs.current[selectedWeight];
+      const nextLabel = weightLabelRefs.current[selectedWeight];
+      if (!nextFill || !nextLabel) return;
+
       const prevWeight = activeWeightRef.current;
-      if (prevWeight === selectedWeight) return;
+      if (prevWeight === selectedWeight) return; // Evita re-animar o que já está ativo
       activeWeightRef.current = selectedWeight;
 
       const origin = clickOriginRef.current[selectedWeight] ?? {
         x: "50%",
         y: "50%",
-        maxRadius: 100,
+        maxRadius: 150, // fallback seguro
       };
 
+      // 3. Anima o NOVO botão selecionado
       gsap.killTweensOf(nextFill);
       gsap.fromTo(
         nextFill,
@@ -230,6 +224,7 @@ const ProductModal = ({
         ease: "power1.out",
       });
 
+      // 4. Recolhe o botão ANTERIOR, se houver
       if (prevWeight) {
         const prevFill = weightFillRefs.current[prevWeight];
         const prevLabel = weightLabelRefs.current[prevWeight];
@@ -237,6 +232,7 @@ const ProductModal = ({
           x: "50%",
           y: "50%",
         };
+
         if (prevFill) {
           gsap.killTweensOf(prevFill);
           gsap.to(prevFill, {
@@ -331,7 +327,7 @@ const ProductModal = ({
       onComplete: () => {
         setCurrentIndex(nextIndex);
         setActiveImage(0);
-        setSelectedWeight(products[nextIndex].weights?.[0] ?? null);
+        setSelectedWeight(null); // Remove a seleção forçada ao trocar de produto
         gsap.set(modalRef.current, { x: 0, scale: 0.85, opacity: 0 });
         gsap.to(modalRef.current, {
           scale: 1,
