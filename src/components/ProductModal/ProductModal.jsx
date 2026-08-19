@@ -31,41 +31,38 @@ const ProductModal = ({
   categorySlug,
   categoryTitle,
   onClose,
-  // fecha também o que abriu este modal (a folha de categoria, no celular)
   onNavigateAway,
 }) => {
   const isOpen = initialIndex !== null && initialIndex !== undefined;
   const { transitionTo } = useSvgTransition();
 
-  // Índice, não o produto/slug: slug não é garantido único
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const currentProduct = products?.[currentIndex];
 
   const [activeImage, setActiveImage] = useState(0);
 
-  // Começa com null para não forçar seleção inicial e evitar bug visual
-  const [selectedWeight, setSelectedWeight] = useState(null);
+  // RESTAURADO: Já começa com a primeira gramagem pré-selecionada
+  const [selectedWeight, setSelectedWeight] = useState(
+    currentProduct?.weights?.[0] ?? null,
+  );
 
   const overlayRef = useRef(null);
   const modalRef = useRef(null);
   const isClosingRef = useRef(false);
   const isNavigatingRef = useRef(false);
 
-  // Duas camadas empilhadas pro crossfade — nunca desmontam, só trocam de src
   const imageSlotsRef = useRef([null, null]);
   const visibleSlotRef = useRef(0);
   const currentSrcRef = useRef(null);
   const productKeyRef = useRef(null);
 
-  // Preenchimento das gramagens: mapas por weight, não por índice, porque
-  // os botões trocam de peso disponível a cada produto
   const weightFillRefs = useRef({});
   const weightLabelRefs = useRef({});
   const clickOriginRef = useRef({});
   const activeWeightRef = useRef(null);
   const weightsProductKeyRef = useRef(null);
 
-  // Animação de entrada; roda só no mount, não na navegação entre produtos
+  // Animação de entrada
   useGSAP(
     () => {
       if (!isOpen) return;
@@ -106,10 +103,7 @@ const ProductModal = ({
     selectedWeight,
   );
 
-  // Crossfade entre as duas camadas sempre que a imagem-alvo muda (troca de
-  // gramagem, clique numa thumb, ou navegação pra outro produto). Na primeira
-  // imagem de cada produto, a troca é instantânea — quem anima a entrada
-  // ali é o modal como um todo, não faz sentido também animar a foto.
+  // Crossfade entre imagens
   useGSAP(
     () => {
       const targetSrc = images[activeImage];
@@ -126,9 +120,6 @@ const ProductModal = ({
       const visibleEl = imageSlotsRef.current[visible];
       if (!hiddenEl || !visibleEl) return;
 
-      // Cancela qualquer fade pendente das duas camadas antes de começar um
-      // novo — sem isso, cliques rápidos entre fotos podem deixar um
-      // onComplete antigo esvaziar o src da imagem errada.
       gsap.killTweensOf([hiddenEl, visibleEl]);
 
       function showImage(instant) {
@@ -151,7 +142,6 @@ const ProductModal = ({
             duration: 0.45,
             ease: "power2.in",
             onComplete: () => {
-              // libera a decodificação da imagem que saiu de cena
               visibleEl.src = "";
             },
           });
@@ -161,7 +151,6 @@ const ProductModal = ({
         currentSrcRef.current = targetSrc;
       }
 
-      // pré-carrega antes de animar — evita flash de imagem quebrada/em branco
       const preload = new Image();
       preload.src = targetSrc;
       if (preload.complete) {
@@ -176,44 +165,53 @@ const ProductModal = ({
   // Preenchimento circular da gramagem ativa
   useGSAP(
     () => {
-      // 1. Se mudou de produto, reseta tudo IMEDIATAMENTE antes de checar selectedWeight
-      if (weightsProductKeyRef.current !== currentIndex) {
-        weightsProductKeyRef.current = currentIndex;
-        activeWeightRef.current = null; // Zera a memória do peso anterior
+      if (!selectedWeight) return;
 
-        // Limpa visualmente todos os botões que ficaram pendentes
+      const isNewProduct = weightsProductKeyRef.current !== currentIndex;
+      weightsProductKeyRef.current = currentIndex;
+
+      const nextFill = weightFillRefs.current[selectedWeight];
+      const nextLabel = weightLabelRefs.current[selectedWeight];
+      if (!nextFill || !nextLabel) return;
+
+      if (isNewProduct) {
         Object.values(weightFillRefs.current).forEach((el) => {
           if (el) gsap.set(el, { clipPath: "circle(0px at 50% 50%)" });
         });
         Object.values(weightLabelRefs.current).forEach((el) => {
           if (el) gsap.set(el, { color: WEIGHT_INACTIVE_TEXT });
         });
+        gsap.set(nextFill, { clipPath: "circle(150% at 50% 50%)" });
+        gsap.set(nextLabel, { color: WEIGHT_ACTIVE_TEXT });
+        activeWeightRef.current = selectedWeight;
+        return;
       }
 
-      // 2. Se nada estiver selecionado (ex: modal abriu agora), apenas aguarda
-      if (!selectedWeight) return;
-
-      const nextFill = weightFillRefs.current[selectedWeight];
-      const nextLabel = weightLabelRefs.current[selectedWeight];
-      if (!nextFill || !nextLabel) return;
-
       const prevWeight = activeWeightRef.current;
-      if (prevWeight === selectedWeight) return; // Evita re-animar o que já está ativo
+      if (prevWeight === selectedWeight) return;
       activeWeightRef.current = selectedWeight;
+
+      // CORREÇÃO DO BUG: Função auxiliar para garantir unidades certas.
+      // Se vier do mouse é número (adiciona px). Se for fallback de centro, mantém a % string.
+      const getPos = (val) => (typeof val === "number" ? `${val}px` : val);
 
       const origin = clickOriginRef.current[selectedWeight] ?? {
         x: "50%",
         y: "50%",
-        maxRadius: 150, // fallback seguro
+        maxRadius: "150%",
       };
 
-      // 3. Anima o NOVO botão selecionado
+      const maxRadiusStr =
+        typeof origin.maxRadius === "number"
+          ? `${origin.maxRadius}px`
+          : origin.maxRadius;
+
       gsap.killTweensOf(nextFill);
       gsap.fromTo(
         nextFill,
-        { clipPath: `circle(0px at ${origin.x}px ${origin.y}px)` },
+        { clipPath: `circle(0px at ${getPos(origin.x)} ${getPos(origin.y)})` },
         {
-          clipPath: `circle(${origin.maxRadius}px at ${origin.x}px ${origin.y}px)`,
+          clipPath: `circle(${maxRadiusStr} at ${getPos(origin.x)} ${getPos(origin.y)})`,
           duration: 0.55,
           ease: "power2.out",
         },
@@ -224,7 +222,6 @@ const ProductModal = ({
         ease: "power1.out",
       });
 
-      // 4. Recolhe o botão ANTERIOR, se houver
       if (prevWeight) {
         const prevFill = weightFillRefs.current[prevWeight];
         const prevLabel = weightLabelRefs.current[prevWeight];
@@ -236,7 +233,9 @@ const ProductModal = ({
         if (prevFill) {
           gsap.killTweensOf(prevFill);
           gsap.to(prevFill, {
-            clipPath: `circle(0px at ${prevOrigin.x}px ${prevOrigin.y}px)`,
+            // Se as variáveis acima fossem injetadas diretas com 'px' na string,
+            // quebrava se fosse "50%", gerando "50%px" e parando a animação de saída.
+            clipPath: `circle(0px at ${getPos(prevOrigin.x)} ${getPos(prevOrigin.y)})`,
             duration: 0.4,
             ease: "power2.in",
           });
@@ -258,8 +257,6 @@ const ProductModal = ({
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    // raio precisa alcançar o canto mais distante do ponto clicado,
-    // senão a mancha para antes de cobrir o botão todo
     const corners = [
       [0, 0],
       [rect.width, 0],
@@ -295,8 +292,6 @@ const ProductModal = ({
     playExitAnimation(onClose);
   }
 
-  // A cortina do SvgTransition fica num z-index abaixo deste modal, então ela
-  // desenharia por trás dele. Fecha tudo primeiro, depois transiciona.
   function handleRequestQuote() {
     if (isClosingRef.current) return;
     isClosingRef.current = true;
@@ -311,8 +306,6 @@ const ProductModal = ({
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < (products?.length ?? 0) - 1;
 
-  // direction: -1 = anterior, 1 = próximo. Sinal invertido de propósito:
-  // seta esquerda manda o card pra direita, e vice-versa.
   function goTo(direction) {
     if (isNavigatingRef.current) return;
     const nextIndex = currentIndex + direction;
@@ -327,7 +320,8 @@ const ProductModal = ({
       onComplete: () => {
         setCurrentIndex(nextIndex);
         setActiveImage(0);
-        setSelectedWeight(null); // Remove a seleção forçada ao trocar de produto
+        // RESTAURADO: Volta a selecionar a primeira gramagem do novo produto
+        setSelectedWeight(products[nextIndex].weights?.[0] ?? null);
         gsap.set(modalRef.current, { x: 0, scale: 0.85, opacity: 0 });
         gsap.to(modalRef.current, {
           scale: 1,
