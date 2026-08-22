@@ -10,6 +10,7 @@
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
 [![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=black)](https://gsap.com)
 [![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://figma.com)
+[![Responsivo](https://img.shields.io/badge/Responsivo-Mobile--First-5D673C?style=for-the-badge)](https://github.com/devmrqs/FlorDaMata)
 
 </div>
 
@@ -39,6 +40,7 @@ Funcionalidades de backend (envio real de formulários, autenticação, históri
 - [React Router](https://reactrouter.com)
 - CSS Modules
 - [GSAP](https://gsap.com) (`useGSAP`, ScrollTrigger, ScrollSmoother)
+- Media Queries (mobile-first, breakpoints para tablet e desktop)
 
 ### Entrada da Home (Hero)
 
@@ -69,6 +71,11 @@ Auto-scroll contínuo via `requestAnimationFrame`, pausando ao expandir um card 
 Suavização de scroll aplicada ao site inteiro via `ScrollSmoother`.
 
 <img src="./docs/gifs/scroll-smoother.gif" alt="Scroll suavizado pela página" width="100%" />
+
+### Responsividade
+
+Layout construído mobile-first, com breakpoints via media queries em CSS Modules para tablet e desktop. Grids, tipografia fluida, carrossel e modal de produto se adaptam ao tamanho de tela — incluindo ajustes nas animações GSAP, que são recalculadas em resize (`ScrollTrigger.refresh()`) para manter o pin e o scroll suavizado consistentes em qualquer dispositivo.
+
 
 ## Estrutura de páginas
 
