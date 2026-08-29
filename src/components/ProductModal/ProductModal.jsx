@@ -48,6 +48,8 @@ const ProductModal = ({
 
   const overlayRef = useRef(null);
   const modalRef = useRef(null);
+  const infoRef = useRef(null);
+  const contentRef = useRef(null);
   const isClosingRef = useRef(false);
   const isNavigatingRef = useRef(false);
 
@@ -322,6 +324,12 @@ const ProductModal = ({
         setActiveImage(0);
         // RESTAURADO: Volta a selecionar a primeira gramagem do novo produto
         setSelectedWeight(products[nextIndex].weights?.[0] ?? null);
+
+        // Reset do scroll ao trocar de produto (desktop usa .info,
+        // mobile usa .content — resetar os dois é seguro e barato)
+        if (infoRef.current) infoRef.current.scrollTop = 0;
+        if (contentRef.current) contentRef.current.scrollTop = 0;
+
         gsap.set(modalRef.current, { x: 0, scale: 0.85, opacity: 0 });
         gsap.to(modalRef.current, {
           scale: 1,
@@ -370,7 +378,7 @@ const ProductModal = ({
           ×
         </button>
 
-        <div className={styles.content}>
+        <div className={styles.content} ref={contentRef}>
           <div className={styles.gallery}>
             <div className={styles.imageStage}>
               <div className={styles.imageFrame}>
@@ -416,7 +424,7 @@ const ProductModal = ({
             )}
           </div>
 
-          <div className={styles.info}>
+          <div className={styles.info} ref={infoRef}>
             <div className={styles.infoHeader}>
               <span className={styles.label}>Flor da Mata</span>
               <h2>{currentProduct.name || currentProduct}</h2>
